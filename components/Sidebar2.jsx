@@ -49,7 +49,6 @@ const SidebarCash = ()=> {
                 </div>
 
             </div>
-            
         </div>
     )
 }

@@ -150,7 +150,7 @@ const Content = ({ pageTitle, data }) => {
                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                         'block w-full text-left px-4 py-2 text-sm'
                                                         )}
-                                                    ><Link href={'/products/' + item.id}></Link></button>
+                                                    ><Link href={'/products/' + item.id}>Details</Link></button>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
