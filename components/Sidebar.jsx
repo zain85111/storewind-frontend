@@ -22,19 +22,19 @@ const Sidebar = ()=> {
                     </button>
                 </Link>
                 <Link href='/products'>
-                    <button className='flex items-center justify-between space-x-2 pl-2 h-10 w-full hover:text-green-600 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
-                        <div className='flex items-center space-x-2'>
+                    <button className='flex items-center justify-betwee space-x-2 pl-2 h-10 w-full hover:text-green-600 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
                             <ClipboardListIcon className='h-5 w-5' />
                             <p>Inventroy</p>
+                        <div className='flex items-center space-x-2'>
                         </div>
                         {/* <ChevronDownIcon className='h-5 w-5'/> */}
                     </button>
                 </Link>
                 <Link href='/analytics'>
-                    <button className='flex items-center justify-between space-x-2 pl-2 h-10 w-full hover:text-green-600 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
-                        <div className='flex items-center space-x-2'>
+                    <button className='flex items-center justify-betwee space-x-2 pl-2 h-10 w-full hover:text-green-600 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
                             <ChartBarIcon className='h-5 w-5' />
                             <p>Analytics</p>
+                        <div className='flex items-center space-x-2'>
                         </div>
                         {/* <ChevronDownIcon className='h-5 w-5'/> */}
                     </button>
