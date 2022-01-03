@@ -1,4 +1,4 @@
-import {DotsHorizontalIcon,SearchIcon,PlusCircleIcon,FilterIcon,ChevronDownIcon,TrashIcon,PencilAltIcon,ViewListIcon,ExclamationCircleIcon} from '@heroicons/react/outline';
+import {XIcon,DotsHorizontalIcon,SearchIcon,PlusCircleIcon,FilterIcon,ChevronDownIcon,TrashIcon,PencilAltIcon,ViewListIcon,ExclamationCircleIcon} from '@heroicons/react/outline';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import Link from 'next/link';
 import { Menu, Transition,Dialog ,Listbox} from '@headlessui/react'
@@ -78,9 +78,18 @@ const Content = ({ pageTitle, data }) => {
     const [selectedCat, setSelectedCat] = useState(people[0])
     const [selectedSubCat, setSelectedSubCat] = useState(people[2])
 
+    const [isShowProdOpen, setisShowProdOpen] = useState(false)
     const [isAddProdOpen, setisAddProdOpen] = useState(false)
     const [isEditProdOpen, setisEditProdOpen] = useState(false)
     const [isDeleteOpen, setisDeleteOpen] = useState(false)
+
+    function closeShowProdModal() {
+        setisShowProdOpen(false)
+    }
+
+    function openShowProdModal() {
+        setisShowProdOpen(true)
+    }
 
     function closeAddProdModal() {
         setisAddProdOpen(false)
@@ -264,6 +273,22 @@ const Content = ({ pageTitle, data }) => {
                                                         'block w-full text-left px-4 py-2 text-sm'
                                                         )}
                                                     >
+                                                        <button onClick={openShowProdModal} className='flex space-x-2'>
+                                                            <ViewListIcon className='h-5 w-5' />
+                                                            <p>Show</p>
+                                                        </button>
+                                                    
+                                                    </div>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                        {({ active }) => (
+                                                    <div 
+                                                        className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block w-full text-left px-4 py-2 text-sm'
+                                                        )}
+                                                    >
                                                     <Link href="#!">
                                                         <button onClick={openEditProdModal} className='flex space-x-2'>
                                                             <PencilAltIcon className='h-5 w-5' />
@@ -305,7 +330,117 @@ const Content = ({ pageTitle, data }) => {
                     <></>
             )}
 
+            {/* Show Product Modal  */}
+            <Transition appear show={isShowProdOpen} as={Fragment}>
+                <Dialog
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto"
+                onClose={closeShowProdModal}
+                >
+                <div className="min-h-screen px-4 text-center">
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    >
+                    <Dialog.Overlay className="fixed inset-0" />
+                    </Transition.Child>
 
+                    {/* This element is to trick the browser into centering the modal contents. */}
+                    <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                    >
+                    &#8203;
+                    </span>
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                    >
+                    <div className="inline-block w-full max-w-fit p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                        <div className='flex justify-end pb-4 cursor-pointer' onClick={closeShowProdModal}><XIcon className='h-5 w-5'/></div>
+                        <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900 flex justify-center"
+                        >
+                        </Dialog.Title>
+                        
+                        <div className="mt-2 text-center">
+                            <div className="py-4 flex justify-between space-x-10 ">
+                                <div className="w-96 ">
+                                    <img src="https://icon-library.com/images/product-icon-png/product-icon-png-11.jpg" alt="" />
+                                </div>
+                                <div className="w-full text-sm space-y-4">
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Name</p>
+                                        <p className="">Lamp</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Brand</p>
+                                        <p className="">Bright Night</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Category</p>
+                                        <p className="">Electronics</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Sub-Category</p>
+                                        <p className="">Lights</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Cost</p>
+                                        <p className="">$17.99</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Price</p>
+                                        <p className="">$22.99</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Discount</p>
+                                        <p className="">15%</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Stock</p>
+                                        <p className="">93</p>
+                                    </div>
+                                    <div className="flex justify-between text-center border-b border-black  ">
+                                        <p className="font-bold">Barcode</p>
+                                        <p className="">1324-rgw-23</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 space-x-4 flex justify-center items-center">
+                            <button
+                                type="button"
+                                className="inline-flex justify-center px-4 py-2 text-sm font-medium  bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500"
+                                onClick={closeShowProdModal}
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-400 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
+                                onClick={openEditProdModal}
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+                    </Transition.Child>
+                </div>
+                </Dialog>
+            </Transition>
 
             {/* Add Product Modal  */}
             <Transition appear show={isAddProdOpen} as={Fragment}>
@@ -344,6 +479,7 @@ const Content = ({ pageTitle, data }) => {
                     leaveTo="opacity-0 scale-95"
                     >
                     <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                        <div className='flex justify-end pb-4 cursor-pointer' onClick={closeAddProdModal}><XIcon className='h-5 w-5'/></div>
                         <Dialog.Title
                         as="h3"
                         className="pb-4 text-lg font-semibold leading-6 text-gray-900 flex justify-center"
@@ -663,6 +799,7 @@ const Content = ({ pageTitle, data }) => {
                     leaveTo="opacity-0 scale-95"
                     >
                     <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                        <div className='flex justify-end pb-4 cursor-pointer' onClick={closeEditProdModal}><XIcon className='h-5 w-5'/></div>
                         <Dialog.Title
                         as="h3"
                         className="pb-4 text-lg font-semibold leading-6 text-gray-900 flex justify-center"
@@ -989,6 +1126,7 @@ const Content = ({ pageTitle, data }) => {
                     leaveTo="opacity-0 scale-95"
                     >
                     <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                        <div className='flex justify-end pb-4 cursor-pointer' onClick={closeDeleteModal}><XIcon className='h-5 w-5'/></div>
                         <Dialog.Title
                         as="h3"
                         className="text-lg font-medium leading-6 text-gray-900 flex justify-center"
@@ -1004,14 +1142,14 @@ const Content = ({ pageTitle, data }) => {
                         <div className="mt-4 space-x-4 flex justify-center items-center">
                             <button
                                 type="button"
-                                className="inline-flex justify-center px-4 py-2 text-sm font-medium  bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500"
+                                className="inline-flex justify-center px-4 py-2 text-sm font-medium  bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500"
                                 onClick={closeDeleteModal}
                             >
                                 Cancel
                             </button>
                             <button
                                 type="button"
-                                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-500 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
                                 onClick={closeDeleteModal}
                             >
                                 Delete
