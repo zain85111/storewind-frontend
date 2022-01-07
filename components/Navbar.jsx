@@ -9,9 +9,9 @@ function classNames(...classes) {
 const Navbar = () => {
     return (
         <div>
-            <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
+            <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-end items-center ">
                 <div>
-                    <XIcon className='h-5 w-5 cursor-pointer'/>
+                    {/* <XIcon className='h-5 w-5 cursor-pointer'/> */}
                 </div>
                 <div className="flex flex-row space-x-4">
                     <Menu as="div" className="">
