@@ -6,11 +6,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = () => {
+const Navbar = ({pageTitle}) => {
     return (
         <div>
-            <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-end items-center ">
+            <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
                 <div>
+                    <p className="text-lg">{pageTitle }</p>
                     {/* <XIcon className='h-5 w-5 cursor-pointer'/> */}
                 </div>
                 <div className="flex flex-row space-x-4">

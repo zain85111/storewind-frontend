@@ -1,13 +1,12 @@
 import Head from "next/head";
-import Content from "../components/Content";
-
+import Navbar from "../components/Navbar";
 const Settings = () => {
     return (
         <div>
             <Head>
                 <title>Storewind | Settings</title>
             </Head>
-            <Content pageTitle={"Settings"} data={{}}/>
+            <Navbar pageTitle={'Settings'}/>
         </div>
     )
 }

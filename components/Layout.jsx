@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
                         )}
                 </div>
                 <div className="col-span-4">
-                    <Navbar />
+                    {/* <Navbar /> */}
                     {children}
                 </div>
             </main>

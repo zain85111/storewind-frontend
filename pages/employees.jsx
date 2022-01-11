@@ -1,5 +1,5 @@
 import Head from "next/head"
-import Content from "../components/Content"
+import Navbar from "../components/Navbar";
 
 
 const Employees = () => {
@@ -10,7 +10,7 @@ const Employees = () => {
             <Head>
                 <title>Storewind | Employees</title>
             </Head>
-            <Content pageTitle={"Employees"} data={{}} />
+            <Navbar pageTitle={"Employees"} />
 
         </div>
         

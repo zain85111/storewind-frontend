@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Content from "../components/Content";
+import Navbar from "../components/Navbar";
 function Home() {
   return (
     
@@ -7,8 +7,7 @@ function Home() {
       <Head>
         <title>Storewind | Dashboard</title>
       </Head>
-
-      <Content pageTitle='Dashboard' data={{}}/>
+      <Navbar pageTitle={'Dashboard'}/>
     </div>
   )
 }

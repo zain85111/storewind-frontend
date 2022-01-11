@@ -88,7 +88,6 @@ const Content = ({ pageTitle, data }) => {
     }
 
     function openShowProdModal() {
-        console.log(this)
         setisShowProdOpen(true)
     }
 
@@ -129,10 +128,17 @@ const Content = ({ pageTitle, data }) => {
                                 <span><SearchIcon className='h-5 w-5 text-gray-400'/></span>
                                 <input type="text" className='bg-transparent outline-none' placeholder='Search...' />
                             </div>
-                            <button onClick={openAddProdModal} className='flex items-center rounded-xl p-2  space-x-4 bg-white'>
+                            <Link href={'/products/add'}>
+                                
+                                <button className='flex items-center rounded-xl p-2  space-x-4 bg-white'>
+                                    <span><PlusCircleIcon className='h-5 w-5' /></span>
+                                    <p>Add Product</p>
+                                </button>
+                            </Link>
+                            {/* <button onClick={openAddProdModal} className='flex items-center rounded-xl p-2  space-x-4 bg-white'>
                                 <span><PlusCircleIcon className='h-5 w-5' /></span>
                                 <p>Add Product</p>
-                            </button>
+                            </button> */}
                             <Menu as="div" className="">
                                 <Menu.Button className="active:text-green-600 bg-white p-2 flex items-center rounded-xl space-x-4">
                                     <FilterIcon className=" h-5 w-5" />
@@ -196,8 +202,8 @@ const Content = ({ pageTitle, data }) => {
 
             {productData ? (
             <div className="">
-                <table className=" hover:border-collapse w-full">
-                    <thead className="text-left"> 
+                <table className=" hover:border-collapse w-full text-center items-center align-middle">
+                    <thead className=""> 
                         <tr className="h-14 bg-white border-b text-sm">
                             <th className='space-x-4 p-2'><input type="checkbox"/></th>
                             <th>Sr</th>
@@ -213,24 +219,25 @@ const Content = ({ pageTitle, data }) => {
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody className='bg-white'>                           
-                        {productData.map(item => (
+                    <tbody className=''>  
+                                 
+                        {productData.slice(0,12).map(item => (
                             <tr className="h-10 hover:bg-gray-50 min-w-full text-xs" key={item.id}>
-                                <td className='space-x-4 p-2 min-w-max'><input type="checkbox" /></td>
+                                <td className='space-x-4 p-2 min-w-max'><input type="checkbox" id='itemChk'/></td>
                                 <td>{item.id}</td>
-                                <td>
+                                <td className='flex justify-center items-center'>
                                     <div className='h-7 w-7 bg-white items-center flex justify-center rounded-full'>
-                                        <img src="https://icon-library.com/images/product-icon-png/product-icon-png-11.jpg" alt="" className='h-5 w-5 ' />
+                                        <img src={item.imgUrl} alt="" className='h-5 w-5 ' />
                                     </div>
                                 </td>
                                 <td>{item.name}</td>
-                                <td>{item.address.city}</td>
-                                <td>{item.website}</td>
-                                <td>{item.address.geo.lng}</td>
-                                <td>{item.address.geo.lat}</td>
-                                <td>{item.address.geo.lng}</td>
-                                <td>{item.company.name}</td>
-                                <td>{item.address.city}</td>
+                                <td>{item.brand}</td>
+                                <td>{item.categories[0]}</td>
+                                <td>{item.price*1.5}</td>
+                                <td>{item.price}</td>
+                                <td>{item.discount}</td>
+                                <td>{item.inStock}</td>
+                                <td>{item.modified}</td>
                                 <td className=' flex justify-center py-2 '>
                                     <Menu as="div" className="">
                                         <Menu.Button className="active:text-green-600">
@@ -248,7 +255,7 @@ const Content = ({ pageTitle, data }) => {
                                         >
                                             <Menu.Items className=" absolute right-10 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <div className="py-1">
-                                                {/* <Menu.Item>
+                                                <Menu.Item>
                                                         {({ active }) => (
                                                     <div 
                                                         className={classNames(
@@ -256,7 +263,7 @@ const Content = ({ pageTitle, data }) => {
                                                         'block w-full text-left px-4 py-2 text-sm'
                                                         )}
                                                     >
-                                                    <Link href={'/products/' + item.id}>
+                                                    <Link href={'/products/' + item.id} key={item.id}>
                                                         <button className='flex space-x-2'>
                                                             <ViewListIcon className='h-5 w-5' />
                                                             <p>Details</p>
@@ -264,8 +271,42 @@ const Content = ({ pageTitle, data }) => {
                                                     </Link>
                                                     </div>
                                                     )}
-                                                </Menu.Item> */}
+                                                </Menu.Item>
                                                 <Menu.Item>
+                                                        {({ active }) => (
+                                                    <div 
+                                                        className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block w-full text-left px-4 py-2 text-sm'
+                                                        )}
+                                                    >
+                                                    <Link href={'/products/edit'}>
+                                                        <button className='flex space-x-2'>
+                                                            <PencilAltIcon className='h-5 w-5' />
+                                                            <p>Update</p>
+                                                        </button>
+                                                    </Link>
+                                                    </div>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                        {({ active }) => (
+                                                    <div 
+                                                        className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block w-full text-left px-4 py-2 text-sm'
+                                                        )}
+                                                    >
+                                                    <Link href={'/products/delete/?id='+item.id}>
+                                                        <button className='flex space-x-2'>
+                                                            <TrashIcon className='h-5 w-5' />
+                                                            <p>Remove</p>
+                                                        </button>
+                                                    </Link>
+                                                    </div>
+                                                    )}
+                                                </Menu.Item>
+                                                {/* <Menu.Item>
                                                         {({ active }) => (
                                                     <div 
                                                         className={classNames(
@@ -314,7 +355,7 @@ const Content = ({ pageTitle, data }) => {
                                                     </Link>
                                                     </div>
                                                     )}
-                                                </Menu.Item>
+                                                </Menu.Item> */}
                                             </div>
                                             </Menu.Items>
                                         </Transition>
@@ -326,7 +367,7 @@ const Content = ({ pageTitle, data }) => {
                 </table>
                     
                 {/* Pagination  */}
-                <div className="p-4 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                {/* <div className="p-4 flex items-center justify-between border-t border-gray-200 sm:px-6">
                     <div className="flex-1 flex justify-between sm:hidden">
                         <a
                         href="#"
@@ -357,7 +398,7 @@ const Content = ({ pageTitle, data }) => {
                             <span className="sr-only">Previous</span>
                             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                             </a>
-                            {/* Current: "z-10 bg-green-50 border-green-500 text-green-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
+                            
                             <a
                             href="#"
                             aria-current="page"
@@ -408,7 +449,7 @@ const Content = ({ pageTitle, data }) => {
                         </nav>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
                     
                 ) : (
