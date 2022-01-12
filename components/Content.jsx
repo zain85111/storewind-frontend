@@ -74,7 +74,7 @@ function classNames(...classes) {
 }
 
 
-const Content = ({ pageTitle, data }) => {
+const Content = ({ data }) => {
     const [selectedCat, setSelectedCat] = useState(people[0])
     const [selectedSubCat, setSelectedSubCat] = useState(people[2])
 
@@ -119,8 +119,7 @@ const Content = ({ pageTitle, data }) => {
     
     return (
         <div className='p-4 space-y-2'>
-            <div className='flex justify-between items-center h-14 '>
-                <p className="text-2xl">{pageTitle}</p>
+            <div className='flex justify-end items-center h-14 '>
                 {productData ? (
                     <>
                         <div className='flex space-x-4 '>
@@ -130,7 +129,7 @@ const Content = ({ pageTitle, data }) => {
                             </div>
                             <Link href={'/products/add'}>
                                 
-                                <button className='flex items-center rounded-xl p-2  space-x-4 bg-white'>
+                                <button className='flex items-center rounded-xl p-2  space-x-4 bg-white active:text-green-600'>
                                     <span><PlusCircleIcon className='h-5 w-5' /></span>
                                     <p>Add Product</p>
                                 </button>
@@ -280,7 +279,7 @@ const Content = ({ pageTitle, data }) => {
                                                         'block w-full text-left px-4 py-2 text-sm'
                                                         )}
                                                     >
-                                                    <Link href={'/products/edit'}>
+                                                    <Link href={'/products/edit/?id='+item.id}>
                                                         <button className='flex space-x-2'>
                                                             <PencilAltIcon className='h-5 w-5' />
                                                             <p>Update</p>

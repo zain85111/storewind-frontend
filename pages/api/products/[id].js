@@ -3,8 +3,11 @@ import { products } from "../../../products/products"
 export default function handler(req, res) {
     const { id } = req.query;
     
-    if (req.method === 'GET') {
+    if (req.method === 'GET') {      
+        
         const item = products.find(item => item.id === parseInt(id))
+
+        // res.status(200).json(item)
         res.status(200).json(id)
         
     }else if (req.method === 'DELETE') {

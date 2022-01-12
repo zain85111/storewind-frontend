@@ -1,10 +1,19 @@
 import Head from "next/head"
+import Link from "next/link";
+import Navbar from "../../components/Navbar";
 import { Transition,Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon,ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { Fragment, useState,useEffect } from "react"
 import { useRouter } from 'next/router';
-import Link from "next/link";
-import Navbar from "../../components/Navbar";
+import axios from "axios";
+
+const api = axios.create({
+    baseURL:"http://localhost:3000/api/products/"
+    // baseURL:"http://18.116.39.224:8080/api/product/"
+    // baseURL:"https://jsonplaceholder.typicode.com/users"
+
+})
+
 
 const people = [
   {
@@ -87,32 +96,57 @@ const Item = () => {
 
 
     const addProduct = async (e) => {
-        e.preventDefault()
+        // e.preventDefault()
 
-        const res = await fetch('/api/products', {
-            body: JSON.stringify({
+        // const res = await fetch('/api/products', {
+        //     body: JSON.stringify({
                 
-                name: prodName,
-                brand: prodBrand,
-                price: prodPrice,
-                discount: prodDiscount,
-                stock: prodStock,
+        //         name: prodName,
+        //         brand: prodBrand,
+        //         price: prodPrice,
+        //         discount: prodDiscount,
+        //         stock: prodStock,
 
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        })
+        //     }),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     method: 'POST'
+        // })
 
-        const result = await res.json()
-        console.log(result)
+        // const result = await res.json()
+        // console.log(result)
+
+
         
 
-        // setTimeout(() => {
-        //     router.push('/products')
-        // },1000)
+       
 
+        const data = await api.get('/').then(({ data }) => data)
+
+        const res = await api.post('/',{
+                
+            id: (data.length+1).toString(),
+            name: "prodName",
+            brand: "prodBrand",
+            price: 103,
+            discount: 10,
+            storeId: "20",
+            categories: ['Kitchen'],
+            subCatagories: ['Cutlory'],
+            tags: ['Cooking','Cutting'],
+            location: "Aisle 3",
+            isStock: "98999999",
+            barCode:"bdk-391-pije",
+            modified: Date.now(),
+            imgUrl: 'https://icon-library.com/images/product-icon-png/product-icon-png-11.jpg'
+
+        })
+        console.log(res)
+
+        setTimeout(() => {
+            router.push('/products')
+        },1000)
     }
 
     return (
@@ -124,7 +158,7 @@ const Item = () => {
             <div className="p-4 m-2">  
 
                 <div className="py-4 space-x-10 bg-white">
-                   <form action="/product" method="POST" onSubmit={addProduct}>                         
+                   <form action="/products" method="POST" onSubmit={addProduct}>                         
                         <div className="grid grid-cols-3 gap-6 mx-4">
                             <div className=" col-span-6 sm:col-span-4">
                                 <label htmlFor="prodName" className="block text-sm font-medium text-gray-700 ">

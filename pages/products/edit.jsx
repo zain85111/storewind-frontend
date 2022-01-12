@@ -71,7 +71,7 @@ const people = [
 
 
 
-const Item = () => {
+const Item = ({item}) => {
     const router = useRouter();
 
     const [selectedCat, setSelectedCat] = useState(people[0])
@@ -114,13 +114,15 @@ const Item = () => {
         // },1000)
 
     }
+    console.log(router.query.id)
+
 
     return (
         <div>
             <Head>
                 <title>Storewind | Edit Product</title>
             </Head>
-            <Navbar pageTitle={'Edit Product'}/>
+            <Navbar pageTitle={'Edit Product'+" Id: "+router.query.id}/>
             <div className="p-4 m-2">  
                 <div className="py-4 space-x-10 bg-white">
                    <form action="/product" method="POST" onSubmit={editProduct}>                         

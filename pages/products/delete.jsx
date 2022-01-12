@@ -3,18 +3,26 @@ import { ExclamationCircleIcon } from "@heroicons/react/outline"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Navbar from "../../components/Navbar"
+import axios from "axios";
+
+const api = axios.create({
+    baseURL:"http://localhost:3000/api/products/"
+    // baseURL:"http://18.116.39.224:8080/api/product/"
+})
+
 
 const Item = () => {
     const router = useRouter()
 
     const deleteProduct = async () => {
 
-        const res = await fetch('http://localhost:3000/api/products/' + router.query.id, {
-            method: 'DELETE',  
-        })
-
-        const data = await res.json();
+        const data = api.delete('/'+router.query.id)
         console.log(data)
+        
+        setTimeout(() => {
+            router.push('/products')
+        },1000)
+
     }
 
     return (

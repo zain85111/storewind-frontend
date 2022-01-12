@@ -31,5 +31,21 @@ export const products = [
         "modified": Date.now(),
         'imgUrl': 'https://icon-library.com/images/product-icon-png/product-icon-png-11.jpg'
     },
+    {
+        "id": "3",
+        "name": "Light",
+        "storeId": "20",
+        "price": 10.99,
+        "discount": 10.00,
+        "brand": "Bright n Shine",
+        "categories": ['Furniture'],
+        'subCatagories': ['Bedroom'],
+        "tags": ['Sleeping','Laying'],
+        "location": "Aisle 3",
+        "inStock": "49",
+        'barCode':"134-dfew-2941",
+        "modified": Date.now(),
+        'imgUrl': 'https://icon-library.com/images/product-icon-png/product-icon-png-11.jpg'
+    },
 
 ]

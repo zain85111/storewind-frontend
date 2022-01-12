@@ -1,9 +1,15 @@
 import Head from "next/head"
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import { useRouter } from "next/router";
+import { useEffect,useState } from "react";
+import axios from "axios";
+const api = axios.create({
+    baseURL:"http://localhost:3000/api/products/"
+    // baseURL:"http://18.116.39.224:8080/api/product/"
+})
 
 export const getStaticPaths = async () => {
-    // const res = await fetch('https://jsonplaceholder.typicode.com/users');
     const res = await fetch('http://localhost:3000/api/products');
 
     const data = await res.json();
@@ -21,27 +27,39 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({params}) => { 
-
-    // const res = await fetch('https://jsonplaceholder.typicode.com/users/'+params.itemId);
     const res = await fetch('http://localhost:3000/api/products/'+params.itemId);
     const data = await res.json();
 
     return {
         props: {
-            item: data,
+            prod: data,
+            id: params.itemId,
         }
     }
 };
 
 
-const Item =  ({item}) => {
+const Item = ({ prod, id }) => {
 
+    const [item,setItem] = useState({})
+    useEffect(() => {
+        getData()
+    }, [])
+    
+    const getData = async () => {
+        const data = await api.get('/'+id).then(({ data }) => data)
+        setItem(data)
+        console.log(item)
+    }
+    
+
+    
     return (
         <div>
             <Head>
                 <title>Storewind | Product Details</title>
             </Head>
-            <Navbar pageTitle={item.name}/>
+            <Navbar pageTitle={item.name+" Id: "+id} />
             <div className="p-4 m-2" key={item.id}>             
                 <div className="py-4 flex justify-between space-x-10 ">
                     <div className="w-96 ">
