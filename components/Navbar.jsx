@@ -1,12 +1,18 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon, MenuIcon, XIcon, BellIcon, MailIcon } from '@heroicons/react/outline';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = ({pageTitle}) => {
+const Navbar = ({ pageTitle }) => {
+    const { data: session } = useSession()
+    const router = useRouter()
+
+
     return (
         <div>
             <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
@@ -148,28 +154,50 @@ const Navbar = ({pageTitle}) => {
                         >
                             <Menu.Items className="origin-top-right absolute right-4 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
-                                <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                    href="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                    >My Profile</a>
-                                )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                    <button
-                                        type="submit"
-                                        className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block w-full text-left px-4 py-2 text-sm'
+
+                                    {session ?
+                                        <>
+                                        <Menu.Item>
+                                        {({ active }) => (
+                                            <a
+                                            href="#"
+                                            className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm'
+                                            )}
+                                            >My Profile</a>
                                         )}
-                                    >Sign out</button>
-                                    )}
-                                </Menu.Item>
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                            
+                                            <button
+                                                onClick={()=> signOut()}
+                                                className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block w-full text-left px-4 py-2 text-sm'
+                                                )}
+                                            >Sign out</button>
+                                            
+                                                
+                                            )}
+                                        </Menu.Item>
+                                        </>
+                                        :
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                            
+                                            <button
+                                                onClick={()=> router.push('/api/auth/signin')}
+                                                className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block w-full text-left px-4 py-2 text-sm'
+                                                )}
+                                            >Sign In</button>
+                                            
+                                            )}
+                                        </Menu.Item>
+                                    }    
                             </div>
                             </Menu.Items>
                         </Transition>

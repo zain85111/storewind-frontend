@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 const Login = () => {
     return (
@@ -17,7 +18,11 @@ const Login = () => {
                             <p>Storewind</p>
                         </div>
                     </div>
-                    <div className="p-5 bg-white md:flex-1">
+                    <div className="p-5 bg-white md:flex-1  flex justify-center items-center ">
+                        <button onClick={()=>{signIn()}} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Log in
+                        </button>
+                    </div>
+                    {/* <div className="p-5 bg-white md:flex-1  ">
                         <h3 className="my-4 text-2xl font-semibold text-gray-700 text-center">Login</h3>
                         <form action="#" className="flex flex-col space-y-5 ">
                             <div className="flex flex-col space-y-1">                                
@@ -52,7 +57,7 @@ const Login = () => {
 
                             </div>
                         </form>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
