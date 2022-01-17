@@ -253,7 +253,7 @@ const Content = ({ data }) => {
               </tr>
             </thead>
             <tbody className="">
-              {productData.slice(0, 12).map((item) => (
+              {productData.slice(0, 12).map((item, i) => (
                 <tr
                   className="h-10 hover:bg-gray-50 min-w-full text-xs"
                   key={item.id}
@@ -261,10 +261,15 @@ const Content = ({ data }) => {
                   <td className="space-x-4 p-2 min-w-max">
                     <input type="checkbox" id="itemChk" />
                   </td>
-                  <td>{item.id}</td>
+
+                  <td>{i + 1}</td>
                   <td className="flex justify-center items-center">
                     <div className="h-7 w-7 bg-white items-center flex justify-center rounded-full">
-                      <img src={item.imgUrl} alt="" className="h-5 w-5 " />
+                      <img
+                        src="https://picsum.photos/200"
+                        alt=""
+                        className="h-5 w-5 "
+                      />
                     </div>
                   </td>
                   <td>{item.Name}</td>
@@ -306,8 +311,8 @@ const Content = ({ data }) => {
                                   )}
                                 >
                                   <Link
-                                    href={"/products/" + item.id}
-                                    key={item.id}
+                                    href={"/products/" + item.Id}
+                                    key={item.Id}
                                   >
                                     <button className="flex space-x-2">
                                       <ViewListIcon className="h-5 w-5" />
@@ -327,7 +332,7 @@ const Content = ({ data }) => {
                                     "block w-full text-left px-4 py-2 text-sm"
                                   )}
                                 >
-                                  <Link href={"/products/edit/?id=" + item.id}>
+                                  <Link href={"/products/edit/?id=" + item.Id}>
                                     <button className="flex space-x-2">
                                       <PencilAltIcon className="h-5 w-5" />
                                       <p>Update</p>
@@ -347,7 +352,7 @@ const Content = ({ data }) => {
                                   )}
                                 >
                                   <Link
-                                    href={"/products/delete/?id=" + item.id}
+                                    href={"/products/delete/?id=" + item.Id}
                                   >
                                     <button className="flex space-x-2">
                                       <TrashIcon className="h-5 w-5" />
