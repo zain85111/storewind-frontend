@@ -5,18 +5,17 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "http://localhost:3000/api/products/",
-  // baseURL:"http://18.116.39.224:8080/api/product/"
-});
-
 const Item = () => {
   const router = useRouter();
 
   const deleteProduct = async () => {
-    const data = api.delete("/" + router.query.id);
-    console.log(data);
-
+    // const data = api.delete("/" + router.query.id);
+    // console.log(data);
+    console.log(router.query.id);
+    await fetch("http://18.116.39.224:8080/product/", {
+      method: "DELETE",
+      body: JSON.stringify({ id: router.query.id }),
+    });
     setTimeout(() => {
       router.push("/products");
     }, 1000);

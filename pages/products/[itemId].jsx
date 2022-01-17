@@ -81,7 +81,7 @@ const Item = ({ prod, id, query }) => {
 
         {/* Buttons */}
         <div className="pt-4 space-x-4 flex justify-end items-center">
-          <Link href={"/products/edit/?id=" + item.id}>
+          <Link href={"/products/edit/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-400 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
@@ -89,7 +89,7 @@ const Item = ({ prod, id, query }) => {
               Edit
             </button>
           </Link>
-          <Link href={"/products/delete/?id=" + item.id}>
+          <Link href={"/products/delete/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
