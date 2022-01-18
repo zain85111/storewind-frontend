@@ -56,17 +56,14 @@ const Item = ({ prod, id, query }) => {
               <p className="font-bold">Tags</p>
               <p className="">{item.Tags}</p>
             </div>
-            <div className="flex justify-between text-center border-b border-black  ">
-              <p className="font-bold">Cost</p>
-              <p className="">$ {item.Price * 1.2}</p>
-            </div>
+
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Price</p>
               <p className="">$ {item.Price}</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Discount</p>
-              <p className="">{item.Discount}%</p>
+              <p className="">{item.Discount}</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Stock</p>

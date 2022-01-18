@@ -99,9 +99,8 @@ const Item = () => {
 
   const [prodName, setProdName] = useState("");
   const [prodBrand, setProdBrand] = useState("");
-  const [prodCost, setProdCost] = useState(0.0);
-  const [prodPrice, setProdPrice] = useState(0.0);
-  const [prodDiscount, setProdDiscount] = useState(0.0);
+  const [prodPrice, setProdPrice] = useState(0);
+  const [prodDiscount, setProdDiscount] = useState(0);
   const [prodStock, setProdStock] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
 
@@ -111,7 +110,7 @@ const Item = () => {
     const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
     const minutes =
       date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
-
+    console.log(prodDiscount);
     const reqBody = {
       Id: prodBarcode,
       Name: prodName,
@@ -132,10 +131,11 @@ const Item = () => {
     await fetch("http://18.116.39.224:8080/product/", {
       method: "PUT",
       body: JSON.stringify(reqBody),
+    }).then(() => {
+      setTimeout(() => {
+        router.push("/products");
+      }, 1000);
     });
-    // setTimeout(() => {
-    //   router.push("/products");
-    // }, 1000);
   };
   function removeItem(arr, value) {
     var index = arr.indexOf(value);

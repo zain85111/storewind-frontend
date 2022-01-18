@@ -123,7 +123,7 @@ const Item = ({ item }) => {
   const getData = async () => {
     console.log(router.query.id);
     const data = await fetch("http://18.116.39.224:8080/product/", {
-      method: "PATCH",
+      method: "POST",
       body: JSON.stringify({ id: router.query.id }),
     });
 
@@ -138,7 +138,7 @@ const Item = ({ item }) => {
       date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
 
     const reqBody = {
-      Id: Math.floor(Math.random() * 100000000).toString(),
+      Id: prodBarcode,
       Name: prodName,
       Brand: prodBrand,
       Price: parseFloat(prodPrice),
@@ -155,12 +155,13 @@ const Item = ({ item }) => {
     };
     console.log(JSON.stringify(reqBody));
     await fetch("http://18.116.39.224:8080/product/", {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(reqBody),
+    }).then(() => {
+      setTimeout(() => {
+        router.push("/products");
+      }, 1000);
     });
-    // setTimeout(() => {
-    //   router.push("/products");
-    // }, 1000);
   };
   function removeItem(arr, value) {
     var index = arr.indexOf(value);
@@ -184,17 +185,6 @@ const Item = ({ item }) => {
     console.log(selectedCat);
   };
 
-  const selectSubCategory = (ele) => {
-    let temp = selectedSubCat;
-    console.log(temp);
-    if (temp.includes(ele)) {
-      setSelectedSubCat(removeItem(temp, ele));
-    } else {
-      temp = selectedSubCat;
-      temp.push(ele);
-      setSelectedSubCat(temp);
-    }
-  };
   return (
     <div>
       <Head>
@@ -444,22 +434,6 @@ const Item = ({ item }) => {
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
               </div>
-              <div className=" col-span-6 sm:col-span-4">
-                <label
-                  htmlFor="prodBarcode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Barcode
-                </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodBarcode}
-                  onChange={(e) => setProdBarcode(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
-              </div>
 
               {/* Photo Section  */}
               <div className="space-y-4 col-span-6 sm:col-span-4">
@@ -513,7 +487,7 @@ const Item = ({ item }) => {
                 onClick={addProduct}
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
-                Add Item
+                Edit Item
               </button>
             </div>
           </div>

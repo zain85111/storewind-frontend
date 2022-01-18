@@ -15,10 +15,11 @@ const Item = () => {
     await fetch("http://18.116.39.224:8080/product/", {
       method: "DELETE",
       body: JSON.stringify({ id: router.query.id }),
+    }).then(() => {
+      setTimeout(() => {
+        router.push("/products");
+      }, 1000);
     });
-    setTimeout(() => {
-      router.push("/products");
-    }, 1000);
   };
 
   return (

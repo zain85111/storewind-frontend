@@ -244,11 +244,10 @@ const Content = ({ data }) => {
                 <th>Name</th>
                 <th>Brand</th>
                 <th>Category</th>
-                <th>Cost</th>
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Stock</th>
-                <th>Modified</th>
+                {/* <th>Modified</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -274,12 +273,11 @@ const Content = ({ data }) => {
                   </td>
                   <td>{item.Name}</td>
                   <td>{item.Brand}</td>
-                  <td>{item.Categories[0]}</td>
-                  <td>{item.Price * 1.5}</td>
+                  <td>{item.Categories.toString()}</td>
                   <td>{item.Price}</td>
                   <td>{item.Discount}</td>
                   <td>{item.InStock}</td>
-                  <td>{item.LastStockAddition}</td>
+                  {/* <td>{item.LastStockAddition.slice(0, 16)}</td> */}
                   <td className=" flex justify-center py-2 ">
                     <Menu as="div" className="">
                       <Menu.Button className="active:text-green-600">
