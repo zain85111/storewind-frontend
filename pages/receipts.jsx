@@ -9,7 +9,6 @@ const Receipts = () => {
                 <title>Storewind | Receipts</title>
             </Head>
             <Navbar pageTitle={"Receipts"} />
-
         </div>
     )
 }

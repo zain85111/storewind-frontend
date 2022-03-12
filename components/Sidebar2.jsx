@@ -7,7 +7,7 @@ import {
 
 const SidebarCash = ()=> {
     return (
-        <div className='py-2 px-5 text-sm  bg-gray-50 min-h-screen '>
+        <div className='py-2 px-5 text-sm  bg-gray-50 h-full'>
             <div className='space-y-4'>
                 <button className='flex items-center space-x-2  text-lg justify-center'>
                     <Image src='/logo.png' height={32} width={32}/>
@@ -21,25 +21,25 @@ const SidebarCash = ()=> {
                             <p>Home</p>
                         </button>
                     </Link>
-                    <Link href="/">
+                    <Link href="/cashierBilling">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24 w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
                             <ClipboardListIcon className='h-10 w-10' />
                             <p>Billing</p>
                         </button>
                     </Link>
-                    <Link href="/">
+                    <Link href="/cashierHistory">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24 w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
                             <ClockIcon className='h-10 w-10' />
                             <p>History</p>
                         </button>
                     </Link>
-                    <Link href="/">
+                    <Link href="/cashierPromos">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24 w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
                             <SpeakerphoneIcon className='h-10 w-10' />
                             <p>Promos</p>
                         </button>
                     </Link>
-                    <Link href="/">
+                    <Link href="/cashierSettings">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24 w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
                             <CogIcon className='h-10 w-10' />
                             <p>Settings</p>

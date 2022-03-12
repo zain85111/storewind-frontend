@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import { UserCircleIcon, MenuIcon, XIcon, BellIcon, MailIcon } from '@heroicons/react/outline';
+import { UserCircleIcon, MenuIcon, XIcon, BellIcon, MailIcon,SearchIcon } from '@heroicons/react/outline';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -11,10 +11,20 @@ const Navbar = ({pageTitle}) => {
         <div>
             <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
                 <div>
-                    <p className="text-lg">{pageTitle }</p>
+                    <p className="text-lg font-bold">{pageTitle }</p>
                     {/* <XIcon className='h-5 w-5 cursor-pointer'/> */}
                 </div>
-                <div className="flex flex-row space-x-4">
+                <div className="flex flex-row space-x-4 justify-between items-center">
+                    <div className="flex items-center rounded-2xl p-1  space-x-4 bg-white ">
+                        <span>
+                        <SearchIcon className="h-5 w-5 text-gray-400" />
+                        </span>
+                        <input
+                        type="text"
+                        className="bg-transparent outline-none text-xs"
+                        placeholder="Search..."
+                        />
+                    </div>
                     <Menu as="div" className="">
                         <Menu.Button className="active:text-green-600">
                             <BellIcon className=" h-5 w-5" aria-hidden="true" />

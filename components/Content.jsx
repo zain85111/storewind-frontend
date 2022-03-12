@@ -136,7 +136,7 @@ const Content = ({ data }) => {
         {productData ? (
           <>
             <div className="flex space-x-4 ">
-              <div className="flex items-center rounded-2xl p-2  space-x-4 bg-white">
+              {/* <div className="flex items-center rounded-2xl p-2  space-x-4 bg-white">
                 <span>
                   <SearchIcon className="h-5 w-5 text-gray-400" />
                 </span>
@@ -145,7 +145,7 @@ const Content = ({ data }) => {
                   className="bg-transparent outline-none"
                   placeholder="Search..."
                 />
-              </div>
+              </div> */}
               <Link href={"/products/add"}>
                 <button className="flex items-center rounded-xl p-2  space-x-4 bg-white active:text-green-600">
                   <span>
