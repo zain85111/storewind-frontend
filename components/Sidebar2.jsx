@@ -7,7 +7,7 @@ import {
 
 const SidebarCash = ()=> {
     return (
-        <div className='py-2 px-5 text-sm  bg-gray-50 h-full'>
+        <div className='py-2 px-5 text-sm  bg-gray-50 fixed h-full w-1/5'>
             <div className='space-y-4'>
                 <button className='flex items-center space-x-2  text-lg justify-center'>
                     <Image src='/logo.png' height={32} width={32}/>
