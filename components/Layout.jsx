@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Signin from "../pages/signin";
-// import  Login  from "../pages/login.jsx";
 import Sidebar from "./Sidebar"
 import SidebarCash from "./Sidebar2";
+import { useSession } from "next-auth/react";
+
 
 const Layout = ({ children }) => {
+    const { data: session } = useSession()
 
-    const [auth, setAuth] = useState(true);
+    // console.log(session)
 
     const isAdmin = false;
 
-    if (auth) {
+    if (session) {
         
         return (
            

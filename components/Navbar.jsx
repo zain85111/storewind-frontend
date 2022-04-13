@@ -1,12 +1,15 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon, MenuIcon, XIcon, BellIcon, MailIcon,SearchIcon } from '@heroicons/react/outline';
+import { useSession, signOut } from 'next-auth/react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = ({pageTitle}) => {
+const Navbar = ({ pageTitle }) => {
+    const { data: session } = useSession()
+
     return (
         <div>
             <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
@@ -173,6 +176,7 @@ const Navbar = ({pageTitle}) => {
                                     {({ active }) => (
                                     <button
                                         type="submit"
+                                        onClick={()=> signOut()}
                                         className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block w-full text-left px-4 py-2 text-sm'

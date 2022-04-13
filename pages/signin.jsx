@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 const Signin = () => {
     const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ const Signin = () => {
                     </div>
                     <div className="p-5 bg-white md:flex-1">
                         <h3 className="my-4 text-2xl font-semibold text-gray-700 text-center">Sign In</h3>
-                        <form action="/" method="POST" className="flex flex-col space-y-5 ">
+                        <form  method="POST" className="flex flex-col space-y-5 ">
                             <div className="flex flex-col space-y-1">                                
                                 <input
                                     type="email"
@@ -33,7 +33,7 @@ const Signin = () => {
                                     name="email"
                                     autofocus
                                     placeholder="Email"
-                                    onChange={(e)=>setEmail(e.target)}
+                                    //onChange={(e)=>setEmail(e.target)}
                                     className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                                 />
                             </div>
@@ -43,7 +43,7 @@ const Signin = () => {
                                     id="password"
                                     name="password"
                                     placeholder="Password"
-                                    onChange={(e)=>setPassword(e.target)}    
+                                   // onChange={(e)=>setPassword(e.target)}    
                                     className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                                     />
                                 <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a>
