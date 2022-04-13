@@ -1,39 +1,17 @@
-import Head from "next/head";
-import Image from "next/image";
-import Router from "next/router";
-import { useState} from "react";
-import { Session } from "next-auth";
+import React from 'react'
+import Head from 'next/head'
+import Image from 'next/image'
+import { useState } from 'react'
+import { useSession, signIn, signOut } from 'next-auth/react';
 
-const Login = () => {
+const Signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
-    const loginCheck =  async () => {
-        let userInfo = { email, password };
-        let res = await fetch('https://storewind.australiaeast.cloudapp.azure.com/api/users/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept':'application/json',
-            },
-            body: JSON.stringify(userInfo),
-            
-        })
-        res = await res.json();
-        if (res) {
-            Router.push('/');
-        }
-        else {
-            Router.push('/login');
-        }
-
-    }
 
     return (
         <>
         <Head>
-            <title>Storewind | Login</title>
+            <title>Storewind | Signin</title>
         </Head>
         <div>
             <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
@@ -46,7 +24,7 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="p-5 bg-white md:flex-1">
-                        <h3 className="my-4 text-2xl font-semibold text-gray-700 text-center">Login</h3>
+                        <h3 className="my-4 text-2xl font-semibold text-gray-700 text-center">Sign In</h3>
                         <form action="/" method="POST" className="flex flex-col space-y-5 ">
                             <div className="flex flex-col space-y-1">                                
                                 <input
@@ -79,7 +57,7 @@ const Login = () => {
                                 <label for="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
                             </div>
                             <div>
-                                <button type="submit" onClick={loginCheck} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Log in
+                                <button type="submit" onClick={()=>{signIn()}} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Sign in
                                 </button>
 
                             </div>
@@ -92,9 +70,9 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Signin
 
-Login.getLayout = function PageLayout(page) {
+Signin.getLayout = function PageLayout(page) {
     return (
         <>
             {page}
