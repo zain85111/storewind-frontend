@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Content from "../../components/Content";
+import Content from "../../components/ProdContent";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";

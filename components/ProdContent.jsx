@@ -1,7 +1,6 @@
 import {
   XIcon,
   DotsHorizontalIcon,
-  SearchIcon,
   PlusCircleIcon,
   FilterIcon,
   ChevronDownIcon,
@@ -83,6 +82,21 @@ const people = [
   },
 ];
 
+const filters = [
+  {
+    id: 1,
+    name:'Filter A',
+  },
+  {
+    id: 2,
+    name:'Filter B',
+  },
+  {
+    id: 3,
+    name:'Filter C',
+  },
+];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -147,22 +161,22 @@ const Content = ({ data }) => {
                 />
               </div> */}
               <Link href={"/products/add"}>
-                <button className="flex items-center rounded-xl p-2  space-x-4 bg-white active:text-green-600">
+                <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-2 border-green-800 bg-white active:text-green-600">
                   <span>
-                    <PlusCircleIcon className="h-5 w-5" />
+                    <PlusCircleIcon className="h-5 w-5 text-green-800" />
                   </span>
                   <p>Add Product</p>
                 </button>
               </Link>
               {/* <button onClick={openAddProdModal} className='flex items-center rounded-xl p-2  space-x-4 bg-white'>
-                                <span><PlusCircleIcon className='h-5 w-5' /></span>
-                                <p>Add Product</p>
-                            </button> */}
+                      <span><PlusCircleIcon className='h-5 w-5' /></span>
+                      <p>Add Product</p>
+                  </button> */}
               <Menu as="div" className="">
-                <Menu.Button className="active:text-green-600 bg-white p-2 flex items-center rounded-xl space-x-4">
-                  <FilterIcon className=" h-5 w-5" />
+                <Menu.Button className="active:text-green-600 text-sm font-semibold  border-2 border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
+                  <FilterIcon className="h-4 w-4 text-green-800" />
                   <p>Filter</p>
-                  <ChevronDownIcon className=" h-5 w-5" />
+                  <ChevronDownIcon className=" h-4 w-4 text-green-800" />
                 </Menu.Button>
                 <Transition
                   as={Fragment}
@@ -175,51 +189,27 @@ const Content = ({ data }) => {
                 >
                   <Menu.Items className="origin-top-right absolute right-4 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            type="submit"
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-700",
-                              "block w-full text-left px-4 py-2 text-sm"
+                      {
+                        filters.map((f) => (
+                          
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                type="submit"
+                                className={classNames(
+                                  active
+                                    ? "bg-gray-100 text-gray-900"
+                                    : "text-gray-700",
+                                  "block w-full text-left px-4 py-2 text-sm"
+                                )}
+                              >
+                                {f.name}
+                              </button>
                             )}
-                          >
-                            Filter 1
-                          </button>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            type="submit"
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-700",
-                              "block w-full text-left px-4 py-2 text-sm"
-                            )}
-                          >
-                            Filter 1
-                          </button>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            type="submit"
-                            className={classNames(
-                              active
-                                ? "bg-gray-100 text-gray-900"
-                                : "text-gray-700",
-                              "block w-full text-left px-4 py-2 text-sm"
-                            )}
-                          >
-                            Filter 1
-                          </button>
-                        )}
-                      </Menu.Item>
+                          </Menu.Item>
+                        ))
+                      }
+                      
                     </div>
                   </Menu.Items>
                 </Transition>

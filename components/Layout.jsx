@@ -8,11 +8,9 @@ import { useSession } from "next-auth/react";
 const Layout = ({ children }) => {
     const { data: session } = useSession()
 
-    // console.log(session)
+    const isAdmin = true;
 
-    const isAdmin = false;
-
-    if (session) {
+    if (!session) {
         
         return (
            
