@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Chart } from 'react-chartjs-2';
+import { Line, Chart,Bar } from 'react-chartjs-2';
 
 
 function classNames(...classes) {
@@ -102,26 +102,9 @@ const incomeExpanseDataOptions = {
 const incomeExpanseData = {
     labels :incomeExpanseDataLabels ,
     datasets: [
+
+
         {
-            type: 'line' ,
-            label: 'Income',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: 'start',
-            borderWidth: 2,
-            borderColor: 'rgb(9, 189, 60)',
-            backgroundColor: 'rgb(9, 189, 60)',
-        },
-        {
-            type: 'line' ,
-            label: 'Expanses',
-            data: [56, 55, 40, 65, 59, 80, 81],
-            fill: 'start',
-            borderWidth: 2,
-            borderColor: 'rgb(253, 83, 83)',
-            backgroundColor: 'rgb(253, 83, 83)',
-        },
-        {
-            type: 'bar' ,
             label: 'Income',
             data: [65, 59, 80, 81, 56, 55, 40],
             fill:'start',
@@ -129,7 +112,6 @@ const incomeExpanseData = {
             backgroundColor: 'rgb(9, 189, 60,0.8)',
         },
         {
-            type: 'bar' ,
             label: 'Expanses',
             data: [56, 55, 40, 65, 59, 80, 81],
             fill:'start',
@@ -145,7 +127,7 @@ export const DashboardContent = () => {
 
     const topProducts = [
         {
-            id: 23,
+            id: 223,
             name: 'Knife - Black',
             imgUrl: '',
             brand: 'Mac',
@@ -158,7 +140,7 @@ export const DashboardContent = () => {
             
         },
         {
-            id: 23,
+            id: 231,
             name: 'Knife - Black',
             imgUrl: '',
             brand: 'Mac',
@@ -171,7 +153,7 @@ export const DashboardContent = () => {
             
         },
         {
-            id: 23,
+            id: 3423,
             name: 'Knife - Black',
             imgUrl: '',
             brand: 'Mac',
@@ -184,7 +166,7 @@ export const DashboardContent = () => {
             
         },
         {
-            id: 23,
+            id: 2103,
             name: 'Knife - Black',
             imgUrl: '',
             brand: 'Mac',
@@ -197,7 +179,7 @@ export const DashboardContent = () => {
             
         },
         {
-            id: 23,
+            id: 293,
             name: 'Knife - Black',
             imgUrl: '',
             brand: 'Mac',
@@ -213,35 +195,35 @@ export const DashboardContent = () => {
     
     const salesData = [
         {
-            id: 124,
+            id: 1242,
             date: '21-4-2022',
             revenue: 4293.00,
             noOfOrders: 242,
             margin: true,
         },
         {
-            id: 124,
+            id: 1224,
             date: '21-4-2022',
             revenue: 4293.00,
             noOfOrders: 242,
             margin: false,
         },
         {
-            id: 124,
+            id: 12144,
             date: '21-4-2022',
             revenue: 4293.00,
             noOfOrders: 242,
             margin: true,
         },
         {
-            id: 124,
+            id: 12914,
             date: '21-4-2022',
             revenue: 4293.00,
             noOfOrders: 242,
             margin: true,
         },
         {
-            id: 124,
+            id: 1204,
             date: '21-4-2022',
             revenue: 4293.00,
             noOfOrders: 242,
@@ -314,7 +296,7 @@ export const DashboardContent = () => {
 
                         </div>
                     <div className="">
-                        <Chart type='bar' height={100} width={300} options={incomeExpanseDataOptions} data={incomeExpanseData} />
+                        <Bar height={100} width={300} options={incomeExpanseDataOptions} data={incomeExpanseData} />
                         
                     </div>
                         
