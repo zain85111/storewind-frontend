@@ -7,7 +7,11 @@ import {
     PlusIcon, TrashIcon
 } from "@heroicons/react/outline";
 
+import Scanner from '../helper/Scanner'
+
 const Billing = () => {
+    const [data,setData] = useState([])
+
     const similarProducts = [
         {
             'name': 'Product A',
@@ -87,6 +91,7 @@ const Billing = () => {
         ctx.drawImage(video, 0, 0, width, height);
 
         setHasPhoto(true)
+        setItem(true)
     }
 
     const closePhoto = () => {
@@ -95,17 +100,32 @@ const Billing = () => {
         ctx.clearRect(0,0,photo.width,photo.height)
 
         setHasPhoto(false)
+        setItem(false)
     }
 
     const addtoCart = () => {
-        let item = "knife"
-        cart.push(item)
+        let prod = {
+            id: 132,
+            name: 'Knife',
+            price: 13.21,
+        }
+        cart.push(prod)
         setCart(cart)
     }
 
-    useEffect(() => {
-        getVideo();
-    },[videoRef])
+    // const removeFromCart = (id) => {
+    //     const index = cart.findIndex(c => c.id === id);
+    //     setCart(cart.splice(index,1))
+    // }
+
+    const _onDetected = (result) => {
+        data.push(result)
+    }
+
+
+    // useEffect(() => {
+    //     getVideo();
+    // },[videoRef])
 
     return (
         <div>
@@ -136,24 +156,29 @@ const Billing = () => {
                     }
                     
                     <div className='py-5 flex justify-around space-x-10'>
+                        {/* Bill Section  */}
                         <div className='w-2/3 h-fit flex flex-col justify-between  space-y-5'>
                             <p className='text-lg font-semibold'>Start Bill </p>
                             <div className='flex flex-col space-y-3 '>
                                 <div className=" w-full px-8">
-                                    <video ref={videoRef} className=""></video>
+                                    {/* <video ref={videoRef} className=""></video> */}
+                                    <Scanner onDetected={_onDetected} />
+                                    
                                 </div>
-                                <div className={"flex justify-center "+(hasPhoto?"  space-x-3":"hidden")}>
+                                {/* <div className={"flex justify-center "+(hasPhoto?"  space-x-3":"hidden")}>
                                     <canvas ref={photoRef} className="pl-8"></canvas>
                                     <div className="space-y-2 flex flex-col">
                                         <button className="p-3 bg-green-600 text-white rounded-full" onClick={addtoCart}><PlusIcon className="h-4 w-4"/> </button>
                                         <button className="p-3 bg-red-600 text-white rounded-full" onClick={closePhoto}><XIcon className="h-4 w-4"/> </button>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
-                            <Link href="#!"  >
+                            {/* <Link  >
                                 <button className="bg-green-700 text-white p-3 rounded-xl" onClick={takePhoto}>Click To Scan</button>
-                            </Link>
+                            </Link> */}
                         </div>
+
+                        {/* Side bill  */}
                         <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-md bg-white'>
                             <div className="space-y-2">
                                 <div className='flex justify-between font-semibold'>
@@ -165,28 +190,32 @@ const Billing = () => {
                                     <p className='text-sm'>ord-224</p>
                                 </div>
                             </div>
-                            {
-                                
-                                cart.length > 0 ? (
-                                    cart.map(c => (
-                                        // <div className="bg-gray-200 h-80">
-                                        //     <p className="text-lg">{c}</p>
-                                        // </div>
-                                        <div className="h-80 space-y-3 overflow-y-auto">
-                                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                                <div className="space-y-1">
-                                                    <p className="text-xs space-x-1"><b>Product:</b> <span>{c}</span></p>
-                                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
+                            <p>{data[0] ? data[0].codeResult.code : 'No data scanned'}</p>
+                                {
+                                    
+                                    cart.length > 0 ? (
+                                    <div className="h-80 space-y-3 overflow-y-auto">
+                                        {
+
+                                            cart.map(c => (
+                                                
+                                                <div key={c.id} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
+                                                    <div className="space-y-1">
+                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{c.name}</span></p>
+                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>{c.price} PKR</span></p>
+                                                    </div>
+                                                    <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
+                                                        <TrashIcon className="h-6 w-6 text-red-800" />
+                                                    </button>
                                                 </div>
-                                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))
- 
-                                ):(<></>)
-                            }
+                                            ))
+                                        }
+                                        </div> 
+    
+                                    ):(<></>)
+                                }
+                                        
+                            {/* Bill Summary  */}
                             <div className='h-fit space-y-4'>
                                 <h4 className="font-semibold">Bill Summary</h4>
                                 <div className='space-y-2'>
@@ -210,6 +239,7 @@ const Billing = () => {
                                     </div>
                                 </div>
                             </div>
+                            {/* Payment details  */}
                             <div className='h-fit space-y-3'>
                                 <h4 className="font-semibold">Payment</h4>
                                 <div className='space-y-4 flex flex-col justify-between'>

@@ -6,7 +6,7 @@ import { DashboardContent } from "../components/DashboardContent";
 
 function Home() {
   const { data: session } = useSession()
-    const isAdmin = true;
+    const isAdmin = false;
     return (
       
       <div>
