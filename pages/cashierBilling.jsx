@@ -1,16 +1,10 @@
 import Head from "next/head"
-import Link from "next/link";
-import { useState,useEffect,useRef } from "react";
+import { useState,useEffect } from "react";
 import Navbar from "../components/Navbar";
-import {
-    XIcon,
-    PlusIcon, TrashIcon
-} from "@heroicons/react/outline";
-
-import Scanner from '../helper/Scanner'
+import { TrashIcon } from "@heroicons/react/outline";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
 const Billing = () => {
-    const [data,setData] = useState([])
 
     const similarProducts = [
         {
@@ -56,76 +50,95 @@ const Billing = () => {
     ]
 
     const [item, setItem] = useState(false)
-    const [hasPhoto, setHasPhoto] = useState(false)
-    const [cart, setCart] = useState([])
 
-    const videoRef = useRef(null);
-    const photoRef = useRef(null);
 
-    const g_width = 720;
-    const g_height = 240;
 
-    const getVideo = () => {
-        navigator.mediaDevices
-            .getUserMedia({ video: { width: g_width, height: g_height } })
-            .then(stream => {
-                let video = videoRef.current;
-                video.srcObject = stream;
-                video.play();
-            }).catch(err => {
-                console.error(err)
-            })
-        
+    const [scannedCodes, setScannedCodes] = useState([]);
+
+    function activateLasers() {
+        var decodedText = "asdf";
+        var decodedResult = "asdfasdfasdf";
+        console.log(scannedCodes);
+
+        setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
     }
 
-    const takePhoto = () => {
-        const width = g_width/1.5;
-        const height = g_height;
+    useEffect(() => {
+        // Html5QrcodeScanner Section
 
-        let video = videoRef.current;
-        let photo = photoRef.current;
-        photo.width = width;
-        photo.height = height;
-
-        let ctx = photo.getContext('2d');
-        ctx.drawImage(video, 0, 0, width, height);
-
-        setHasPhoto(true)
-        setItem(true)
-    }
-
-    const closePhoto = () => {
-        let photo = photoRef.current;
-        let ctx = photo.getContext('2d');
-        ctx.clearRect(0,0,photo.width,photo.height)
-
-        setHasPhoto(false)
-        setItem(false)
-    }
-
-    const addtoCart = () => {
-        let prod = {
-            id: 132,
-            name: 'Knife',
-            price: 13.21,
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
         }
-        cart.push(prod)
-        setCart(cart)
-    }
 
-    // const removeFromCart = (id) => {
-    //     const index = cart.findIndex(c => c.id === id);
-    //     setCart(cart.splice(index,1))
-    // }
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
 
-    const _onDetected = (result) => {
-        data.push(result)
-    }
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            /* verbose= */ true
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+        // ---------------------------
+        
+        // Html5Qrcode Section
+
+        // Html5Qrcode.getCameras().then(devices => {
+        //     /**
+        //      * devices would be an array of objects of type:
+        //      * { id: "id", label: "label" }
+        //      */
+        //     if (devices && devices.length) {
+        //         var cameraId = devices[0].id;
+        //         // .. use this to start scanning.
+        //         const html5QrCode = new Html5Qrcode(/* element id */ "reader");
+        //         html5QrCode.start(
+        //             cameraId, 
+        //             {
+        //                 fps: 10,    // Optional, frame per seconds for qr code scanning
+        //                 qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
+        //             },
+        //             (decodedText, decodedResult) => {
+        //                 setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
+        //             },
+        //             (errorMessage) => {
+        //                 console.error(errorMessage)
+        //             }
+        //         )
+        //         .catch((err) => {
+        //             // Start failed, handle it.
+        //             alert("Scan Failed")
+        //         });
+        //         html5QrCode.stop().then((ignore) => {
+        //             // QR Code scanning is stopped.
+        //         }).catch((err) => {
+        //             // Stop failed, handle it.
+        //             console.error(err)
+        //         });
+        //     }
+        //     }).catch(err => {
+        //         // handle err
+        //     });
+        
+    });
 
 
-    // useEffect(() => {
-    //     getVideo();
-    // },[videoRef])
+    // Date of Today's Bill
+
+    let d = new Date();
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+    let mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+    d = `${da}-${mo}-${ye}`;
+
+
+    
 
     return (
         <div>
@@ -161,21 +174,11 @@ const Billing = () => {
                             <p className='text-lg font-semibold'>Start Bill </p>
                             <div className='flex flex-col space-y-3 '>
                                 <div className=" w-full px-8">
-                                    {/* <video ref={videoRef} className=""></video> */}
-                                    <Scanner onDetected={_onDetected} />
-                                    
+                                    <div id="reader" width="600px"></div>
                                 </div>
-                                {/* <div className={"flex justify-center "+(hasPhoto?"  space-x-3":"hidden")}>
-                                    <canvas ref={photoRef} className="pl-8"></canvas>
-                                    <div className="space-y-2 flex flex-col">
-                                        <button className="p-3 bg-green-600 text-white rounded-full" onClick={addtoCart}><PlusIcon className="h-4 w-4"/> </button>
-                                        <button className="p-3 bg-red-600 text-white rounded-full" onClick={closePhoto}><XIcon className="h-4 w-4"/> </button>
-                                    </div>
-                                </div> */}
                             </div>
-                            {/* <Link  >
-                                <button className="bg-green-700 text-white p-3 rounded-xl" onClick={takePhoto}>Click To Scan</button>
-                            </Link> */}
+                            <button onClick={activateLasers}>Activate Lasers</button>
+                            
                         </div>
 
                         {/* Side bill  */}
@@ -183,26 +186,25 @@ const Billing = () => {
                             <div className="space-y-2">
                                 <div className='flex justify-between font-semibold'>
                                     <p className='text-sm'>Current Bill</p>
-                                    <p className='text-sm'>8-mar-2020</p>
+                                    <p className='text-sm'>{ d }</p>
                                 </div>
                                 <div className='flex justify-between  font-semibold'>
                                     <p className='text-sm'>Bill ID</p>
                                     <p className='text-sm'>ord-224</p>
                                 </div>
                             </div>
-                            <p>{data[0] ? data[0].codeResult.code : 'No data scanned'}</p>
                                 {
                                     
-                                    cart.length > 0 ? (
+                                    scannedCodes.length > 0 ? (
                                     <div className="h-80 space-y-3 overflow-y-auto">
                                         {
 
-                                            cart.map(c => (
+                                            scannedCodes.map((scannedCode, index) => (
                                                 
-                                                <div key={c.id} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                                    <div className="space-y-1">
-                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{c.name}</span></p>
-                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>{c.price} PKR</span></p>
+                                                <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
+                                                    <div className="space-y-1" >
+                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
+                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
                                                     </div>
                                                     <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
                                                         <TrashIcon className="h-6 w-6 text-red-800" />
