@@ -1,8 +1,9 @@
 import Head from "next/head"
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { TrashIcon } from "@heroicons/react/outline";
-import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+import BarcodeScannerComponent from "react-webcam-barcode-scanner";
+
 
 const Billing = () => {
 
@@ -51,84 +52,18 @@ const Billing = () => {
 
     const [item, setItem] = useState(false)
 
+    const [data, setData] = useState("Captura : ...");
+    const [show, setShow] = useState(false);
 
 
-    const [scannedCodes, setScannedCodes] = useState([]);
-
-    function activateLasers() {
-        var decodedText = "asdf";
-        var decodedResult = "asdfasdfasdf";
-        console.log(scannedCodes);
-
-        setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
-    }
-
-    useEffect(() => {
-        // Html5QrcodeScanner Section
-
-        function onScanSuccess(decodedText, decodedResult) {
-            // handle the scanned code as you like, for example:
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-            setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
+    const onUpdateScreen = (err, result) => {
+        if (result) {
+            setData(result.text);
+            setShow(false);
+        } else {
+            setData("Not Found");
         }
-
-        function onScanFailure(error) {
-            // handle scan failure, usually better to ignore and keep scanning.
-            // for example:
-            console.warn(`Code scan error = ${error}`);
-        }
-
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader",
-            { fps: 10, qrbox: { width: 250, height: 250 } },
-            /* verbose= */ true
-        );
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-        // ---------------------------
-        
-        // Html5Qrcode Section
-
-        // Html5Qrcode.getCameras().then(devices => {
-        //     /**
-        //      * devices would be an array of objects of type:
-        //      * { id: "id", label: "label" }
-        //      */
-        //     if (devices && devices.length) {
-        //         var cameraId = devices[0].id;
-        //         // .. use this to start scanning.
-        //         const html5QrCode = new Html5Qrcode(/* element id */ "reader");
-        //         html5QrCode.start(
-        //             cameraId, 
-        //             {
-        //                 fps: 10,    // Optional, frame per seconds for qr code scanning
-        //                 qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
-        //             },
-        //             (decodedText, decodedResult) => {
-        //                 setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
-        //             },
-        //             (errorMessage) => {
-        //                 console.error(errorMessage)
-        //             }
-        //         )
-        //         .catch((err) => {
-        //             // Start failed, handle it.
-        //             alert("Scan Failed")
-        //         });
-        //         html5QrCode.stop().then((ignore) => {
-        //             // QR Code scanning is stopped.
-        //         }).catch((err) => {
-        //             // Stop failed, handle it.
-        //             console.error(err)
-        //         });
-        //     }
-        //     }).catch(err => {
-        //         // handle err
-        //     });
-        
-    });
-
-
+    };
     // Date of Today's Bill
 
     let d = new Date();
@@ -173,11 +108,20 @@ const Billing = () => {
                         <div className='w-2/3 h-fit flex flex-col justify-between  space-y-5'>
                             <p className='text-lg font-semibold'>Start Bill </p>
                             <div className='flex flex-col space-y-3 '>
-                                <div className=" w-full px-8">
-                                    <div id="reader" width="600px"></div>
-                                </div>
+                                <>
+                                    {show && (
+                                    <BarcodeScannerComponent
+                                        width={500}
+                                        height={500}
+                                        onUpdate={(err, result) => onUpdateScreen(err, result)}
+                                    />
+                                    )}
+                                    <p>{data}</p>
+                                </>
                             </div>
-                            <button onClick={activateLasers}>Activate Lasers</button>
+                            <div>
+                                <button onClick={() => setShow(true)}> Capture </button>
+                            </div>
                             
                         </div>
 
@@ -195,26 +139,26 @@ const Billing = () => {
                             </div>
                                 {
                                     
-                                    scannedCodes.length > 0 ? (
-                                    <div className="h-80 space-y-3 overflow-y-auto">
-                                        {
+                                    // data.length > 0 ? (
+                                    // <div className="h-80 space-y-3 overflow-y-auto">
+                                    //     {
 
-                                            scannedCodes.map((scannedCode, index) => (
+                                    //         data.map((scannedCode, index) => (
                                                 
-                                                <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                                    <div className="space-y-1" >
-                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
-                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                                    </div>
-                                                    <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                                        <TrashIcon className="h-6 w-6 text-red-800" />
-                                                    </button>
-                                                </div>
-                                            ))
-                                        }
-                                        </div> 
+                                    //             <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
+                                    //                 <div className="space-y-1" >
+                                    //                     <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
+                                    //                     <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
+                                    //                 </div>
+                                    //                 <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
+                                    //                     <TrashIcon className="h-6 w-6 text-red-800" />
+                                    //                 </button>
+                                    //             </div>
+                                    //         ))
+                                    //     }
+                                    //     </div> 
     
-                                    ):(<></>)
+                                    // ):(<></>)
                                 }
                                         
                             {/* Bill Summary  */}
