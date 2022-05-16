@@ -1,9 +1,8 @@
 import Head from "next/head"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { TrashIcon } from "@heroicons/react/outline";
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
-
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
 const Billing = () => {
 
@@ -52,18 +51,45 @@ const Billing = () => {
 
     const [item, setItem] = useState(false)
 
-    const [data, setData] = useState("Captura : ...");
-    const [show, setShow] = useState(false);
 
 
-    const onUpdateScreen = (err, result) => {
-        if (result) {
-            setData(result.text);
-            setShow(false);
-        } else {
-            setData("Not Found");
+    const [scannedCodes, setScannedCodes] = useState([]);
+
+    function activateLasers() {
+        var decodedText = "asdf";
+        var decodedResult = "asdfasdfasdf";
+        console.log(scannedCodes);
+
+        setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
+    }
+
+    useEffect(() => {
+        // Html5QrcodeScanner Section
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
         }
-    };
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 450, height: 250 } },
+            /* verbose= */ true
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+        // ---------------------------
+        
+    });
+
+
     // Date of Today's Bill
 
     let d = new Date();
@@ -108,20 +134,11 @@ const Billing = () => {
                         <div className='w-2/3 h-fit flex flex-col justify-between  space-y-5'>
                             <p className='text-lg font-semibold'>Start Bill </p>
                             <div className='flex flex-col space-y-3 '>
-                                <>
-                                    {show && (
-                                    <BarcodeScannerComponent
-                                        width={500}
-                                        height={500}
-                                        onUpdate={(err, result) => onUpdateScreen(err, result)}
-                                    />
-                                    )}
-                                    <p>{data}</p>
-                                </>
+                                <div className="w-full px-8">
+                                    <div id="reader" width="600px"></div>
+                                </div>
                             </div>
-                            <div>
-                                <button onClick={() => setShow(true)}> Capture </button>
-                            </div>
+                            <button className="bg-green-700 text-white  p-2 text-sm rounded-xl" onClick={activateLasers}>Activate Lasers</button>
                             
                         </div>
 
@@ -139,26 +156,26 @@ const Billing = () => {
                             </div>
                                 {
                                     
-                                    // data.length > 0 ? (
-                                    // <div className="h-80 space-y-3 overflow-y-auto">
-                                    //     {
+                                    scannedCodes.length > 0 ? (
+                                    <div className="h-80 space-y-3 overflow-y-auto">
+                                        {
 
-                                    //         data.map((scannedCode, index) => (
+                                            scannedCodes.map((scannedCode, index) => (
                                                 
-                                    //             <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                    //                 <div className="space-y-1" >
-                                    //                     <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
-                                    //                     <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                    //                 </div>
-                                    //                 <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    //                     <TrashIcon className="h-6 w-6 text-red-800" />
-                                    //                 </button>
-                                    //             </div>
-                                    //         ))
-                                    //     }
-                                    //     </div> 
+                                                <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
+                                                    <div className="space-y-1" >
+                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
+                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
+                                                    </div>
+                                                    <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
+                                                        <TrashIcon className="h-6 w-6 text-red-800" />
+                                                    </button>
+                                                </div>
+                                            ))
+                                        }
+                                        </div> 
     
-                                    // ):(<></>)
+                                    ):(<></>)
                                 }
                                         
                             {/* Bill Summary  */}
