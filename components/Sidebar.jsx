@@ -13,7 +13,7 @@ const Sidebar = ()=> {
                     <Image src='/logo.png' height={32} width={32}/>
                     <p>Storewind - Admin</p>
                 </button>
-                <hr className='border-t-[0.1px] border-gray-900' />
+                <hr  />
                 <Link href="/">
                     <button className='flex items-center space-x-2 pl-2 h-10 w-full hover:text-green-600 hover:border-green-600 hover:border-l-2 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
                         <ViewGridIcon className='h-5 w-5' />

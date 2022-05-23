@@ -12,7 +12,7 @@ const Navbar = ({ pageTitle }) => {
 
     return (
         <div>
-            <nav className="h-12 p-5  bg-gray-100 flex flex-row justify-between items-center ">
+            <nav className="h-14 p-5  bg-gray-50  flex flex-row justify-between items-center ">
                 <div>
                     <p className="text-lg font-bold">{pageTitle }</p>
                     {/* <XIcon className='h-5 w-5 cursor-pointer'/> */}

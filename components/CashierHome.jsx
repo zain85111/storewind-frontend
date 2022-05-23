@@ -43,6 +43,18 @@ const CashierHome = () => {
             'name': 'Product J',
             'imgUrl':'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
         },
+        {
+            'name': 'Product K',
+            'imgUrl':'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
+        },
+        {
+            'name': 'Product L',
+            'imgUrl':'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
+        },
+        {
+            'name': 'Product M',
+            'imgUrl':'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
+        },
     ]
 
     const billItems = [
@@ -90,16 +102,16 @@ const CashierHome = () => {
     let grandTotal = subTotal - discountAmount + taxedAmount;
 
     return (
-        <div className="px-5 space-y-2 ">
+        <div className="px-5 pt-5 space-y-2 ">
             <div className='flex flex-col justify-between'>
                 <div className='space-y-2'>
                     <p className='text-xs font-semibold'>Top Items Today</p>
-                    <div className=' w-fit flex items-center space-x-5 overflow-x-hidden'>
+                    <div className='flex items-center space-x-5 overflow-x-scroll'>
                         {
-                            topProds.map(tp => (
-                                <div className="bg-white h-24 w-24 rounded-md shadow-md flex flex-col items-center justify-around cursor-pointer">
-                                    <img src={tp.imgUrl} alt="" className="h-12 w-12 rounded-full"/>
-                                    <p className="text-sm">{ tp.name }</p>
+                            topProds.slice(0, 11).map(tp => (
+                                <div className="bg-white sm:h-10 sm:w-10 md:h-20 md:w-20 xl:h-24 xl:w-24  rounded-md shadow-md flex flex-col items-center justify-around cursor-pointer">
+                                    <img src={tp.imgUrl} alt="" className="sm:h-5 sm:w-5 md:h-8 md:w-8 xl:h-12 xl:w-12  rounded-full"/>
+                                    <p className="md:text-[8px] xl:text-sm">{ tp.name }</p>
                                 </div>
                             ))
                         }

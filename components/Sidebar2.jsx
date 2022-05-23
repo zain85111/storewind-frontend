@@ -13,7 +13,7 @@ const SidebarCash = ()=> {
                     <Image src='/logo.png' height={32} width={32}/>
                     <p>Storewind - Cashier</p>
                 </button>
-                <hr className='border-t-[0.1px] border-gray-900' />
+                <hr />
                 <div className="flex flex-col justify-between items-center space-y-6 py-2">                    
                     <Link href="/">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24  w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
