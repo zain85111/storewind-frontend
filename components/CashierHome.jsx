@@ -45,6 +45,49 @@ const CashierHome = () => {
         },
     ]
 
+    const billItems = [
+        {
+            id: '204',
+            name: 'Knife',
+            price: 1143.00,
+        },
+        {
+            id: '234',
+            name: 'Spoon',
+            price: 1242.50,
+        },
+        {
+            id: '241',
+            name: 'Plate',
+            price: 2421.99,
+        },
+        {
+            id: '220',
+            name: 'Glass',
+            price: 1102.00,
+        },
+        {
+            id: '290',
+            name: 'Blow',
+            price: 1426.50,
+        },
+        {
+            id: '92',
+            name: 'Pot',
+            price: 1034.99,
+        },
+    ]
+    const discount = 15;
+
+    let subTotal = 0
+    for (let i = 0; i < billItems.length; i++){
+        subTotal += billItems[i].price;
+    }
+    let discountAmount = subTotal * discount / 100;
+
+    let taxedAmount = subTotal > 5000 ? subTotal * 5 / 100 : 0.00;
+
+    let grandTotal = subTotal - discountAmount + taxedAmount;
 
     return (
         <div className="px-5 space-y-2 ">
@@ -96,7 +139,7 @@ const CashierHome = () => {
                             </div>
                         </div>
                         <Link href="/cashierBilling">
-                            <button className="bg-green-700 text-white p-3 rounded-xl">Start Billing</button>
+                            <button className="bg-[#44814E] text-white p-3 rounded-xl">Start Billing</button>
                         </Link>
                     </div>
 
@@ -112,82 +155,53 @@ const CashierHome = () => {
                                 <p className='text-sm'>ord-224</p>
                             </div>
                         </div>
-                        <div className="h-80 space-y-3 overflow-y-auto">
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                            <div className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
-                                <div className="space-y-1">
-                                    <p className="text-xs space-x-1"><b>Product:</b> <span>Knife</span></p>
-                                    <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
-                                </div>
-                                <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                </button>
-                            </div>
-                        </div>
+
+                        {
+                                
+                            billItems.length > 0 ? (
+                                <div className="h-80 space-y-3 overflow-y-auto">
+                                    {
+
+                                        billItems.map((billItem, index) => (
+                                            
+                                            <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
+                                                <div className="space-y-1" >
+                                                    <p className="text-xs space-x-1"><b>Product:</b> <span>{billItem.name}</span></p>
+                                                    <p className="text-xs space-x-1"><b>Price:</b> <span>{billItem.price.toFixed(2)} PKR</span></p>
+                                                </div>
+                                                <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
+                                                    <TrashIcon className="h-6 w-6 text-red-800" />
+                                                </button>
+                                            </div>
+                                        ))
+                                    }
+                                </div> 
+
+                                ):(<></>)
+                        }
+
+
+                        {/* Bill Summary  */}
                         <div className='h-fit space-y-4'>
                             <h4 className="font-semibold">Bill Summary</h4>
                             <div className='space-y-2'>
                                 <div className='flex justify-between text-gray-500'>
                                     <p className='text-xs'>Sub Total</p>
-                                    <p className='text-xs'>0.00 PKR</p>
+                                    <p className='text-xs'>{subTotal.toFixed(2)} PKR</p>
                                 </div>
                                 <div className='flex justify-between  text-gray-500'>
                                     <p className='text-xs'>Discount</p>
-                                    <p className='text-xs'>0.00 PKR</p>
+                                    <p className='text-xs'>{discountAmount.toFixed(2)} PKR</p>
                                 </div>
                                 <div className='flex justify-between  text-gray-500'>
                                     <p className='text-xs'>Tax (5%)</p>
-                                    <p className='text-xs'>0.00 PKR</p>
+                                    <p className='text-xs'>{taxedAmount.toFixed(2)} PKR</p>
                                 </div>
                                 
                                 <div className="border-b-2 border-green-800"></div>
                                 <div className='flex justify-between  '>
                                     <p className='text-xs'>Grand Total</p>
-                                    <p className='text-xs'>0.00 PKR</p>
+                                    <p className='text-xs'>{grandTotal.toFixed(2)} PKR</p>
                                 </div>
                             </div>
                         </div>
@@ -195,19 +209,16 @@ const CashierHome = () => {
                             <h4 className="font-semibold">Payment</h4>
                             <div className='space-y-2 flex flex-col'>
                                 <div className='flex justify-between  text-gray-500'>
-                                    <p className='text-xs'>Last Bill</p>
-                                    <p className='text-xs'>8-mar-2020</p>
+                                    <p className='text-xs'>Status</p>
+                                    <p className='text-xs'>Paid</p>
                                 </div>
                                 <div className='flex justify-between  text-gray-500'>
-                                    <p className='text-xs'>Last Bill</p>
-                                    <p className='text-xs'>8-mar-2020</p>
+                                    <p className='text-xs'>Method</p>
+                                    <p className='text-xs'>Card</p>
                                 </div>
-                                <div className='flex justify-between  text-gray-500'>
-                                    <p className='text-xs'>Last Bill</p>
-                                    <p className='text-xs'>8-mar-2020</p>
-                                </div>
+                                
                                 <div className="border-t-2 p-2 border-green-800 "></div>
-                                <button className="bg-green-700 text-white  p-2 text-sm rounded-xl">See Bill</button>
+                                <button className="bg-[#44814E] text-white  p-2 text-sm rounded-xl">See Bill</button>
                             </div>
                         </div>
                     </div>

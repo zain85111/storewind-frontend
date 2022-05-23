@@ -143,7 +143,7 @@ const Billing = () => {
                         </div>
 
                         {/* Side bill  */}
-                        <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-md bg-white'>
+                        <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-lg bg-white'>
                             <div className="space-y-2">
                                 <div className='flex justify-between font-semibold'>
                                     <p className='text-sm'>Current Bill</p>
@@ -207,9 +207,9 @@ const Billing = () => {
                                 <h4 className="font-semibold">Payment</h4>
                                 <div className='space-y-4 flex flex-col justify-between'>
                                     <div className="flex justify-between text-center">
-                                        <button className="h-20 w-20 bg-yellow-600 rounded-md text-white ">Cash</button>
-                                        <button className="h-20 w-20 bg-yellow-600 rounded-md text-white ">Card</button>
-                                        <button className="h-20 w-20 bg-yellow-600 rounded-md text-white ">E-wallet</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white ">Cash</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white ">Card</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white ">E-wallet</button>
                                     </div>
                                     <button className="bg-green-700 text-white  p-2 text-sm rounded-xl">Print Bill</button>
                                 </div>
