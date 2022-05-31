@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import {
-    UserGroupIcon, ViewGridIcon, UsersIcon, ChevronDownIcon, ChartBarIcon, ClipboardListIcon, CogIcon,ReceiptTaxIcon
+    ViewGridIcon, UsersIcon, ChartBarIcon, ClipboardListIcon, CogIcon,ReceiptTaxIcon
 } from '@heroicons/react/outline';
 
 const Sidebar = ()=> {
@@ -26,7 +26,6 @@ const Sidebar = ()=> {
                             <p>Inventory</p>
                         <div className='flex items-center space-x-2'>
                         </div>
-                        {/* <ChevronDownIcon className='h-5 w-5'/> */}
                     </button>
                 </Link>
                 <Link href='/analytics'>
@@ -35,7 +34,6 @@ const Sidebar = ()=> {
                             <p>Analytics</p>
                         <div className='flex items-center space-x-2'>
                         </div>
-                        {/* <ChevronDownIcon className='h-5 w-5'/> */}
                     </button>
                 </Link>
                 <Link href='/receipts'>
@@ -50,12 +48,12 @@ const Sidebar = ()=> {
                         <p>Employees</p>
                     </button>
                 </Link>
-                <Link href='/settings'>
+                {/* <Link href='/settings'>
                     <button className='flex items-center space-x-2 pl-2 h-10 w-full hover:text-green-600 hover:border-green-600 hover:border-l-2 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
                         <CogIcon className='h-5 w-5' />
                         <p>Settings</p>
                     </button>
-                </Link>
+                </Link> */}
             </div>
             
         </div>

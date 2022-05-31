@@ -237,17 +237,15 @@ export const DashboardContent = () => {
         <div className="p-5 space-y-6 ">
             {/* Top Cards  */}
             <div className="flex justify-between space-x-4 items-center ">
-                <div className="bg-white w-72 h-44 rounded-xl flex flex-col justify-between">
-                    <div className="flex items-center space-x-5 px-8 pt-4 ">
+                <div className="bg-white w-72 h-44 rounded-xl">
+                    <div className="flex items-center space-x-5 px-8 py-5 ">
                         <ChartBarIcon className="w-8 h-8 text-gray-500" />
                         <div className="space-y-1">
                             <p className="text-2xl font-bold text-gray-900">248K</p>
                             <p className="text-gray-500 text-sm">Total Sales</p>
                         </div>
                     </div>
-                    <div className="">
-                        <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                    </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                 </div>
                 <div className="bg-white w-72 h-44 rounded-xl">
                     <div className="flex items-center space-x-5 px-8 py-5 ">
@@ -257,6 +255,7 @@ export const DashboardContent = () => {
                             <p className="text-gray-500 text-sm">Total Revenue</p>
                         </div>
                     </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                 </div>
                 <div className="bg-white w-72 h-44 rounded-xl">
                     <div className="flex items-center space-x-5 px-8 py-5 ">
@@ -266,6 +265,7 @@ export const DashboardContent = () => {
                             <p className="text-gray-500 text-sm">Total Orders</p>
                         </div>
                     </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                 </div>
                 <div className="bg-white w-72 h-44 rounded-xl">
                     <div className="flex items-center space-x-5 px-8 py-5 ">
@@ -275,6 +275,7 @@ export const DashboardContent = () => {
                             <p className="text-gray-500 text-sm">Total Products Sold</p>
                         </div>
                     </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                 </div>
             </div>
             {/* Top Products  */}
@@ -286,7 +287,7 @@ export const DashboardContent = () => {
                                 <p className="text-xs">Income & Expanse summary of the total sales.</p>
                             </div>
                             <Link href={"/topProducts/download"}>
-                                <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-2 border-green-800 bg-white active:text-green-600">
+                                <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
                                 <span>
                                     <DownloadIcon className="h-5 w-5 text-green-800" />
                                 </span>
@@ -297,7 +298,6 @@ export const DashboardContent = () => {
                         </div>
                     <div className="">
                         <Bar height={100} width={300} options={incomeExpanseDataOptions} data={incomeExpanseData} />
-                        
                     </div>
                         
                     </div>

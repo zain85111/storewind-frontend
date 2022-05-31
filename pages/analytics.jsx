@@ -265,47 +265,47 @@ const Analytics = () => {
                                         
                                     )}
                                     >
-                                        <div className="bg-white w-72 h-44 rounded-xl flex flex-col justify-between">
-                                            <div className="flex items-center space-x-5 px-8 pt-4 ">
-                                                <ChartBarIcon className="w-8 h-8 text-gray-500" />
-                                                <div className="space-y-1">
-                                                    <p className="text-2xl font-bold text-gray-900">248K</p>
-                                                    <p className="text-gray-500 text-sm">Total Sales</p>
-                                                </div>
-                                            </div>
-                                            <div className="">
-                                                <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                                            </div>
-                                        </div>
-                                        <div className="bg-white w-72 h-44 rounded-xl">
-                                            <div className="flex items-center space-x-5 px-8 py-5 ">
-                                                <CurrencyDollarIcon className="w-8 h-8 text-gray-500" />
-                                                <div className="space-y-1">
-                                                    <p className="text-2xl font-bold text-gray-900">133K</p>
-                                                    <p className="text-gray-500 text-sm">Total Revenue</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white w-72 h-44 rounded-xl">
-                                            <div className="flex items-center space-x-5 px-8 py-5 ">
-                                                <TicketIcon className="w-8 h-8 text-gray-500" />
-                                                <div className="space-y-1">
-                                                    <p className="text-2xl font-bold text-gray-900">6K</p>
-                                                    <p className="text-gray-500 text-sm">Total Orders</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="bg-white w-72 h-44 rounded-xl">
-                                            <div className="flex items-center space-x-5 px-8 py-5 ">
-                                                <ClipboardListIcon className="w-8 h-8 text-gray-500" />
-                                                <div className="space-y-1">
-                                                    <p className="text-2xl font-bold text-gray-900">32K</p>
-                                                    <p className="text-gray-500 text-sm">Total Products Sold</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                <div className="bg-white w-72 h-44 rounded-xl">
+                    <div className="flex items-center space-x-5 px-8 py-5 ">
+                        <ChartBarIcon className="w-8 h-8 text-gray-500" />
+                        <div className="space-y-1">
+                            <p className="text-2xl font-bold text-gray-900">248K</p>
+                            <p className="text-gray-500 text-sm">Total Sales</p>
+                        </div>
+                    </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
+                </div>
+                <div className="bg-white w-72 h-44 rounded-xl">
+                    <div className="flex items-center space-x-5 px-8 py-5 ">
+                        <CurrencyDollarIcon className="w-8 h-8 text-gray-500" />
+                        <div className="space-y-1">
+                            <p className="text-2xl font-bold text-gray-900">133K</p>
+                            <p className="text-gray-500 text-sm">Total Revenue</p>
+                        </div>
+                    </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
+                </div>
+                <div className="bg-white w-72 h-44 rounded-xl">
+                    <div className="flex items-center space-x-5 px-8 py-5 ">
+                        <TicketIcon className="w-8 h-8 text-gray-500" />
+                        <div className="space-y-1">
+                            <p className="text-2xl font-bold text-gray-900">6K</p>
+                            <p className="text-gray-500 text-sm">Total Orders</p>
+                        </div>
+                    </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
+                </div>
+                <div className="bg-white w-72 h-44 rounded-xl">
+                    <div className="flex items-center space-x-5 px-8 py-5 ">
+                        <ClipboardListIcon className="w-8 h-8 text-gray-500" />
+                        <div className="space-y-1">
+                            <p className="text-2xl font-bold text-gray-900">32K</p>
+                            <p className="text-gray-500 text-sm">Total Products Sold</p>
+                        </div>
+                    </div>
+                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
+                </div>
 
-                                   
                                     </Tab.Panel>
                                 ))}
                             </Tab.Panels>
@@ -320,7 +320,7 @@ const Analytics = () => {
                             <p className="font-semibold text-lg">Top Products</p>
                             <div className="flex space-x-4 ">
                                 <Link href={"/topProducts/download"}>
-                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-2 border-green-800 bg-white active:text-green-600">
+                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
                                     <span>
                                         <DownloadIcon className="h-5 w-5 text-green-800" />
                                     </span>
@@ -328,7 +328,7 @@ const Analytics = () => {
                                     </button>
                                 </Link>
                                 <Menu as="div" className="">
-                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-2 border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
+                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                         <FilterIcon className="h-4 w-4 text-green-800" />
                                         <p>Filter</p>
                                         <ChevronDownIcon className=" h-4 w-4 text-green-800" />
@@ -515,7 +515,7 @@ const Analytics = () => {
                             <p className="font-semibold text-lg">Top Brands</p>
                             <div className="flex space-x-4 ">
                                 <Link href={"/topProducts/download"}>
-                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-2 border-green-800 bg-white active:text-green-600">
+                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
                                     <span>
                                         <DownloadIcon className="h-5 w-5 text-green-800" />
                                     </span>
@@ -523,7 +523,7 @@ const Analytics = () => {
                                     </button>
                                 </Link>
                                 <Menu as="div" className="">
-                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-2 border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
+                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                         <FilterIcon className="h-4 w-4 text-green-800" />
                                         <p>Filter</p>
                                         <ChevronDownIcon className=" h-4 w-4 text-green-800" />

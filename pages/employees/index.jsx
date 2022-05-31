@@ -49,6 +49,87 @@ const Employees = () => {
             noOfSales:201,
             joinedDate: '12-12-21',
         },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
+        {
+            id: '141',
+            name: 'Johe Doe',
+            salary:30000,
+            city: 'Lahore',
+            email: 'johnDoe@mail.com',
+            noOfSales:201,
+            joinedDate: '12-12-21',
+        },
     ]
 
     return (
@@ -64,7 +145,7 @@ const Employees = () => {
                     <>
                         <div className="flex space-x-4 ">
                         <Link href={"/employees/add"}>
-                            <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-2 border-green-800 bg-white active:text-green-600">
+                            <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
                             <span>
                                 <PlusCircleIcon className="h-5 w-5 text-green-800" />
                             </span>
@@ -72,7 +153,7 @@ const Employees = () => {
                             </button>
                         </Link>
                         <Menu as="div" className="">
-                            <Menu.Button className="active:text-green-600 text-sm font-semibold  border-2 border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
+                            <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                 <FilterIcon className="h-4 w-4 text-green-800" />
                                 <p>Filter</p>
                                 <ChevronDownIcon className=" h-4 w-4 text-green-800" />
@@ -124,7 +205,7 @@ const Employees = () => {
                     <div className=" space-y-24">
                         <table className=" hover:border-collapse w-full text-center items-center align-middle">
                             <thead className="">
-                                <tr className="h-14 bg-white border-b text-sm">
+                                <tr className="h-14 bg-white border-b text-sm rounded-md">
                                     <th className="space-x-4 p-2"><input type="checkbox" /></th>
                                     <th>Sr</th>
                                     <th>ID</th>
@@ -139,7 +220,7 @@ const Employees = () => {
                             <tbody className="">
                             {employees.slice(0, 12).map((item, i) => (
                                 <tr
-                                className="h-10 hover:bg-gray-50 min-w-full text-xs"
+                                className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
                                 key={item.id}
                                 >
                                 <td className="space-x-4 p-2 min-w-max">

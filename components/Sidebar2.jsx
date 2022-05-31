@@ -39,12 +39,12 @@ const SidebarCash = ()=> {
                             <p>Promos</p>
                         </button>
                     </Link>
-                    <Link href="/cashierSettings">
+                    {/* <Link href="/cashierSettings">
                         <button className='flex flex-col drop-shadow rounded-lg justify-evenly items-center text-center bg-white h-24 w-24 hover:text-green-600 focus:text-green-600 hover:drop-shadow-md focus:drop-shadow-lg focus:border-b-2 focus:border-green-600'>
                             <CogIcon className='h-10 w-10' />
                             <p>Settings</p>
                         </button>
-                    </Link>
+                    </Link> */}
 
                 </div>
 
