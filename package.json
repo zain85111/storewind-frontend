@@ -14,13 +14,10 @@
     "jsonwebtoken": "^8.5.1",
     "next": "latest",
     "next-auth": "^4.0.6",
-    "quagga": "^0.12.1",
     "react": "^17.0.2",
-    "react-barcode": "^1.4.0",
-    "react-barcode-reader": "^0.0.2",
     "react-chartjs-2": "^4.1.0",
     "react-dom": "^17.0.2",
-    "react-webcam-barcode-scanner": "^0.0.2-rc2"
+    "js-cookie": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",

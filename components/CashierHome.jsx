@@ -1,7 +1,11 @@
 import { PlusCircleIcon,TrashIcon } from "@heroicons/react/outline";
+import axios from "axios";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const CashierHome = () => {
+    const [lastBill, setLastBill] = useState({});
+
     const topProds = [
         {
             'name': 'Product A',
@@ -100,6 +104,24 @@ const CashierHome = () => {
     let taxedAmount = subTotal > 5000 ? subTotal * 5 / 100 : 0.00;
 
     let grandTotal = subTotal - discountAmount + taxedAmount;
+
+    const getLastBill = async () => {
+        
+
+        let res = await axios.get('https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt',{'_id':'1'})
+        res = await res.json();
+        if (res.ok) {
+            console.log(res)
+            setLastBill(res)
+        }
+        else {
+            console.log('Bill Not Found')
+        }
+    }
+
+    useEffect( async() => {
+        getLastBill()
+    })
 
     return (
         <div className="px-5 pt-5 space-y-2 ">

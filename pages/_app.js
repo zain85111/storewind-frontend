@@ -1,22 +1,24 @@
 import Layout from '../components/Layout'
 import '../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
+import { AuthProvider } from '../helper/AuthProvider';
 
 function MyApp({ Component, pageProps }) {
   if (Component.getLayout) {
     return Component.getLayout(
-      <SessionProvider>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <AuthProvider>
+          <Component {...pageProps} />
+
+      </AuthProvider>
     );
   }
 
   return (
-    <SessionProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SessionProvider>
+    <AuthProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+
+    </AuthProvider>
   );
 }
 
