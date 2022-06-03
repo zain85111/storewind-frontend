@@ -34,16 +34,19 @@ const Signin = (props) => {
             //     withCredentials: true //correct
             //   }
             // );
+
             response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/curruser/", {
                 method: 'POST',
                 credentials: "include"
             })
             response = await response.json()
             console.log(response);
+            
             setToken({ token: response });
             console.log({ token: response })
+
             if(response.currentUser!=null){
-            router.reload(window.location.pathname)        
+                router.reload(window.location.pathname)        
             }
         } catch (err) {
             setToken({ currentUser: null, role: null });

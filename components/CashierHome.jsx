@@ -108,15 +108,15 @@ const CashierHome = () => {
     const getLastBill = async () => {
         
 
-        let res = await axios.get('https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt',{'_id':'1'})
-        res = await res.json();
-        if (res.ok) {
-            console.log(res)
-            setLastBill(res)
-        }
-        else {
-            console.log('Bill Not Found')
-        }
+        // let res = await axios.get('https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt',{'_id':'1'})
+        // res = await res.json();
+        // if (res.ok) {
+        //     console.log(res)
+        //     setLastBill(res)
+        // }
+        // else {
+        //     console.log('Bill Not Found')
+        // }
     }
 
     useEffect( async() => {

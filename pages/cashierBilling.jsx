@@ -3,8 +3,12 @@ import { useState,useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { TrashIcon } from "@heroicons/react/outline";
 import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+import useToken from "../helper/useToken";
+
 
 const Billing = () => {
+    const { token } = useToken();
+    console.log(token)
 
     const similarProducts = [
         {
@@ -51,11 +55,28 @@ const Billing = () => {
 
     const [item, setItem] = useState(false)
 
-
-
     const [scannedCodes, setScannedCodes] = useState([]);
 
-    function activateLasers() {
+    const activateLasers = async () => {
+        // try {
+        //     let scannedProdId = '1';
+        //     console.log(scannedProdId);
+
+        //     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/signin/", {
+        //         method: 'POST',
+        //         headers: {
+        //             'Accept': 'application/json, text/plain, */*',
+        //             'Content-Type': 'application/json'
+        //           },
+        //           credentials: "include",
+        //         body: JSON.stringify(send)
+        //     })
+
+
+        // } catch (error) {
+        //     console.log(error)
+        // }
+
         var decodedText = "asdf";
         var decodedResult = "asdfasdfasdf";
         console.log(scannedCodes);
@@ -99,6 +120,22 @@ const Billing = () => {
     d = `${da}-${mo}-${ye}`;
 
 
+    useEffect( async () => {
+        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+            method: 'POST',
+            headers: {
+                
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({"_id": token.currentUser.iat })
+        });
+
+        let result = await response.json();
+        console.log(result)
+
+    },[])
     
 
     return (

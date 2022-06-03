@@ -5,9 +5,31 @@ import { DashboardContent } from "../components/DashboardContent";
 import useToken from "../helper/useToken";
 
 function Home() {
-  const { token } = useToken();
+  const { token ,setToken} = useToken();
   console.log(token)
-  const isAdmin = true;
+  
+  const getCurrEmp = async () => {
+    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+        method: 'POST',
+        headers: {
+            
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        credentials: "include",
+        body: JSON.stringify({"_id": token.currentUser.iat })
+    });
+
+    let result = await response.json();
+    console.log(result)
+    setToken({ emp: result });
+
+  }
+  
+  if (token.currentUser.role != 'ADMIN') {
+    getCurrEmp();
+  } 
+
   return (
     
     <div>
