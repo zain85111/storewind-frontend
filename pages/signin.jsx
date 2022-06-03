@@ -1,48 +1,40 @@
-import React from 'react'
+import React, {useContext,useState} from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
-import { signIn } from 'next-auth/react';
+import axios from "axios"
+import authContext from "../helper/authContext"
+import { useRouter } from 'next/router'
+import useToken from "../helper/useToken" 
 
-const Signin = () => {
+const Signin = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter()
+    const {token, setToken} = useToken()
+    const signIn= async ()=>{
+        try{
+     
+            const res1 = await axios.post("https://storewind.australiaeast.cloudapp.azure.com/api/users/signin/",{
+                email, password, roleName: "EMP"
+            },{withCredentials: true, credentials: 'include'}
+            );
+            console.log(res1);
+            const response = await axios.post("https://storewind.australiaeast.cloudapp.azure.com/api/users/curruser/");
+            console.log(response);
+            setToken({token: response.data});
+            console.log({token: response.data})
+            // router.reload(window.location.pathname)        
+        }catch(err){
+            setToken({currentUser: null, role: null});
+            console.log(err);
+        }
 
-    const loginCheck = async (e) => {
-        let userInfo = {};
-        if (email == 'admin') {
-             userInfo = { "email":'zain', "password":'test' ,"roleName":'ADMIN',"method":''};
-        } else {
-            userInfo = { "email":'zain', "password":'test' ,"roleName":'EMP',"method":'',};
-            
-        }
-        let res = await fetch('https://storewind.australiaeast.cloudapp.azure.com/api/users/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept':'application/json',
-            },
-            body: JSON.stringify(userInfo),
-            
-        })
-        res = await res.json();
-        console.log('aaaaaaa')
-        if (res.ok) {
-            console.log(res)
-            // Router.push('/');
-        }
-        else {
-            // Router.push('/login');
-        }
-        e.preventDefault();
     }
-
     return (
         <>
-        <Head>
-            <title>Storewind | Signin</title>
-        </Head>
-        <div>
+            <Head>
+                <title>Storewind | Signin</title>
+            </Head>
             <div className="flex  bg-white rounded-md shadow-lg   h-screen w-screen">
                 <div className="flex  justify-center h-full w-1/2 te text-white  bg-green-600 ">
                     <div className="flex items-center justify-center my-3 text-4xl font-bold tracking-wider text-center space-x-4">
@@ -52,7 +44,7 @@ const Signin = () => {
                 </div>
                 <div className="flex items-center justify-center w-1/2">
                     <div className="p-20 space-y-10 bg-white w-full">
-                        <form method='POST' className="flex flex-col space-y-8 ">
+                        <div  className="flex flex-col space-y-8 ">
                             <h3 className="my-4 text-3xl font-semibold text-gray-700 text-center">Sign In</h3>
                             <div className="flex flex-col space-y-1">                                
                                 <input
@@ -61,7 +53,7 @@ const Signin = () => {
                                     name="email"
                                     autoFocus
                                     placeholder="Email"
-                                    // onChange={setEmail}
+                                    onChange={(e)=>setEmail(e.target.value)}
                                     className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                                 />
                             </div>
@@ -71,7 +63,7 @@ const Signin = () => {
                                     id="password"
                                     name="password"
                                     placeholder="Password"
-                                    // onChange={setPassword}    
+                                    onChange={(e)=>setPassword(e.target.value)}    
                                     className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                                     />
                                 <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a>
@@ -85,20 +77,24 @@ const Signin = () => {
                                 <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
                             </div>
                             <div>
-                                <button onClick={()=>console.log('chala!!')} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Sign in
+                                <button onClick={()=>{signIn()}} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Sign in
                                 </button>
-
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
+            </div>        
         </>
     )
 }
-
+// export async function getServerSideProps(context) {
+    // console.log("ererr");
+    // const cookies = context.req.headers.cookie;
+    // console.log(cookies);
+    // return {
+    //   props: {cookies},
+    // };
+// }
 export default Signin
 
 Signin.getLayout = function PageLayout(page) {

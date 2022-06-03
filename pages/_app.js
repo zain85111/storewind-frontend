@@ -1,22 +1,33 @@
+import { useState } from 'react';
 import Layout from '../components/Layout'
 import '../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
+
+function SafeHydrate({ children }) {
+  return (
+    <div suppressHydrationWarning>
+      {typeof window === 'undefined' ? null : children}
+    </div>
+  )
+}
+
 
 function MyApp({ Component, pageProps }) {
   if (Component.getLayout) {
     return Component.getLayout(
-      <SessionProvider>
+      // <SessionProvider>
         <Component {...pageProps} />
-      </SessionProvider>
+      // </SessionProvider>
     );
   }
 
   return (
-    <SessionProvider>
+    // <SessionProvider>
+    <SafeHydrate>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </SessionProvider>
+      </SafeHydrate>
+    // </SessionProvider>
   );
 }
 
