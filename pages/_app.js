@@ -1,24 +1,33 @@
+import { useState } from 'react';
 import Layout from '../components/Layout'
 import '../styles/globals.css'
-import { AuthProvider } from '../helper/AuthProvider';
+
+function SafeHydrate({ children }) {
+  return (
+    <div suppressHydrationWarning>
+      {typeof window === 'undefined' ? null : children}
+    </div>
+  )
+}
+
 
 function MyApp({ Component, pageProps }) {
   if (Component.getLayout) {
     return Component.getLayout(
-      <AuthProvider>
-          <Component {...pageProps} />
-
-      </AuthProvider>
+      // <SessionProvider>
+        <Component {...pageProps} />
+      // </SessionProvider>
     );
   }
 
   return (
-    <AuthProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-
-    </AuthProvider>
+    // <SessionProvider>
+    <SafeHydrate>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      </SafeHydrate>
+    // </SessionProvider>
   );
 }
 

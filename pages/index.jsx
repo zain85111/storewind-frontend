@@ -1,34 +1,35 @@
 import Head from "next/head";
 import CashierHome from "../components/CashierHome";
 import Navbar from "../components/Navbar";
-import { useSession } from "next-auth/react";
 import { DashboardContent } from "../components/DashboardContent";
+import useToken from "../helper/useToken";
 
 function Home() {
-  const { data: session } = useSession()
-    const isAdmin = false;
-    return (
-      
-      <div>
-        {isAdmin ? (
-          <>
+  const { token } = useToken();
+  console.log(token)
+  const isAdmin = true;
+  return (
+    
+    <div>
+      {token.currentUser.role == 'ADMIN' ? (
+        <>
+          <Head>
+            <title>Storewind | Dashboard</title>
+          </Head>
+          <Navbar pageTitle={'Dashboard'} />
+          <DashboardContent/>
+        </>
+        ) : (
+        <>
             <Head>
-              <title>Storewind | Dashboard</title>
+              <title>Storewind | Home</title>
             </Head>
-            <Navbar pageTitle={'Dashboard'} />
-            <DashboardContent/>
-          </>
-          ) : (
-          <>
-              <Head>
-                <title>Storewind | Home</title>
-              </Head>
-              <Navbar pageTitle={'Home'} />     
-              <CashierHome/>
-          </>
-        )}
-      </div>
-    )
+            <Navbar pageTitle={'Home'} />     
+            <CashierHome/>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default Home
