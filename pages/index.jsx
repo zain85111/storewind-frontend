@@ -22,7 +22,7 @@ function Home() {
 
     let result = await response.json();
     console.log(result)
-    setToken({ emp: result });
+    // setToken({ emp: result });
 
   }
   
