@@ -1,14 +1,21 @@
-import { Fragment } from 'react'
+import { Fragment,useContext, } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon, MenuIcon, XIcon, BellIcon, MailIcon,SearchIcon } from '@heroicons/react/outline';
-import { useSession, signOut } from 'next-auth/react';
+import useToken from '../helper/useToken';
+import { useRouter } from 'next/router'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const Navbar = ({ pageTitle }) => {
-    const { data: session } = useSession()
+    const { token, setToken } = useToken()
+    const router = useRouter()
+
+    const signOut = () => {
+        setToken({currentUser: null, role: null});
+        router.reload(window.location.pathname)        
+    }
 
     return (
         <div>
