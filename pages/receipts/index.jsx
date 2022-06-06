@@ -14,15 +14,17 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/solid";
 import { Menu, Transition} from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
-
+import useToken from "../../helper/useToken";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Receipts = () => {
+
+    const { token, setToken } = useToken();
 
     const filters = [
         {
@@ -39,7 +41,7 @@ const Receipts = () => {
         },
     ];
 
-    const receipts = [
+    const rrreceipts = [
         {
             id: 143,
             noOfItems: 4,
@@ -132,6 +134,37 @@ const Receipts = () => {
         },
 
     ];
+
+    const [receipts, setReceipts] = useState([]);
+
+    const getReceipts = async () => {
+        try {
+            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/",{
+                method: "POST",
+                mode:'no-cors',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({ store_id: token.currentUser.email }),
+            })
+            let result = await response.json();
+            console.log(result,"All Receipts")
+
+            if (result.ok) {
+                setReceipts(result)
+            }
+
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getReceipts();
+    },[])
 
     return (
         <div>
@@ -202,7 +235,7 @@ const Receipts = () => {
                     )}
                 </div>
                 {/* Table  */}
-                {receipts ? (
+                {receipts.length >0 ? (
                     <div className=" space-y-24">
                         <table className=" hover:border-collapse w-full text-center items-center align-middle">
                             <thead className="">

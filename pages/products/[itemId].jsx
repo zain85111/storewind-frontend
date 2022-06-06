@@ -16,7 +16,7 @@ const Item = ({ prod, id, query }) => {
 
   const getData = async () => {
     console.log(query.itemId);
-    const data = await fetch("http://18.116.39.224:8080/product/", {
+    const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
       body: JSON.stringify({ id: query.itemId }),
     });

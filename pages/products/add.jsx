@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/solid";
 import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
+import useToken from "../../helper/useToken";
 
 const styles = {
   tagsInput: {
@@ -27,73 +27,14 @@ const styles = {
   },
 };
 
-const people = [
-  {
-    id: 1,
-    name: "Wade Cooper",
-    avatar:
-      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    name: "Arlene Mccoy",
-    avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    name: "Devon Webb",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2.25&w=256&h=256&q=80",
-  },
-  {
-    id: 4,
-    name: "Tom Cook",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 5,
-    name: "Tanya Fox",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 6,
-    name: "Hellen Schmidt",
-    avatar:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 7,
-    name: "Caroline Schultz",
-    avatar:
-      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 8,
-    name: "Mason Heaney",
-    avatar:
-      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 9,
-    name: "Claudie Smitham",
-    avatar:
-      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 10,
-    name: "Emil Schaefer",
-    avatar:
-      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
+
 
 const Item = () => {
   const router = useRouter();
+  const { token, setToken } = useToken();
 
-  const [categories, setCategories] = useState([]);
+
+  const [cats, setCats] = useState([]);
 
   const [selectedCat, setSelectedCat] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -101,10 +42,13 @@ const Item = () => {
 
   const [prodName, setProdName] = useState("");
   const [prodBrand, setProdBrand] = useState("");
+  const [prodCost, setProdCost] = useState(0);
   const [prodPrice, setProdPrice] = useState(0.0);
   const [prodDiscount, setProdDiscount] = useState(0.0);
   const [prodStock, setProdStock] = useState(0);
+  const [prodAisle, setProdAisle] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
+  const [prodDesc, setProdDesc] = useState("");
 
   const addProduct = async (e) => {
     let date = new Date();
@@ -112,49 +56,36 @@ const Item = () => {
     const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
     const minutes = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
     
-    const reqBody = {
-      Id: prodBarcode,
-      Name: prodName,
-      Brand: prodBrand,
-      Price: parseFloat(prodPrice),
-      Discount: parseFloat(prodDiscount),
-      StoreId: "20",
-      Categories: selectedCat,
-      Tags: selectedTags,
-      Location: "Aisle 3",
-      InStock: parseInt(prodStock),
-      LastStockAddition:
-      date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
-      ExpiryDate: "2021-10-03 12:13",
-      TotalSold: 0,
-    };
 
     const prodBody = {
       "name": prodName,
       "id": prodBarcode,
-      "price": prodPrice,
-      "discount": prodDiscount,
+      "price": 21.99,
+      "discount": 1.1,
       "brand": prodBrand,
       "categories": selectedCat,
       "tags": selectedTags,
-      "location": "Aisle 2",
-      "inStock": prodStock,
+      "location": prodAisle,
+      "inStock": parseInt(prodStock),
       "ExpiryDate": "2023-10-03 12:13",
       "totalSold": 0,
-      "cost": prodPrice*.8,
+      "cost": parseInt(prodCost),
       "lastStockAddition": date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
-      "description": "WWWAAAAOOOO"
+      "description": prodDesc
     }
 
     console.log(JSON.stringify(prodBody));
-    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
+    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "PUT",
       body: JSON.stringify(prodBody),
-    }).then(() => {
+    })
+    if (response.ok) {
       setTimeout(() => {
         router.push("/products");
       }, 1000);
-    });
+    //   .then(() => {
+    // });
+    }
   };
 
   function removeItem(arr, value) {
@@ -200,18 +131,19 @@ const Item = () => {
             'Content-Type': 'application/json'
           },
         credentials: "include",
-        body: JSON.stringify({store_id:"6299fdaf2ac2473303d0dcb5"})
+        body: JSON.stringify({ store_id: token.currentUser.email })
+        // body: JSON.stringify({store_id:"6299fdaf2ac2473303d0dcb5"})
       })
-
-      setCategories(response.json());
-      console.log(response.json(),"Category Names")
+      let res = await response.json()
+      setCats(res);
+      console.log(res,"Category Names")
     } catch (err) {
       console.log(err);
     }
   }
 
   useEffect(() => {
-    
+    getCategories()
   },[])
   return (
     <div>
@@ -281,7 +213,7 @@ const Item = () => {
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                            {categories.map((cat,i) => (
+                            {cats.map((cat,i) => (
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
@@ -394,7 +326,7 @@ const Item = () => {
                   : null}
               </div>
               {/* Number Inputs  */}
-              {/* <div className="col-span-6 sm:col-span-4">
+              <div className="col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodCost"
                   className="block text-sm font-medium text-gray-700"
@@ -409,7 +341,7 @@ const Item = () => {
                   onChange={(e) => setProdCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
-              </div> */}
+              </div>
               <div className="col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodPrice"
@@ -463,6 +395,22 @@ const Item = () => {
                   htmlFor="prodBarcode"
                   className="block text-sm font-medium text-gray-700"
                 >
+                  Aisle No.
+                </label>
+                <input
+                  type="text"
+                  name="prodNBarcode"
+                  id="prodBarcode"
+                  value={prodAisle}
+                  onChange={(e) => setProdAisle(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                />
+              </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="prodBarcode"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Barcode
                 </label>
                 <input
@@ -474,9 +422,26 @@ const Item = () => {
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
               </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="prodBarcode"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  name="prodNBarcode"
+                  id="prodBarcode"
+                  value={prodDesc}
+                  onChange={(e) => setProdDesc(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                />
+              </div>
 
               {/* Photo Section  */}
-              <div className="space-y-4 col-span-6 sm:col-span-4">
+
+              {/* <div className="space-y-4 col-span-6 sm:col-span-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Product Photo
                 </label>
@@ -514,7 +479,7 @@ const Item = () => {
                     <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-4">
               <Link href="/products">

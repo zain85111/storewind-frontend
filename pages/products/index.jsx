@@ -23,14 +23,16 @@ const Products = () => {
     try {
       const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/stock_less", {
         method: "POST",
+        mode:'no-cors',
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
         credentials: "include",
         body: JSON.stringify({ Number_of_products: 100000 }),
-      });  
-      setResult (data.json());
+      }); 
+      let res = await data.json()
+      setResult (res);
       
     } catch (err) {
       console.log(err)
