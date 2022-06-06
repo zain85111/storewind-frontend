@@ -77,8 +77,11 @@ const Item = () => {
     console.log(JSON.stringify(prodBody));
     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "PUT",
+      credentials: "include",
       body: JSON.stringify(prodBody),
     })
+    let res = await response.body
+    console.log(res);
     if (response.ok) {
       setTimeout(() => {
         router.push("/products");
