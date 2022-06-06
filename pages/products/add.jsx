@@ -73,14 +73,15 @@ const Item = () => {
       "lastStockAddition": date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       "description": prodDesc
     }
+    console.log(document.cookie)
 
     console.log(JSON.stringify(prodBody));
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
-      method: "PUT",
+    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/add", {
+      method: "POST",
       credentials: "include",
-      body: JSON.stringify(prodBody),
+      body: JSON.stringify(prodBody)
     })
-    let res = await response.body
+    let res = await response
     console.log(res);
     if (response.ok) {
       setTimeout(() => {
@@ -89,6 +90,7 @@ const Item = () => {
     //   .then(() => {
     // });
     }
+    
   };
 
   function removeItem(arr, value) {
