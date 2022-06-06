@@ -22,18 +22,16 @@ function Home() {
 
     let result = await response.json();
     console.log(result)
-    setToken({ emp: result });
-
   }
   
-  if (token.currentUser.role != 'ADMIN') {
+  if (token.currentUser.rolename != 'ADMIN') {
     getCurrEmp();
   } 
 
   return (
     
     <div>
-      {token.currentUser.role == 'ADMIN' ? (
+      {token.currentUser.rolename == 'ADMIN' ? (
         <>
           <Head>
             <title>Storewind | Dashboard</title>

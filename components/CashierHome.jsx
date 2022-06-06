@@ -106,17 +106,28 @@ const CashierHome = () => {
     let grandTotal = subTotal - discountAmount + taxedAmount;
 
     const getLastBill = async () => {
-        
 
-        // let res = await axios.get('https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt',{'_id':'1'})
-        // res = await res.json();
-        // if (res.ok) {
-        //     console.log(res)
-        //     setLastBill(res)
-        // }
-        // else {
-        //     console.log('Bill Not Found')
-        // }
+        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+                },
+            credentials: "include",
+            body: JSON.stringify({store_id: "6299fdaf2ac2473303d0dcb5"})
+        })
+        
+        let result = await response.json()
+        
+        
+        if (result.ok) {
+            console.log(result)
+            setLastBill(result)
+        }
+        else {
+            console.log('Bill Not Found')
+        }
+
     }
 
     useEffect( async() => {
@@ -131,9 +142,9 @@ const CashierHome = () => {
                     <div className='flex items-center space-x-5 overflow-x-scroll'>
                         {
                             topProds.slice(0, 11).map(tp => (
-                                <div className="bg-white sm:h-10 sm:w-10 md:h-20 md:w-20 xl:h-24 xl:w-24  rounded-md shadow-md flex flex-col items-center justify-around cursor-pointer">
-                                    <img src={tp.imgUrl} alt="" className="sm:h-5 sm:w-5 md:h-8 md:w-8 xl:h-12 xl:w-12  rounded-full"/>
-                                    <p className="md:text-[8px] xl:text-sm">{ tp.name }</p>
+                                <div key={tp.name} className="bg-white  h-24 w-24  rounded-md shadow-md flex flex-col items-center justify-around cursor-pointer">
+                                    <img src={tp.imgUrl} alt="" className=" h-12 w-12  rounded-full"/>
+                                    <p className="text-sm">{ tp.name }</p>
                                 </div>
                             ))
                         }

@@ -142,8 +142,9 @@ const Content = ({ data }) => {
     setisDeleteOpen(true);
   }
 
-  // const productData = data.products;
-  const productData = [
+  const productData = data.products;
+  console.log(productData,"Products");
+  const roductData = [
     {
       id: '213',
       Name: 'Glass',
@@ -331,7 +332,7 @@ const Content = ({ data }) => {
         )}
       </div>
 
-      {productData ? (
+      {productData.length > 0 ? (
         <div className="">
           <table className=" hover:border-collapse w-full text-center items-center align-middle">
             <thead className="">
@@ -355,7 +356,7 @@ const Content = ({ data }) => {
               {productData.slice(0, 12).map((item, i) => (
                 <tr
                   className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
-                  key={item.id}
+                  key={i}
                 >
                   <td className="space-x-4 p-2 min-w-max">
                     <input type="checkbox" id="itemChk" />
@@ -461,55 +462,55 @@ const Content = ({ data }) => {
                               )}
                             </Menu.Item>
                             {/* <Menu.Item>
-                                                        {({ active }) => (
-                                                    <div 
-                                                        className={classNames(
-                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                        'block w-full text-left px-4 py-2 text-sm'
-                                                        )}
-                                                    >
-                                                        <button onClick={openShowProdModal} className='flex space-x-2'>
-                                                            <ViewListIcon className='h-5 w-5' />
-                                                            <p>Show</p>
-                                                        </button>
-                                                    
-                                                    </div>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                        {({ active }) => (
-                                                    <div 
-                                                        className={classNames(
-                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                        'block w-full text-left px-4 py-2 text-sm'
-                                                        )}
-                                                    >
-                                                    <Link href="#!">
-                                                        <button onClick={openEditProdModal} className='flex space-x-2'>
-                                                            <PencilAltIcon className='h-5 w-5' />
-                                                            <p>Edit</p>
-                                                        </button>
-                                                    </Link>
-                                                    </div>
-                                                    )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                        {({ active }) => (
-                                                    <div 
-                                                        className={classNames(
-                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                        'block w-full text-left px-4 py-2 text-sm'
-                                                        )}
-                                                    >
-                                                    <Link href="#!">
-                                                        <button onClick={openDeleteModal} className='flex space-x-2'>
-                                                            <TrashIcon className='h-5 w-5' />
-                                                            <p >Delete</p>
-                                                        </button>
-                                                    </Link>
-                                                    </div>
-                                                    )}
-                                                </Menu.Item> */}
+                                    {({ active }) => (
+                                <div 
+                                    className={classNames(
+                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                    'block w-full text-left px-4 py-2 text-sm'
+                                    )}
+                                >
+                                    <button onClick={openShowProdModal} className='flex space-x-2'>
+                                        <ViewListIcon className='h-5 w-5' />
+                                        <p>Show</p>
+                                    </button>
+                                
+                                </div>
+                                )}
+                            </Menu.Item>
+                            <Menu.Item>
+                                    {({ active }) => (
+                                <div 
+                                    className={classNames(
+                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                    'block w-full text-left px-4 py-2 text-sm'
+                                    )}
+                                >
+                                <Link href="#!">
+                                    <button onClick={openEditProdModal} className='flex space-x-2'>
+                                        <PencilAltIcon className='h-5 w-5' />
+                                        <p>Edit</p>
+                                    </button>
+                                </Link>
+                                </div>
+                                )}
+                            </Menu.Item>
+                            <Menu.Item>
+                                    {({ active }) => (
+                                <div 
+                                    className={classNames(
+                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                    'block w-full text-left px-4 py-2 text-sm'
+                                    )}
+                                >
+                                <Link href="#!">
+                                    <button onClick={openDeleteModal} className='flex space-x-2'>
+                                        <TrashIcon className='h-5 w-5' />
+                                        <p >Delete</p>
+                                    </button>
+                                </Link>
+                                </div>
+                                )}
+                            </Menu.Item> */}
                           </div>
                         </Menu.Items>
                       </Transition>

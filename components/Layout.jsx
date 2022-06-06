@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
            
             <div className="bg-gray-100 grid grid-cols-5 min-h-screen" style={{fontFamily:''}}>
                 <div className="col-span-1">
-                    {token.currentUser.role == 'ADMIN' ? (
+                    {token.currentUser.rolename == 'ADMIN' ? (
                     <>
                         <Sidebar  />
                         

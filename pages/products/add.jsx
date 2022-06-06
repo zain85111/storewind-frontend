@@ -93,24 +93,25 @@ const people = [
 const Item = () => {
   const router = useRouter();
 
+  const [categories, setCategories] = useState([]);
+
   const [selectedCat, setSelectedCat] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [tagsInput, setTagsInput] = useState([]);
 
   const [prodName, setProdName] = useState("");
   const [prodBrand, setProdBrand] = useState("");
-  const [prodPrice, setProdPrice] = useState(0);
-  const [prodDiscount, setProdDiscount] = useState(0);
-  const [prodStock, setProdStock] = useState("");
+  const [prodPrice, setProdPrice] = useState(0.0);
+  const [prodDiscount, setProdDiscount] = useState(0.0);
+  const [prodStock, setProdStock] = useState(0);
   const [prodBarcode, setProdBarcode] = useState("");
 
   const addProduct = async (e) => {
     let date = new Date();
 
     const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
-    const minutes =
-      date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
-    console.log(prodDiscount);
+    const minutes = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
+    
     const reqBody = {
       Id: prodBarcode,
       Name: prodName,
@@ -123,20 +124,39 @@ const Item = () => {
       Location: "Aisle 3",
       InStock: parseInt(prodStock),
       LastStockAddition:
-        date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
+      date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       ExpiryDate: "2021-10-03 12:13",
       TotalSold: 0,
     };
-    console.log(JSON.stringify(reqBody));
-    await fetch("http://18.116.39.224:8080/product/", {
+
+    const prodBody = {
+      "name": prodName,
+      "id": prodBarcode,
+      "price": prodPrice,
+      "discount": prodDiscount,
+      "brand": prodBrand,
+      "categories": selectedCat,
+      "tags": selectedTags,
+      "location": "Aisle 2",
+      "inStock": prodStock,
+      "ExpiryDate": "2023-10-03 12:13",
+      "totalSold": 0,
+      "cost": prodPrice*.8,
+      "lastStockAddition": date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
+      "description": "WWWAAAAOOOO"
+    }
+
+    console.log(JSON.stringify(prodBody));
+    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "PUT",
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(prodBody),
     }).then(() => {
       setTimeout(() => {
         router.push("/products");
       }, 1000);
     });
   };
+
   function removeItem(arr, value) {
     var index = arr.indexOf(value);
     if (index > -1) {
@@ -170,6 +190,29 @@ const Item = () => {
       setSelectedSubCat(temp);
     }
   };
+
+  const getCategories = async () => {
+    try {
+      const response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/names", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+        credentials: "include",
+        body: JSON.stringify({store_id:"6299fdaf2ac2473303d0dcb5"})
+      })
+
+      setCategories(response.json());
+      console.log(response.json(),"Category Names")
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    
+  },[])
   return (
     <div>
       <Head>
@@ -238,9 +281,9 @@ const Item = () => {
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                            {people.map((person) => (
+                            {categories.map((cat,i) => (
                               <Listbox.Option
-                                key={person.id}
+                                key={i}
                                 className={({ active }) =>
                                   classNames(
                                     active
@@ -249,16 +292,12 @@ const Item = () => {
                                     "cursor-default select-none relative py-2 pl-3 pr-9"
                                   )
                                 }
-                                value={person}
+                                value={cat}
                               >
                                 {({ selected, active }) => (
                                   <>
                                     <div className="flex items-center">
-                                      <img
-                                        src={person.avatar}
-                                        alt=""
-                                        className="flex-shrink-0 h-6 w-6 rounded-full"
-                                      />
+                                      
                                       <span
                                         className={classNames(
                                           selectedCat
@@ -267,7 +306,7 @@ const Item = () => {
                                           "ml-3 block truncate"
                                         )}
                                       >
-                                        {person.name}
+                                        {cat}
                                       </span>
                                     </div>
 
@@ -283,10 +322,10 @@ const Item = () => {
                                         <input
                                           type="checkbox"
                                           onChange={() =>
-                                            selectCategory(person.name)
+                                            selectCategory(cat)
                                           }
                                           defaultChecked={
-                                            selectedCat.includes(person.name)
+                                            selectedCat.includes(cat)
                                               ? true
                                               : false
                                           }

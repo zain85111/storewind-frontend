@@ -1,8 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import axios from "axios"
-import authContext from "../helper/authContext"
 import { useRouter } from 'next/router'
 import useToken from "../helper/useToken"
 
@@ -21,19 +19,12 @@ const Signin = (props) => {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
                   },
-                  credentials: "include",
+                credentials: "include",
                 body: JSON.stringify(send)
             })
             response = await response.json()
             console.log(response);
 
-            // const res1 = await axios.post("https://storewind.australiaeast.cloudapp.azure.com/api/users/signin/",{
-            //     email, password, roleName: "EMP"
-            // },{
-            //     //AxiosRequestConfig parameter
-            //     withCredentials: true //correct
-            //   }
-            // );
 
             response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/curruser/", {
                 method: 'POST',
@@ -45,7 +36,7 @@ const Signin = (props) => {
             setToken({ token: response });
             console.log({ token: response })
 
-            if(response.currentUser!=null){
+            if (response.currentUser != null) {
                 router.reload(window.location.pathname)        
             }
         } catch (err) {
@@ -111,14 +102,7 @@ const Signin = (props) => {
         </>
     )
 }
-// export async function getServerSideProps(context) {
-// console.log("ererr");
-// const cookies = context.req.headers.cookie;
-// console.log(cookies);
-// return {
-//   props: {cookies},
-// };
-// }
+
 export default Signin
 
 Signin.getLayout = function PageLayout(page) {
