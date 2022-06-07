@@ -143,7 +143,6 @@ const Receipts = () => {
         try {
             let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/",{
                 method: "POST",
-                mode:'no-cors',
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
@@ -154,15 +153,13 @@ const Receipts = () => {
             let result = await response.json();
             console.log(result,"All Receipts")
 
-            if (result.ok) {
-                setReceipts(result)
-            }
-
+            setReceipts(result)
             
         } catch (err) {
             console.log(err);
         }
     }
+    
 
     useEffect(() => {
         if (token.currentUser.rolename != 'ADMIN') {
@@ -271,13 +268,13 @@ const Receipts = () => {
                                 </td>
 
                                 <td>{i + 1}</td>
-                                <td>{item.id}</td>
-                                <td>{item.noOfItems}</td>
+                                <td>{item._id.slice(0,3)+"..."+item._id.slice(item._id.length-3,item._id.length-1)}</td>
+                                <td>{item.products.length}</td>
                                 <td>{item.amount}</td>
-                                <td>{item.date}</td>
-                                <td>{item.empId}</td>
-                                <td>{item.userId}</td>
-                                <td>{item.paymentMethod}</td>
+                                <td>{new Date(item.receipt_date).toDateString()}</td>
+                                <td>{item.emp_id.slice(0,7)+"..."}</td>
+                                <td>urs-24</td>
+                                <td>Cash</td>
                                 <td className=" flex justify-center py-2 ">
                                     <Menu as="div" className="">
                                         <Menu.Button className="active:text-green-600">
@@ -368,6 +365,7 @@ const Receipts = () => {
                         </table>
 
                         {/* Pagination  */}
+                        {receipts.length > 10 ? (
                         <div className="p-4 flex items-center justify-between border-t border-gray-200 sm:px-6 ">
                             <div className="flex-1 flex justify-between sm:hidden">
                                 <a
@@ -451,6 +449,9 @@ const Receipts = () => {
                                 </div>
                             </div>
                         </div>
+                            ) : (
+                            <></>
+                        )}
 
                     </div>
                 ) : (

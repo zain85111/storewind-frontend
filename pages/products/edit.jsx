@@ -128,7 +128,7 @@ const Item = ({ item }) => {
     console.log(router.query.id, "Product Id");
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
-      mode: "no-cors",
+      // mode: "no-cors",
       headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
