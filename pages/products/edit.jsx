@@ -10,6 +10,8 @@ import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import useToken from "../../helper/useToken";
+
 
 const styles = {
   tagsInput: {
@@ -91,6 +93,8 @@ const people = [
 
 const Item = ({ item }) => {
   const router = useRouter();
+  const [token, setToken] = useToken();
+
   //   const [item, setItem] = useState({});
 
   const [selectedCat, setSelectedCat] = useState([]);
@@ -122,9 +126,9 @@ const Item = ({ item }) => {
 
   const getData = async () => {
     console.log(router.query.id);
-    const data = await fetch("http://18.116.39.224:8080/product/", {
+    const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
-      body: JSON.stringify({ id: router.query.id }),
+      body: JSON.stringify({ id: router.query.id ,storeId:token.currentUser.email}),
     });
 
     return data.json();
@@ -149,19 +153,21 @@ const Item = ({ item }) => {
       Location: "Aisle 3",
       InStock: parseInt(prodStock),
       LastStockAddition:
-        date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
+      date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       ExpiryDate: "2021-10-03 12:13",
       TotalSold: 0,
     };
     console.log(JSON.stringify(reqBody));
-    await fetch("http://18.116.39.224:8080/product/", {
-      method: "PATCH",
+    
+    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/update", {
+      method: "POST",
       body: JSON.stringify(reqBody),
-    }).then(() => {
+    })
+    if (response.ok) {
       setTimeout(() => {
         router.push("/products");
       }, 1000);
-    });
+    }
   };
   function removeItem(arr, value) {
     var index = arr.indexOf(value);

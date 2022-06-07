@@ -87,8 +87,6 @@ const Item = () => {
       setTimeout(() => {
         router.push("/products");
       }, 1000);
-    //   .then(() => {
-    // });
     }
     
   };

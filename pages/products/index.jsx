@@ -21,18 +21,21 @@ const Products = () => {
 
   const getData = async () => {
     try {
-      const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/stock_less", {
+      const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/", {
         method: "POST",
-        mode:'no-cors',
+        // mode:'no-cors',
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
         credentials: "include",
-        body: JSON.stringify({ Number_of_products: 100000 }),
+        body: JSON.stringify({ store_id: token.currentUser.email }),
       }); 
-      let res = await data.json()
-      setResult (res);
+      if (data.ok) {
+        let res = await data.json()
+        setResult (res);
+        
+      }
       
     } catch (err) {
       console.log(err)

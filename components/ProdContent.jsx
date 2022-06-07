@@ -102,6 +102,8 @@ function classNames(...classes) {
 }
 
 const Content = ({ data }) => {
+  const [productData, setProductData] = useState([]);
+
   const [selectedCat, setSelectedCat] = useState(people[0]);
   const [selectedSubCat, setSelectedSubCat] = useState(people[2]);
 
@@ -142,8 +144,9 @@ const Content = ({ data }) => {
     setisDeleteOpen(true);
   }
 
-  const productData = data.products;
-  console.log(productData,"Products");
+  setProductData( data.products[0].categories[0].products);
+  console.log(productData, "Products");
+  
   const roductData = [
     {
       id: '213',
@@ -365,16 +368,12 @@ const Content = ({ data }) => {
                   <td>{i + 1}</td>
                   <td className="flex justify-center items-center">
                     <div className="h-7 w-7 bg-white items-center flex justify-center rounded-full">
-                      <img
-                        src="https://picsum.photos/200"
-                        alt=""
-                        className="h-5 w-5 "
-                      />
+                      <img src="https://picsum.photos/200" alt="" className="h-5 w-5 "/>
                     </div>
                   </td>
                   <td>{item.Name}</td>
                   <td>{item.Brand}</td>
-                  <td>{item.Category}</td>
+                  <td>{item.Categories}</td>
                   <td>{item.Price}</td>
                   <td>{item.Discount}</td>
                   <td>{item.InStock}</td>
