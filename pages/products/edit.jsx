@@ -93,7 +93,7 @@ const people = [
 
 const Item = ({ item }) => {
   const router = useRouter();
-  const [token, setToken] = useToken();
+  const {token, setToken} = useToken();
 
   //   const [item, setItem] = useState({});
 
@@ -125,13 +125,19 @@ const Item = ({ item }) => {
   }, []);
 
   const getData = async () => {
-    console.log(router.query.id);
+    console.log(router.query.id, "Product Id");
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
-      body: JSON.stringify({ id: router.query.id ,storeId:token.currentUser.email}),
+      mode: "no-cors",
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+      credentials: "include",
+      body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
     });
-
-    return data.json();
+    let res = await data.json()
+    return res; 
   };
 
   const addProduct = async (e) => {
@@ -161,7 +167,12 @@ const Item = ({ item }) => {
     
     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/update", {
       method: "POST",
-      body: JSON.stringify(reqBody),
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+      credentials: "include",
+      body: JSON.stringify(reqBody)
     })
     if (response.ok) {
       setTimeout(() => {

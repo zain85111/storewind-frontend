@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 
 const Products = () => {
   const { token ,setToken} = useToken();
-  console.log(token)
   const router = useRouter();
   if (token.currentUser.rolename != 'ADMIN') {
     router.push('/')
@@ -46,6 +45,12 @@ const Products = () => {
   };
 
   useEffect(() => {
+    if (token.currentUser.rolename != 'ADMIN') {
+      router.push('/')
+    }
+  })
+  useEffect(() => {
+    
     getData();
   }, []);
 

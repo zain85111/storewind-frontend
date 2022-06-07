@@ -14,8 +14,10 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/solid";
 import { Menu, Transition} from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
+import useToken from "../../helper/useToken";
+import { useRouter } from "next/router";
 
 
 function classNames(...classes) {
@@ -24,6 +26,9 @@ function classNames(...classes) {
 
 
 const Employees = () => {
+    const { token ,setToken} = useToken();
+    const router = useRouter();
+
     const filters = [
         {
             id: 1,
@@ -39,7 +44,7 @@ const Employees = () => {
         },
     ];
 
-    const employees = [
+    const eemployees = [
         {
             id: '141',
             name: 'Johe Doe',
@@ -132,6 +137,41 @@ const Employees = () => {
         },
     ]
 
+    const [employees, setEmployees] = useState([]);
+
+    
+    const getAllEmps = async () => {
+        try {
+            
+            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/", {
+                method: 'POST',
+                headers: {
+                    
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({"store_id": token.currentUser.email })
+            });
+    
+            let result = await response.json();
+            setEmployees(result)
+            console.log(result,"All Employees")
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        if (token.currentUser.rolename != 'ADMIN') {
+            router.push('/')
+        }
+    })
+
+    useEffect(() => {
+        getAllEmps()
+    },[])
+
     return (
         <div>
             <Head>
@@ -201,7 +241,7 @@ const Employees = () => {
                     )}
                 </div>
                 {/* Table  */}
-                {employees ? (
+                {employees.length>0  ? (
                     <div className=" space-y-24">
                         <table className=" hover:border-collapse w-full text-center items-center align-middle">
                             <thead className="">

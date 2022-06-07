@@ -17,6 +17,7 @@ import { Menu, Transition} from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import useToken from "../../helper/useToken";
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -25,6 +26,7 @@ function classNames(...classes) {
 const Receipts = () => {
 
     const { token, setToken } = useToken();
+    const router = useRouter();
 
     const filters = [
         {
@@ -161,6 +163,12 @@ const Receipts = () => {
             console.log(err);
         }
     }
+
+    useEffect(() => {
+        if (token.currentUser.rolename != 'ADMIN') {
+            router.push('/')
+        }
+    })
 
     useEffect(() => {
         getReceipts();
