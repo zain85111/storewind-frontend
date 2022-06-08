@@ -91,7 +91,7 @@ const people = [
   },
 ];
 
-const Item = ({ item }) => {
+const Edit = ({ item }) => {
   const router = useRouter();
   const {token, setToken} = useToken();
 
@@ -516,4 +516,4 @@ const Item = ({ item }) => {
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-export default Item;
+export default Edit;

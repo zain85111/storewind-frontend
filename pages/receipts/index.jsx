@@ -24,6 +24,7 @@ function classNames(...classes) {
 }
 
 const Receipts = () => {
+    
 
     const { token, setToken } = useToken();
     const router = useRouter();
@@ -183,14 +184,14 @@ const Receipts = () => {
                     {receipts ? (
                     <>
                         <div className="flex space-x-4 ">
-                        <Link href={"/receipts/add"}>
+                        {/* <Link href={"/receipts/add"}>
                             <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
-                            <span>
-                                <PlusCircleIcon className="h-5 w-5 text-green-800" />
-                            </span>
-                            <p>Add Receipt</p>
+                                <span>
+                                    <PlusCircleIcon className="h-5 w-5 text-green-800" />
+                                </span>
+                                <p>Add Receipt</p>
                             </button>
-                        </Link>
+                        </Link> */}
                         <Menu as="div" className="">
                             <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                 <FilterIcon className="h-4 w-4 text-green-800" />
@@ -261,7 +262,7 @@ const Receipts = () => {
                             {receipts.slice(0, 12).map((item, i) => (
                                 <tr
                                 className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
-                                key={item.id}
+                                key={item._id}
                                 >
                                 <td className="space-x-4 p-2 min-w-max">
                                     <input type="checkbox" id="itemChk" />
@@ -270,7 +271,7 @@ const Receipts = () => {
                                 <td>{i + 1}</td>
                                 <td>{item._id.slice(0,3)+"..."+item._id.slice(item._id.length-3,item._id.length-1)}</td>
                                 <td>{item.products.length}</td>
-                                <td>{item.amount}</td>
+                                <td>{item.amount} PKR</td>
                                 <td>{new Date(item.receipt_date).toDateString()}</td>
                                 <td>{item.emp_id.slice(0,7)+"..."}</td>
                                 <td>urs-24</td>
@@ -302,7 +303,7 @@ const Receipts = () => {
                                                     )}
                                                     >
                                                     <Link
-                                                        href={"/receipts/" + item.id}
+                                                        href={"/receipts/" + item._id}
                                                         key={item.id}
                                                     >
                                                         <button className="flex space-x-2">
@@ -313,7 +314,7 @@ const Receipts = () => {
                                                     </div>
                                                 )}
                                                 </Menu.Item>
-                                                <Menu.Item>
+                                                {/* <Menu.Item>
                                                 {({ active }) => (
                                                     <div
                                                     className={classNames(
@@ -323,7 +324,7 @@ const Receipts = () => {
                                                         "block w-full text-left px-4 py-2 text-sm"
                                                     )}
                                                     >
-                                                    <Link href={"/receipts/edit/?id=" + item.id}>
+                                                    <Link href={"/receipts/edit/?id=" + item._id}>
                                                         <button className="flex space-x-2">
                                                         <PencilAltIcon className="h-5 w-5" />
                                                         <p>Update</p>
@@ -331,7 +332,7 @@ const Receipts = () => {
                                                     </Link>
                                                     </div>
                                                 )}
-                                                </Menu.Item>
+                                                </Menu.Item> */}
                                                 <Menu.Item>
                                                 {({ active }) => (
                                                     <div
@@ -343,7 +344,7 @@ const Receipts = () => {
                                                     )}
                                                     >
                                                     <Link
-                                                        href={"/receipts/delete/?id=" + item.id}
+                                                        href={"/receipts/delete/?id=" + item._id}
                                                     >
                                                         <button className="flex space-x-2">
                                                         <TrashIcon className="h-5 w-5" />
