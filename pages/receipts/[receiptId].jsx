@@ -4,39 +4,72 @@ import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/solid'
+import useToken from "../../helper/useToken";
+import { useRouter } from "next/router";
 
 const Receipt = ({ query }) => {
+    const { token, setToken } = useToken();
+    const router = useRouter();
+
+
     const [receipt, setReceipt] = useState({});
 
     useEffect(() => {
-        getReceipt()
+        getReceipts().then((recs) => {
+            console.log(router.query.receiptId)
+            console.log(recs, "receipts, Details Page");
+
+            recs.map(e => {
+                if (e._id === router.query.receiptId) {
+                    setReceipt(e);
+                }
+            })
+            console.log(receipt.products,"Current receipt, details page")
+
+        });
     }, []);
 
-    const getReceipt = async () => {
+    const getReceipts = async () => {
+        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/",{
+            method: "POST",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify({ store_id: token.currentUser.email }),
+        })
+        let result = await response.json();
+        return result;
+    }
+
+    // const getReceipt = async () => {
         
-        console.log(query.receiptId);
-        try {
+    //     console.log(query.receiptId); 
+    //     try {
             
-            const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                },
-                credentials: "include",
-                body: JSON.stringify({ id: query.receiptId })
-            });
+    //         const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
+    //             method: "POST",
+    //             headers: {
+    //                 'Accept': 'application/json, text/plain, */*',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             credentials: "include",
+    //             body: JSON.stringify({ id: query.receiptId })
+    //         });
 
-            const result = await data.json();
-            console.log(result);
-            setReceipt(result)
+    //         const result = await data.json();
+    //         console.log(result);
+    //         setReceipt(result)
 
-        } catch (err) {
-            console.log(err)
-        }
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
 
-    };
-    const produtcs = [
+    // };
+
+
+    const pproducts = [
         {
             "product_name": "Knife",
             "price": "12.00",
@@ -62,9 +95,12 @@ const Receipt = ({ query }) => {
             "subCategories": ["Drinking","Metal"]
         },
     ]
+
+    const products = receipt.products;
+
     let amount = 0;
     let noOfItems = 0;
-    produtcs.map(p => {
+    products.map(p => {
         amount += parseFloat(p.price);
         noOfItems += parseInt(p.quantity);
     })
@@ -81,31 +117,30 @@ const Receipt = ({ query }) => {
                 <div className="w-full text space-y-10">
                     <div className="flex justify-between">
                         <p className="font-bold">Receipt ID:</p>
-                        <p className="">{receipt._id}2509259</p>
+                        <p className="">{receipt._id}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="font-bold">Employee ID</p>
-                        <p className="">{receipt.emp_id}3918-1430</p>
+                        <p className="">{receipt.emp_id}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="font-bold">Receipt Date</p>
-                        <p className="">{new Date(receipt.receipt_date).toDateString()} Wed, Jun 8th 2022</p>
+                        <p className="">{new Date(receipt.receipt_date).toDateString()}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="font-bold">Amount:</p>
-                        {/* <p className="">{receipt.amount}34.00 PKR</p> */}
-                        <p className="">{amount.toFixed(2)} PKR</p>
+                        <p className="">{receipt.amount}</p>
+                        {/* <p className="">{amount.toFixed(2)} PKR</p> */}
                     </div>
                     <div className="flex justify-between">
                         <p className="font-bold">No. of Items:</p>
-                        {/* <p className="">{receipt.products}3</p> */}
                         <p className="">{noOfItems}</p>
                     </div>
                     <div className="flex flex-col justify-between ">
                         <p className="font-bold">Products</p>
                             <div className="w-full space-y-2 pt-3 max-h-[320px] overflow-y-auto">
                                 {
-                                    produtcs.map((p,i) => (         
+                                    products.map((p,i) => (         
                                         <Disclosure key={i}>
                                         {({ open }) => (
                                             <>
