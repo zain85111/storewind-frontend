@@ -36,36 +36,11 @@ const Bill = ({ query }) => {
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ store_id: token.currentUser.email }),
+            body: JSON.stringify({ emp_id: token.currentUser.email }),
         })
         let result = await response.json();
         return result;
     }
-
-    // const getReceipt = async () => {
-        
-    //     console.log(query.receiptId); 
-    //     try {
-            
-    //         const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
-    //             method: "POST",
-    //             headers: {
-    //                 'Accept': 'application/json, text/plain, */*',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             credentials: "include",
-    //             body: JSON.stringify({ id: query.receiptId })
-    //         });
-
-    //         const result = await data.json();
-    //         console.log(result);
-    //         setReceipt(result)
-
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-
-    // };
 
 
     const pproducts = [

@@ -2,8 +2,11 @@ import { PlusCircleIcon,TrashIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import useToken from "../helper/useToken";
 
 const CashierHome = () => {
+    const {token,setToken} = useToken()
+
     const [lastBill, setLastBill] = useState({});
 
     const topProds = [
@@ -93,12 +96,12 @@ const CashierHome = () => {
             price: 1034.99,
         },
     ]
-    const discount = 15;
 
-    let subTotal = 0
-    for (let i = 0; i < billItems.length; i++){
-        subTotal += billItems[i].price;
-    }
+    
+    const discount = 0;
+
+    // const billItems = lastBill.products
+    let subTotal = parseFloat(lastBill.amount)
     let discountAmount = subTotal * discount / 100;
 
     let taxedAmount = subTotal > 5000 ? subTotal * 5 / 100 : 0.00;
@@ -114,15 +117,14 @@ const CashierHome = () => {
                 'Content-Type': 'application/json'
                 },
             credentials: "include",
-            body: JSON.stringify({store_id: "6299fdaf2ac2473303d0dcb5"})
+            body: JSON.stringify({ emp_id: token.currentUser.email })
         })
         
         let result = await response.json()
-        
+        setLastBill(result)
         
         if (result.ok) {
-            console.log(result)
-            setLastBill(result)
+            console.log(result,"All receipts cashier home")
         }
         else {
             console.log('Bill Not Found')
@@ -130,13 +132,40 @@ const CashierHome = () => {
 
     }
 
-    useEffect( async() => {
-        getLastBill()
-    })
+
+    const getReceipts = async () => {
+        try {
+            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/emp_receipts",{
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({ emp_id: token.currentUser.email }),
+            })
+            let result = await response.json();
+            console.log(result,"All Receipts, Cashier Side")
+            console.log(result[result.length-1],"Last bill, Cashier Side")
+
+            
+            setLastBill(result[result.length-1])
+            
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    
+
+    useEffect(() => {
+        getReceipts();
+    },[])
+
 
     return (
         <div className="px-5 pt-5 space-y-2 ">
             <div className='flex flex-col justify-between'>
+                {/* Top Products  */}
                 <div className='space-y-2'>
                     <p className='text-xs font-semibold'>Top Items Today</p>
                     <div className='flex items-center space-x-5 overflow-x-scroll'>
@@ -150,10 +179,10 @@ const CashierHome = () => {
                         }
                     </div>
                 </div>
+                <span className='text-xs py-2 font-semibold'>Hot Offers Today</span>
                 <div className='py-5 flex justify-around space-x-10'>
                     {/* Promo Section  */}
                     <div className='w-2/3  flex flex-col justify-between space-y-5'>
-                        <p className='text-xs font-semibold'>Hot Offers Today</p>
                         <div className='space-y-3 '>
                             <div className="h-80 flex flex-col justify-between rounded-lg bg-white shadow-md ">
                                 <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhAgLPALYzf0ltYLCRVlIGWus8PVNBgUR2UBR0J3oCfGNvBm7kld0YKmqco4rVpHd5txU&usqp=CAU'} alt="Offer Image" className="rounded-t-lg h-2/3 w-full "/>
@@ -189,34 +218,32 @@ const CashierHome = () => {
                     </div>
 
                     {/* Side Bill  */}
-                    <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-md bg-white'>
+                    <div className='w-1/3 h-max space-y-4 p-4 flex flex-col justify-betwee rounded-md bg-white'>
                         <div className="space-y-2">
                             <div className='flex justify-between font-semibold'>
                                 <p className='text-sm'>Last Bill</p>
-                                <p className='text-sm'>8-mar-2020</p>
+                                <p className='text-sm'>{new Date(lastBill.receipt_date).toDateString()}</p>
                             </div>
                             <div className='flex justify-between  font-semibold'>
                                 <p className='text-sm'>Bill ID</p>
-                                <p className='text-sm'>ord-224</p>
+                                {/* <p className='text-sm'>{lastBill._id.slice(0,3)+"..."+lastBill._id.slice(lastBill._id.length-3,lastBill._id.length-1)}</p> */}
                             </div>
                         </div>
 
                         {
                                 
                             billItems.length > 0 ? (
-                                <div className="h-80 space-y-3 overflow-y-auto">
+                                <div className="max-h-[320px] space-y-3 overflow-y-auto">
                                     {
 
                                         billItems.map((billItem, index) => (
                                             
                                             <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
                                                 <div className="space-y-1" >
-                                                    <p className="text-xs space-x-1"><b>Product:</b> <span>{billItem.name}</span></p>
-                                                    <p className="text-xs space-x-1"><b>Price:</b> <span>{billItem.price.toFixed(2)} PKR</span></p>
+                                                    <p className="text-xs space-x-1"><b>Product:</b> <span>{billItem.product_name}</span></p>
+                                                    <p className="text-xs space-x-1"><b>Price:</b> <span>{billItem.price} PKR</span></p>
                                                 </div>
-                                                <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                                    <TrashIcon className="h-6 w-6 text-red-800" />
-                                                </button>
+                                                <span>x{billItem.quantity}</span>
                                             </div>
                                         ))
                                     }
@@ -232,7 +259,7 @@ const CashierHome = () => {
                             <div className='space-y-2'>
                                 <div className='flex justify-between text-gray-500'>
                                     <p className='text-xs'>Sub Total</p>
-                                    <p className='text-xs'>{subTotal.toFixed(2)} PKR</p>
+                                    <p className='text-xs'>{parseInt(subTotal).toFixed(2)} PKR</p>
                                 </div>
                                 <div className='flex justify-between  text-gray-500'>
                                     <p className='text-xs'>Discount</p>
@@ -259,11 +286,13 @@ const CashierHome = () => {
                                 </div>
                                 <div className='flex justify-between  text-gray-500'>
                                     <p className='text-xs'>Method</p>
-                                    <p className='text-xs'>Card</p>
+                                    <p className='text-xs'>{lastBill.payment_method}</p>
                                 </div>
                                 
                                 <div className="border-t-2 p-2 border-green-800 "></div>
-                                <button className="bg-[#44814E] text-white  p-2 text-sm rounded-xl">See Bill</button>
+                                <Link href={"/cashierHistory/" + lastBill._id}>
+                                    <button className="bg-[#44814E] text-white  p-2 text-sm rounded-xl">See Bill</button>
+                                </Link>
                             </div>
                         </div>
                     </div>
