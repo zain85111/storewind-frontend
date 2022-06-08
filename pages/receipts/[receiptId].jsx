@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/solid'
 
-const Receipt = ({ prod, id, query }) => {
+const Receipt = ({ query }) => {
     const [receipt, setReceipt] = useState({});
 
     useEffect(() => {
@@ -73,9 +73,9 @@ const Receipt = ({ prod, id, query }) => {
         
         <div>
         <Head>
-            <title>Storewind | Product Details</title>
+            <title>Storewind | Receipt Details</title>
         </Head>
-        <Navbar pageTitle={""} />
+        <Navbar pageTitle={"Receipt Details"} />
         <div className="p-4 m-2" key={receipt._id}>
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">

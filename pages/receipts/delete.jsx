@@ -7,7 +7,7 @@ import Navbar from "../../components/Navbar";
 const Delete = () => {
   const router = useRouter();
 
-  const deleteProduct = async () => {
+  const deleteReceipt = async () => {
     console.log(router.query.id);
     await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/", {
       method: "DELETE",
@@ -22,9 +22,9 @@ const Delete = () => {
   return (
     <div>
       <Head>
-        <title>Storewind | Delete Product</title>
+        <title>Storewind | Delete Receipt</title>
       </Head>
-      <Navbar pageTitle={"Delete Product"} />
+      <Navbar pageTitle={"Delete Receipt"} />
       <div className="p-4 m-2  items-center">
         <div className=" flex flex-col justify-evenly items-center h-72">
           <ExclamationCircleIcon className="h-32 w-32 text-red-500" />
@@ -40,7 +40,7 @@ const Delete = () => {
             </Link>
             <button
               type="button"
-              onClick={deleteProduct}
+              onClick={deleteReceipt}
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
             >
               Delete
