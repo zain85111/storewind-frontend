@@ -6,6 +6,59 @@ import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 import useToken from "../helper/useToken";
 
 
+const productData = [
+
+    {
+        "name": "Knife",
+        "id": "03",
+        "storeid": "store1",
+        "price": 12.00,
+        "discount": 0.00,
+        "brand": "MAC",
+        "categories": ["Kitchen"],
+        "tags": ["Kitchen","Cutlary"],
+        "location": "Aisle 3",
+        "inStock": 210,
+        "ExpiryDate": "2023-10-03 12:13",
+        "totalSold": 0,
+        "lastStockAddition": "2021-10-03 12:13",
+        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, ea."
+    },
+    {
+        "name": "Spoon",
+        "id": "04",
+        "storeid": "store1",
+        "price": 12.00,
+        "discount": 0.00,
+        "brand": "MAC",
+        "categories": ["Kitchen"],
+        "tags": ["Kitchen","Cutlary"],
+        "location": "Aisle 3",
+        "inStock": 210,
+        "ExpiryDate": "2023-10-03 12:13",
+        "totalSold": 0,
+        "lastStockAddition": "2021-10-03 12:13",
+        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, ea."
+    },
+    {
+        "name": "Fork",
+        "id": "05",
+        "storeid": "store1",
+        "price": 12.00,
+        "discount": 0.00,
+        "brand": "MAC",
+        "categories": ["Kitchen"],
+        "tags": ["Kitchen","Cutlary"],
+        "location": "Aisle 3",
+        "inStock": 210,
+        "ExpiryDate": "2023-10-03 12:13",
+        "totalSold": 0,
+        "lastStockAddition": "2021-10-03 12:13",
+        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, ea."
+    },
+
+];
+
 const Billing = () => {
     const { token } = useToken();
     console.log(token)
@@ -55,33 +108,38 @@ const Billing = () => {
 
     const [item, setItem] = useState(false)
 
+    const [products, setProducts] = useState([]);
+
+    const [cart, setCart] = useState({});
+
     const [scannedCodes, setScannedCodes] = useState([]);
 
+
+    const addToCart = (p) => {
+        var id = p.id;
+        if (freq[id]) {
+            freq[id]++;
+        } else {
+            freq[id] = 1;
+        }
+    }
+
     const activateLasers = async () => {
-        // try {
-        //     let scannedProdId = '1';
-        //     console.log(scannedProdId);
 
-        //     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/signin/", {
-        //         method: 'POST',
-        //         headers: {
-        //             'Accept': 'application/json, text/plain, */*',
-        //             'Content-Type': 'application/json'
-        //           },
-        //           credentials: "include",
-        //         body: JSON.stringify(send)
-        //     })
-
-
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-        var decodedText = "asdf";
-        var decodedResult = "asdfasdfasdf";
-        console.log(scannedCodes);
+        var decodedText = "03";
+        var decodedResult = "Product Sample";
+        // console.log(scannedCodes);
 
         setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
+        
+        var prod = productData.filter(function(p){
+            return p.id == decodedText;
+        });
+
+        addToCart(prod)
+
+        setProducts(products.concat(prod))
+        console.log(prod,"Prod");
     }
 
     useEffect(() => {
@@ -108,7 +166,7 @@ const Billing = () => {
 
         // ---------------------------
         
-    });
+    },);
 
 
     // Date of Today's Bill
@@ -120,23 +178,6 @@ const Billing = () => {
     d = `${da}-${mo}-${ye}`;
 
 
-    useEffect( async () => {
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
-            method: 'POST',
-            headers: {
-                
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            credentials: "include",
-            body: JSON.stringify({"_id": token.currentUser.iat })
-        });
-
-        let result = await response.json();
-        console.log(result)
-
-    },[])
-    
 
     return (
         <div>
@@ -193,21 +234,25 @@ const Billing = () => {
                             </div>
                                 {
                                     
-                                    scannedCodes.length > 0 ? (
-                                    <div className="h-80 space-y-3 overflow-y-auto">
+                                    products.length > 0 ? (
+                                    <div className="max-h-[320px] space-y-3 overflow-y-auto">
                                         {
 
-                                            scannedCodes.map((scannedCode, index) => (
-                                                
+                                            products.map((p, index) => (
+                                                <>
+                                                    {console.log(p.name)}
                                                 <div key={index} className="h-12 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
                                                     <div className="space-y-1" >
-                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{scannedCode.decodedText}</span></p>
-                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>15.00 PKR</span></p>
+                                                        <p className="text-xs space-x-1"><b>Product:</b> <span>{p.name}</span> <span>x3</span></p>
+                                                        <p className="text-xs space-x-1"><b>Price:</b> <span>{p.price} PKR</span></p>
+                                                        
                                                     </div>
                                                     <button  className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
-                                                        <TrashIcon className="h-6 w-6 text-red-800" />
+                                                        
+                                                        <TrashIcon className="h-5 w-5 text-red-800" />
                                                     </button>
                                                 </div>
+                                                </>
                                             ))
                                         }
                                         </div> 
