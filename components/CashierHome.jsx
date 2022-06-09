@@ -288,48 +288,6 @@ const Billing = () => {
     const { token } = useToken();
     console.log(token)
 
-    const similarProducts = [
-        {
-            'name': 'Product A',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product B',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product C',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product D',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product E',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product F',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product G',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product H',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product I',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-        {
-            'name': 'Product J',
-            'imgUrl': 'https://cdn.imgbin.com/5/7/12/imgbin-logo-product-design-brand-trademark-new-product-promotion-X3p7EtTUKtLBXCYQghE53G0Ax.jpg',
-        },
-    ]
 
     const [item, setItem] = useState(false)
 
@@ -377,24 +335,25 @@ const Billing = () => {
             payment_method:cashOrCard,
             products:productRec
     }
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
-            method: "POST",
-            headers: {
+    // // let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
+    // //         method: "POST",
+    // //         headers: {
             
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            credentials: "include",
-            body: JSON.stringify(reciept),
-        })
-        setCashOrCard("");
-        setDiscount(0);
-        setTotal(0);
-        setScannedCodes([]);
-        setShowList([]);
-        setNotFound("");
-        console.log(JSON.stringify(reciept))
-        console.log(await response.json());
+    // //             'Accept': 'application/json, text/plain, */*',
+    // //             'Content-Type': 'application/json'
+    // //         },
+    // //         credentials: "include",
+    // //         body: JSON.stringify(reciept),
+    // //     })
+    //     setCashOrCard("");
+    //     setDiscount(0);
+    //     setTotal(0);
+    //     setScannedCodes([]);
+    //     setShowList([]);
+    //     setNotFound("");
+        // console.log(JSON.stringify(reciept))
+        // console.log(await response.json());
+        print();
     }
 
     async function getProduct(id) {
@@ -497,7 +456,27 @@ const Billing = () => {
 
 
     return (
-        <div>
+        <div id="page">
+<style jsx global>{`
+       @media print {
+        body *{
+          visibility: hidden;
+        }
+      
+        #section-to-print, #section-to-print * {
+          visibility: visible;
+        }
+      
+        #section-to-print {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        #dontShow{
+            visibility: hidden;
+        }
+      }
+      `}</style>
             <Head>
                 <title>Storewind | Billing</title>
             </Head>
@@ -539,7 +518,7 @@ const Billing = () => {
                         </div>
 
                         {/* Side bill  */}
-                        <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-lg bg-white'>
+                        <div className='w-1/3 space-y-4 p-4 flex flex-col justify-between rounded-lg bg-white' id="section-to-print">
                             <div className="space-y-2">
                                 <div className='flex justify-between font-semibold'>
                                     <p className='text-sm'>Current Bill</p>
@@ -550,7 +529,7 @@ const Billing = () => {
                             {
 
                                     showList.length > 0 ? (
-                                    <div className="h-80 space-y-3 overflow-y-auto">
+                                    <div className="h-80 space-y-3 overflow-y-auto" >
                                         {
 
                                         showList.map((scannedCode, index) => (
@@ -603,9 +582,9 @@ const Billing = () => {
                                 <h4 className="font-semibold">Payment</h4>
                                 <div className='space-y-4 flex flex-col justify-between'>
                                     <div className="flex justify-between text-center">
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Cash")}}>Cash</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Card")}}>Card</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("E-wallet")}}>E-wallet</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Cash")}} id={cashOrCard == "Cash" ? " ":"dontShow"}>Cash</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Card")}} id={cashOrCard == "Card" ? " ":"dontShow"}>Card</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("E-wallet")}} id={cashOrCard == "E-wallet" ? " ":"dontShow"}>E-wallet</button>
                                     </div>
                                     <button className="bg-green-700 text-white  p-2 text-sm rounded-xl" onClick={printBill}>Print Bill</button>
                                 </div>
