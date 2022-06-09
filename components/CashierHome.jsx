@@ -335,24 +335,24 @@ const Billing = () => {
             payment_method:cashOrCard,
             products:productRec
     }
-    // // let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
-    // //         method: "POST",
-    // //         headers: {
+    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
+            method: "POST",
+            headers: {
             
-    // //             'Accept': 'application/json, text/plain, */*',
-    // //             'Content-Type': 'application/json'
-    // //         },
-    // //         credentials: "include",
-    // //         body: JSON.stringify(reciept),
-    // //     })
-    //     setCashOrCard("");
-    //     setDiscount(0);
-    //     setTotal(0);
-    //     setScannedCodes([]);
-    //     setShowList([]);
-    //     setNotFound("");
-        // console.log(JSON.stringify(reciept))
-        // console.log(await response.json());
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify(reciept),
+        })
+        setCashOrCard("");
+        setDiscount(0);
+        setTotal(0);
+        setScannedCodes([]);
+        setShowList([]);
+        setNotFound("");
+        console.log(JSON.stringify(reciept))
+        console.log(await response.json());
         print();
     }
 
