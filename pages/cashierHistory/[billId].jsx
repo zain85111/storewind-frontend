@@ -77,12 +77,10 @@ const Bill = ({ query }) => {
 
     // // const products = receipt.products;
 
-    // // let amount = 0;
-    // // let noOfItems = 0;
-    // // products.map(p => {
-    // //     amount += parseFloat(p.price);
-    // //     noOfItems += parseInt(p.quantity);
-    // // })
+    let noOfItems = 0;
+    receipt.products.map(p => {
+        noOfItems += parseInt(p.quantity);
+    })
 
     return (
         <div>
@@ -162,10 +160,13 @@ const Bill = ({ query }) => {
                                     
                                 </div>
                         </div>                   
-                        
+                        <div className="flex flex-col justify-between">
+                            <p className="font-bold">Payment Method:</p>
+                            <p className="">{receipt.payment_method} </p>
+                        </div>
                         <div className="flex flex-col justify-between">
                             <p className="font-bold">Narration:</p>
-                            <p className="">{receipt.narration} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, illum?</p>
+                            <p className="">{receipt.narration}</p>
                         </div>
                     </div>
                 </div>

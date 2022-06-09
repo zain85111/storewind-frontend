@@ -81,16 +81,16 @@ const Signin = (props) => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                                 />
-                                <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a>
+                                {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
                             </div>
-                            <div className="flex items-center space-x-2">
+                            {/* <div className="flex items-center space-x-2">
                                 <input
                                     type="checkbox"
                                     id="remember"
                                     className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-green-200"
                                 />
                                 <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
-                            </div>
+                            </div> */}
                             <div>
                                 <button onClick={() => { signIn() }} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4">Sign in
                                 </button>
