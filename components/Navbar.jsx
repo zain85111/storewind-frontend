@@ -25,7 +25,7 @@ const Navbar = ({ pageTitle }) => {
                     {/* <XIcon className='h-5 w-5 cursor-pointer'/> */}
                 </div>
                 <div className="flex flex-row space-x-4 justify-between items-center">
-                    <div className="flex items-center rounded-2xl p-1  space-x-4 bg-white ">
+                    {/* <div className="flex items-center rounded-2xl p-1  space-x-4 bg-white ">
                         <span>
                         <SearchIcon className="h-5 w-5 text-gray-400" />
                         </span>
@@ -34,8 +34,8 @@ const Navbar = ({ pageTitle }) => {
                         className="bg-transparent outline-none text-xs"
                         placeholder="Search..."
                         />
-                    </div>
-                    <Menu as="div" className="">
+                    </div> */}
+                    {/* <Menu as="div" className="">
                         <Menu.Button className="active:text-green-600">
                             <BellIcon className=" h-5 w-5" aria-hidden="true" />
                         </Menu.Button>
@@ -87,8 +87,8 @@ const Navbar = ({ pageTitle }) => {
                             </div>
                             </Menu.Items>
                         </Transition>
-                    </Menu>
-                    <Menu as="div" className="">
+                    </Menu> */}
+                    {/* <Menu as="div" className="">
                         <Menu.Button className="active:text-green-600">
                             <MailIcon className=" h-5 w-5" aria-hidden="true" />
                         </Menu.Button>
@@ -151,7 +151,7 @@ const Navbar = ({ pageTitle }) => {
                             </div>
                             </Menu.Items>
                         </Transition>
-                    </Menu>
+                    </Menu> */}
                     <Menu as="div" className="">
                             <Menu.Button className="active:text-green-600">
                                 <UserCircleIcon className=" h-5 w-5" aria-hidden="true" />
@@ -168,7 +168,7 @@ const Navbar = ({ pageTitle }) => {
                         >
                             <Menu.Items className="origin-top-right absolute right-4 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                             <div className="py-1">
-                                <Menu.Item>
+                                {/* <Menu.Item>
                                 {({ active }) => (
                                     <a
                                     href="#"
@@ -178,7 +178,7 @@ const Navbar = ({ pageTitle }) => {
                                     )}
                                     >My Profile</a>
                                 )}
-                                </Menu.Item>
+                                </Menu.Item> */}
                                 <Menu.Item>
                                     {({ active }) => (
                                     <button

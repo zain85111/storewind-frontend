@@ -186,8 +186,12 @@ const Receipt = ({ query }) => {
                     </div>                   
                     
                     <div className="flex flex-col justify-between">
+                        <p className="font-bold">Payment Method:</p>
+                        <p className="">{receipt.payment_method} </p>
+                    </div>
+                    <div className="flex flex-col justify-between">
                         <p className="font-bold">Narration:</p>
-                        <p className="">{receipt.narration} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, illum?</p>
+                        <p className="">{receipt.narration} </p>
                     </div>
                 </div>
             </div>

@@ -180,7 +180,7 @@ const Receipts = () => {
             <Navbar pageTitle={"Receipts"} />
             {/* Content  */}
             <div className="p-4 space-y-2 relative">
-                <div className="flex justify-end items-center h-14 ">
+                <div className="flex justify-end items-center max-h-[54px] ">
                     {receipts ? (
                     <>
                         <div className="flex space-x-4 ">
@@ -192,7 +192,7 @@ const Receipts = () => {
                                 <p>Add Receipt</p>
                             </button>
                         </Link> */}
-                        <Menu as="div" className="">
+                        {/* <Menu as="div" className="">
                             <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                 <FilterIcon className="h-4 w-4 text-green-800" />
                                 <p>Filter</p>
@@ -233,7 +233,7 @@ const Receipts = () => {
                                     </div>
                                 </Menu.Items>
                             </Transition>
-                        </Menu>
+                        </Menu> */}
                         </div>
                     </>
                     ) : (
@@ -246,7 +246,7 @@ const Receipts = () => {
                         <table className=" hover:border-collapse w-full text-center items-center align-middle">
                             <thead className="">
                                 <tr className="h-14 bg-white border-b rounded-md text-sm">
-                                    <th className="space-x-4 p-2"><input type="checkbox" /></th>
+                                    {/* <th className="space-x-4 p-2"><input type="checkbox" /></th> */}
                                     <th>Sr</th>
                                     <th>ID</th>
                                     <th>No. Of Items</th>
@@ -264,9 +264,9 @@ const Receipts = () => {
                                 className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
                                 key={item._id}
                                 >
-                                <td className="space-x-4 p-2 min-w-max">
+                                {/* <td className="space-x-4 p-2 min-w-max">
                                     <input type="checkbox" id="itemChk" />
-                                </td>
+                                </td> */}
 
                                 <td>{i + 1}</td>
                                 <td>{item._id.slice(0,3)+"..."+item._id.slice(item._id.length-3,item._id.length-1)}</td>
@@ -275,7 +275,7 @@ const Receipts = () => {
                                 <td>{new Date(item.receipt_date).toDateString()}</td>
                                 <td>{item.emp_id.slice(0,7)+"..."}</td>
                                 <td>urs-24</td>
-                                <td>Cash</td>
+                                <td>{item.payment_method}</td>
                                 <td className=" flex justify-center py-2 ">
                                     <Menu as="div" className="">
                                         <Menu.Button className="active:text-green-600">

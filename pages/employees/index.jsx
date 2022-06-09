@@ -203,7 +203,7 @@ const Employees = () => {
                             <p>Add Employees</p>
                             </button>
                         </Link>
-                        <Menu as="div" className="">
+                        {/* <Menu as="div" className="">
                             <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                 <FilterIcon className="h-4 w-4 text-green-800" />
                                 <p>Filter</p>
@@ -244,7 +244,7 @@ const Employees = () => {
                                     </div>
                                 </Menu.Items>
                             </Transition>
-                        </Menu>
+                        </Menu> */}
                         </div>
                     </>
                     ) : (
@@ -257,7 +257,7 @@ const Employees = () => {
                         <table className=" hover:border-collapse w-full text-center items-center align-middle">
                             <thead className="">
                                 <tr className="h-14 bg-white border-b text-sm rounded-md">
-                                    <th className="space-x-4 p-2"><input type="checkbox" /></th>
+                                    {/* <th className="space-x-4 p-2"><input type="checkbox" /></th> */}
                                     <th>Sr</th>
                                     <th>ID</th>
                                     <th>Full Name</th>
@@ -275,9 +275,9 @@ const Employees = () => {
                                 className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
                                 key={item.id}
                                 >
-                                <td className="space-x-4 p-2 min-w-max">
+                                {/* <td className="space-x-4 p-2 min-w-max">
                                     <input type="checkbox" id="itemChk" />
-                                </td>
+                                </td> */}
                                 <td>{i + 1}</td>
                                 <td>{item._id.slice(0,3)+"..."+item._id.slice(item._id.length-3,item._id.length-1)}</td>
                                 <td>{item.emp_name}</td>
