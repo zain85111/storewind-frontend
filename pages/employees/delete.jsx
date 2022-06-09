@@ -12,6 +12,11 @@ const Delete = () => {
         console.log(router.query.id);
         await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/", {
             method: "DELETE",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
             body: JSON.stringify({ emp_id: router.query.id }),
         }).then(() => {
             setTimeout(() => {

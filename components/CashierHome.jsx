@@ -334,13 +334,21 @@ const Billing = () => {
     const [item, setItem] = useState(false)
 
     const [scannedCodes, setScannedCodes] = useState([]);
-    const [notFound, setNotFound] = useState(false);
+    const [notFound, setNotFound] = useState("");
     const [showList, setShowList] = useState([]);
     const [total, setTotal] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [cashOrCard, setCashOrCard] = useState("");
 
     const printBill = async ()=>{
+        if(scannedCodes.length == 0){
+            setNotFound("Scan a product first");
+            return;
+        }
+        if(cashOrCard == ""){
+            setNotFound("Select Payment Method");
+            return;
+        }
         let d = new Date();
         let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
         let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
@@ -379,6 +387,12 @@ const Billing = () => {
             credentials: "include",
             body: JSON.stringify(reciept),
         })
+        setCashOrCard("");
+        setDiscount(0);
+        setTotal(0);
+        setScannedCodes([]);
+        setShowList([]);
+        setNotFound("");
         console.log(JSON.stringify(reciept))
         console.log(await response.json());
     }
@@ -393,9 +407,9 @@ const Billing = () => {
         let result = await response.json();
 
         if (result.Name == "") {
-            setNotFound(true);
+            setNotFound("Product Not Found");
         } else {
-            setNotFound(false);
+            setNotFound("");
             
             // let res = JSON.stringify(scannedCodes);
             // res = JSON.parse(res);
@@ -516,7 +530,7 @@ const Billing = () => {
                             <p className='text-lg font-semibold'>Start Bill </p>
                             <div className='flex flex-col space-y-3 '>
                                 <div className="w-full px-8">
-                                    {notFound ? <div className="text-xl font-extrabold text-red-600 text-center">Not Found</div> : ""}
+                                    <div className="text-xl font-extrabold text-red-600 text-center">{notFound}</div>
                                     <div id="reader" width="600px"></div>
                                 </div>
                             </div>
@@ -589,9 +603,9 @@ const Billing = () => {
                                 <h4 className="font-semibold">Payment</h4>
                                 <div className='space-y-4 flex flex-col justify-between'>
                                     <div className="flex justify-between text-center">
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>setCashOrCard("Cash")}>Cash</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>setCashOrCard("Card")}>Card</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>setCashOrCard("E-wallet")}>E-wallet</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Cash")}}>Cash</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Card")}}>Card</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("E-wallet")}}>E-wallet</button>
                                     </div>
                                     <button className="bg-green-700 text-white  p-2 text-sm rounded-xl" onClick={printBill}>Print Bill</button>
                                 </div>
