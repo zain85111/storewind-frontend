@@ -51,7 +51,7 @@ const Products = () => {
   })
   useEffect(() => {
     
-    getData();
+    // getData();
   }, []);
 
   return (

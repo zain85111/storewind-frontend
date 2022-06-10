@@ -60,6 +60,7 @@ const Content = ({ data }) => {
       }); 
       if (data.ok) {
         let res = await data.json()
+        console.log(res,"Result")
         setProductData(res[0].categories[0].products);
         
       }
@@ -185,7 +186,6 @@ const Content = ({ data }) => {
   ];
 
   useEffect(() => {
-    console.log("aaaaaaaaaaaaa")
     getData();
   },[])
 

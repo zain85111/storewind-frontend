@@ -3,28 +3,27 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import useToken from "../../helper/useToken";
 
-const Item = ({ prod, id, query }) => {
+const Item = ({  query }) => {
+  const router = useRouter();
+  const { token } = useToken();
+
   const [item, setItem] = useState({});
   useEffect(() => {
     getData().then((d) => {
-      console.log(d);
+      console.log(d,"Product Details Page");
       setItem(d);
     });
   }, []);
 
   const getData = async () => {
-    console.log(query.itemId);
+    console.log(router.query.itemId);
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
-      body: JSON.stringify({ id: query.itemId }),
+      credentials: "include",
+      body: JSON.stringify({ id: router.query.itemId, storeId: token.currentUser.email })
     });
-
-    // const data = await fetch("http://18.116.39.224:8080/product/", {method="POST", body:JSON.stringify({
-    //     id: query.itemId,
-    //     })});
-    // data.json().then(d=>{setItem(d); console.log(d)});
     return data.json();
   };
 
@@ -34,7 +33,7 @@ const Item = ({ prod, id, query }) => {
         <title>Storewind | Product Details</title>
       </Head>
       <Navbar pageTitle={item.name } />
-      <div className="p-4 m-2" key={item.id}>
+      <div className="p-4 m-2" key={item.Id}>
         <div className="py-4 flex justify-between space-x-10 ">
           <div className="w-96 ">
             <img src="https://picsum.photos/200" alt="Product Img" />
@@ -42,43 +41,62 @@ const Item = ({ prod, id, query }) => {
           <div className="w-full text space-y-10">
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Name</p>
-              <p className="">{item.name}</p>
+              <p className="">{item.Name}</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Brand</p>
-              <p className="">{item.brand}</p>
+              <p className="">{item.Brand}</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
-              <p className="font-bold">Category</p>
-              <p className="">{item.categories.map(c=>(c))}</p>
+              <p className="font-bold">Category </p>
+              {
+                item.Categories ? <><p className="">{item.Categories.map((c, i) => (<span>{c} {i < item.Categories.length-1?<>, </>:<></>}</span>))}</p></>
+                  : <></>
+              }
+
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Tags</p>
-              <p className="">{item.tags.map(c=>(c))}</p>
+              {
+                item.Tags ? <><p className="">{item.Tags.map((c, i) => (<span>{c} {i < item.Tags.length-1?<>, </>:<></>}</span>))}</p></>
+                  : <></>
+              }
             </div>
 
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Price</p>
-              <p className="">{item.price} PKR</p>
+              <p className="">{item.Price} PKR</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Discount</p>
-              <p className="">{item.discount}</p>
+              <p className="">{item.Discount} %</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Stock</p>
-              <p className="">{item.inStock}</p>
+              <p className="">{item.InStock}</p>
+            </div>
+            <div className="flex justify-between text-center border-b border-black  ">
+              <p className="font-bold">Location</p>
+              <p className="">{item.Location}</p>
+            </div>
+            <div className="flex justify-between text-center border-b border-black  ">
+              <p className="font-bold">Last Stock Addition</p>
+              <p className="">{new Date(item.LastStockAddition).toDateString()}</p>
             </div>
             <div className="flex justify-between text-center border-b border-black  ">
               <p className="font-bold">Barcode</p>
-              <p className="">{item.id}</p>
+              <p className="">{item.Id}</p>
+            </div>
+            <div className="flex justify-between text-center border-b border-black  ">
+              <p className="font-bold">Description</p>
+              <p className="">{item.Description}</p>
             </div>
           </div>
         </div>
 
         {/* Buttons */}
         <div className="pt-4 space-x-4 flex justify-end items-center">
-          <Link href={"/products/edit/?id=" + item.id}>
+          <Link href={"/products/edit/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-400 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
@@ -86,7 +104,7 @@ const Item = ({ prod, id, query }) => {
               Edit
             </button>
           </Link>
-          <Link href={"/products/delete/?id=" + item.id}>
+          <Link href={"/products/delete/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
