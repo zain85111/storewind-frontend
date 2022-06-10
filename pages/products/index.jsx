@@ -22,7 +22,6 @@ const Products = () => {
     try {
       const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/", {
         method: "POST",
-        // mode:'no-cors',
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
@@ -32,7 +31,8 @@ const Products = () => {
       }); 
       if (data.ok) {
         let res = await data.json()
-        setResult (res);
+        setResult(res);
+        console.log(res);
         
       }
       

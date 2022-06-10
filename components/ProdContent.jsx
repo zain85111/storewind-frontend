@@ -16,71 +16,11 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/solid";
 import { Menu, Transition, Dialog, Listbox } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
+import useToken from "../helper/useToken";
 
-const people = [
-  {
-    id: 1,
-    name: "Wade Cooper",
-    avatar:
-      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    name: "Arlene Mccoy",
-    avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    name: "Devon Webb",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
-  },
-  {
-    id: 4,
-    name: "Tom Cook",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 5,
-    name: "Tanya Fox",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 6,
-    name: "Hellen Schmidt",
-    avatar:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 7,
-    name: "Caroline Schultz",
-    avatar:
-      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 8,
-    name: "Mason Heaney",
-    avatar:
-      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 9,
-    name: "Claudie Smitham",
-    avatar:
-      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 10,
-    name: "Emil Schaefer",
-    avatar:
-      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
+
 
 const filters = [
   {
@@ -102,13 +42,35 @@ function classNames(...classes) {
 }
 
 const Content = ({ data }) => {
+  const {token} = useToken()
+
   const [productData, setProductData] = useState([]);
 
 
+  const getData = async () => {
+    try {
+      const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        credentials: "include",
+        body: JSON.stringify({ store_id: token.currentUser.email }),
+      }); 
+      if (data.ok) {
+        let res = await data.json()
+        setProductData(res[0].categories[0].products);
+        
+      }
+      
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
 
-
-  setProductData( data.products[0].categories[0].products);
+  // setProductData( data.products[0].categories[0].products);
   console.log(productData, "Products");
   
   const pproductData = [
@@ -222,6 +184,11 @@ const Content = ({ data }) => {
     },
   ];
 
+  useEffect(() => {
+    console.log("aaaaaaaaaaaaa")
+    getData();
+  },[])
+
   return (
     <div className="p-4 space-y-2">
       <div className="flex justify-end items-center h-14 ">
@@ -322,12 +289,12 @@ const Content = ({ data }) => {
                       <img src="https://picsum.photos/200" alt="" className="h-5 w-5 "/>
                     </div>
                   </td>
-                  <td>{item.name}</td>
-                  <td>{item.brand}</td>
-                  <td>{item.categories[0]}</td>
-                  <td>{item.price}</td>
-                  <td>{item.discount}</td>
-                  <td>{item.inStock}</td>
+                  <td>{item.Name}</td>
+                  <td>{item.Brand}</td>
+                  <td>{item.Categories[0]}</td>
+                  <td>{item.Price}</td>
+                  <td>{item.Discount}</td>
+                  <td>{item.InStock}</td>
                   {/* <td>{item.LastStockAddition.slice(0, 16)}</td> */}
                   <td className=" flex justify-center py-2 ">
                     <Menu as="div" className="">
@@ -360,7 +327,7 @@ const Content = ({ data }) => {
                                   )}
                                 >
                                   <Link
-                                    href={"/products/" + item.id}
+                                    href={"/products/" + item.Id}
                                     key={item.Id}
                                   >
                                     <button className="flex space-x-2">
@@ -401,7 +368,7 @@ const Content = ({ data }) => {
                                   )}
                                 >
                                   <Link
-                                    href={"/products/delete/?id=" + item.id}
+                                    href={"/products/delete/?id=" + item.Id}
                                   >
                                     <button className="flex space-x-2">
                                       <TrashIcon className="h-5 w-5" />

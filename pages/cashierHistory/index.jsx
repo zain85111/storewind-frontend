@@ -34,7 +34,7 @@ const CashierHistory = () => {
     }
     
     useEffect(() => {
-        if (token.currentUser.rolename != 'FMP') {
+        if (token.currentUser.rolename != 'EMP') {
             router.push('/')
         }
     })
