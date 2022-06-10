@@ -72,6 +72,11 @@ const Content = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    console.log("aaaaaaaaaaaaa")
+    getData();
+  },[])
+
   return (
     <div className="p-4 space-y-2">
       <div className="flex justify-end items-center h-14 ">
