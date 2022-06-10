@@ -17,7 +17,8 @@ const AddEmployee = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
+    const [address, setAddress] = useState("");
+    const [salary, setSalary] = useState("");
 
     const addEmployee = async (e) => {
 
@@ -34,7 +35,8 @@ const AddEmployee = () => {
             "cnic": cnic,
             "totalSales": "0",
             "phone": phone,
-            "emp_id": email
+            "emp_id": email,
+            "emp_mail": email,"address": address,"salary":salary
         }
 
         console.log(document.cookie)
@@ -43,10 +45,29 @@ const AddEmployee = () => {
 
         let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees", {
             method: "POST",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
             credentials: "include",
             body: JSON.stringify(empBody)
         })
-
+        const empSignup = {
+            "roleName": "EMP",
+            "email": email,
+            "password": password,
+        }
+        console.log(empSignup);
+        let ress2 = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/signup", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            credentials: "include",
+            body: JSON.stringify(empSignup)
+        })
+        console.log(await ress2.json());
         let res = await response
         console.log(res);
 
@@ -55,7 +76,7 @@ const AddEmployee = () => {
                 router.push("/employees");
             }, 1000);
         }
-        
+       
     };
 
 
@@ -117,7 +138,38 @@ const AddEmployee = () => {
                             className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
                             />
                         </div>
-                        
+                        <div className=" col-span-6 sm:col-span-4">
+                            <label
+                            htmlFor="salary"
+                            className="block text-sm font-medium text-gray-700"
+                            >
+                            Salary
+                            </label>
+                            <input
+                            type="text"
+                            name="salary"
+                            id="salary"
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
+                            className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                            />
+                        </div>
+                        <div className=" col-span-6 sm:col-span-4">
+                            <label
+                            htmlFor="address"
+                            className="block text-sm font-medium text-gray-700"
+                            >
+                            Address
+                            </label>
+                            <input
+                            type="text"
+                            name="address"
+                            id="address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                            />
+                        </div>
                         <div className=" col-span-6 sm:col-span-4">
                             <label
                             htmlFor="email"
@@ -171,6 +223,7 @@ const AddEmployee = () => {
             </div>
         </div>
     );
+    
 };
 
 

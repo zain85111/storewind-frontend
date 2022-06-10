@@ -27,67 +27,23 @@ const CashierHistory = () => {
             console.log(result,"All Receipts, Cashier Side")
 
             setReceipts(result)
+            console.log(result);
+
             
         } catch (err) {
             console.log(err);
         }
     }
     
-    useEffect(() => {
-        if (token.currentUser.rolename != 'FMP') {
-            router.push('/')
-        }
-    })
+    // useEffect(() => {
+    //     if (token.currentUser.rolename != 'FMP') {
+    //         router.push('/')
+    //     }
+    // })
 
     useEffect(() => {
         getReceipts();
     },[])
-
-    const orders = [
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-        {
-            'id': 'ord-24',
-            'numOfProds': 4,
-            'totalBill': 359.00,
-            'date': '2-Mar-2022',
-        },
-    ]
-
 
 
     return (
@@ -103,7 +59,7 @@ const CashierHistory = () => {
                         <>
                             <div className="space-y-4">
                                 {
-                                    receipts.slice(0, 5).map((order) => (
+                                    receipts.map((order) => (
                                         <div className="px-4 py-2 h-24 rounded-lg flex align-middle items-center justify-between bg-white">
                                             <div className="flex flex-col justify-between h-full ">
                                                 <p className="space-x-2 text-sm"><b>Order Id:</b> <span>{ order._id }</span></p>

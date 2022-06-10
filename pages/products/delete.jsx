@@ -11,9 +11,10 @@ const Item = () => {
   const deleteProduct = async () => {
     // const data = api.delete("/" + router.query.id);
     // console.log(data);
-    console.log(router.query.id);
-    await fetch("http://18.116.39.224:8080/product/", {
-      method: "DELETE",
+    console.log(JSON.stringify({ id: router.query.id }));
+    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/delete", {
+      method: "post",
+      credentials: "include",
       body: JSON.stringify({ id: router.query.id }),
     }).then(() => {
       setTimeout(() => {

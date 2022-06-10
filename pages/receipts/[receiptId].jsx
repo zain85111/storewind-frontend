@@ -13,7 +13,9 @@ const Receipt = ({ query }) => {
 
 
     const [receipt, setReceipt] = useState({});
-
+    const [amounts, setAmounts ]= useState(0);
+    const [noOfItem, setNoOfItems ]= useState(0);
+    const [products, setProducts] = useState(null);
     useEffect(() => {
         getReceipts().then((recs) => {
             console.log(router.query.receiptId)
@@ -21,9 +23,22 @@ const Receipt = ({ query }) => {
 
             recs.map(e => {
                 if (e._id === router.query.receiptId) {
+                    const product = e.products;
+
+                    let amount = 0;
+                    let noOfItems = 0;
+                    product.map(p => {
+                        amount += parseFloat(p.price);
+                        noOfItems += parseInt(p.quantity);
+                    })
+                    setProducts(product)
+                    setNoOfItems(noOfItems);
+                    setAmounts(amount);
                     setReceipt(e);
                 }
             })
+
+   
             console.log(receipt.products,"Current receipt, details page")
 
         });
@@ -96,14 +111,7 @@ const Receipt = ({ query }) => {
         },
     ]
 
-    const products = receipt.products;
-
-    let amount = 0;
-    let noOfItems = 0;
-    products.map(p => {
-        amount += parseFloat(p.price);
-        noOfItems += parseInt(p.quantity);
-    })
+    
 
     return (
         
@@ -112,6 +120,7 @@ const Receipt = ({ query }) => {
             <title>Storewind | Receipt Details</title>
         </Head>
         <Navbar pageTitle={"Receipt Details"} />
+        {receipt == null?"":
         <div className="p-4 m-2" key={receipt._id}>
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">
@@ -134,12 +143,13 @@ const Receipt = ({ query }) => {
                     </div>
                     <div className="flex justify-between">
                         <p className="font-bold">No. of Items:</p>
-                        <p className="">{noOfItems}</p>
+                        <p className="">{noOfItem}</p>
                     </div>
                     <div className="flex flex-col justify-between ">
                         <p className="font-bold">Products</p>
                             <div className="w-full space-y-2 pt-3 max-h-[320px] overflow-y-auto">
                                 {
+                                    products == null?"":
                                     products.map((p,i) => (         
                                         <Disclosure key={i}>
                                         {({ open }) => (
@@ -216,6 +226,7 @@ const Receipt = ({ query }) => {
             </Link>
             </div>
         </div>
+}
         </div>
     );
 };

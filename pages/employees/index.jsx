@@ -156,14 +156,14 @@ const Employees = () => {
     
             // let result = await response.json();
 
-            const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+            const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_all", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
                 },
                 credentials: "include",
-                body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
+                body: JSON.stringify({ store_id:token.currentUser.email }),
             });
             let res = await data.json()
             setEmployees(res)
@@ -262,7 +262,7 @@ const Employees = () => {
                                     <th>ID</th>
                                     <th>Full Name</th>
                                     <th>Phone</th>
-                                    <th>City</th>
+                                    {/* <th>City</th> */}
                                     <th>Salary</th>
                                     <th>Joined On</th>
                                     <th>Sales</th>
@@ -282,8 +282,8 @@ const Employees = () => {
                                 <td>{item._id.slice(0,3)+"..."+item._id.slice(item._id.length-3,item._id.length-1)}</td>
                                 <td>{item.emp_name}</td>
                                 <td>{item.phone}</td>
-                                <td>{item.city}Lahore</td>
-                                <td>{item.salary}30,000</td>
+                                {/* <td>{item.address}</td> */}
+                                <td>{item.salary}</td>
                                 <td>{new Date(item.joining_date).toDateString()}</td>
                                 <td>{item.totalSales}</td>
                                 <td className=" flex justify-center py-2 ">
