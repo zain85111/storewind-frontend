@@ -47,15 +47,10 @@ const Edit = ({ item }) => {
   const [prodStock, setProdStock] = useState("");
   const [prodAisle, setProdAisle] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
-<<<<<<< HEAD
-  const [prodDesc, setProdDesc] = useState("");
-
-=======
   const [location, setLocation] = useState("");
   const [cost, setCost] = useState(0);
   const [description, setDescription] = useState("")
   const [sold, setSold] = useState(0);
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
   useEffect(() => {
     getData().then((d) => {
       console.log(d);
@@ -78,16 +73,7 @@ const Edit = ({ item }) => {
   const getData = async () => {
     console.log(router.query.id, "Product Id");
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
-      method: "POST",
-<<<<<<< HEAD
-      // headers: {
-      //     'Accept': 'application/json, text/plain, */*',
-      //     'Content-Type': 'application/json'
-      // },
-=======
-      // mode: "no-cors",
-    
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
+      method: "POST",    
       credentials: "include",
       body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
     });
@@ -280,11 +266,7 @@ const Edit = ({ item }) => {
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-<<<<<<< HEAD
-                            {cats.map((cat,i) => (
-=======
                             { people ? "" : people.map((person) => (
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
@@ -543,10 +525,6 @@ const Edit = ({ item }) => {
               </div>
 
               {/* Photo Section  */}
-<<<<<<< HEAD
-
-=======
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
               {/* <div className="space-y-4 col-span-6 sm:col-span-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Product Photo

@@ -49,11 +49,6 @@ const Content = () => {
       }); 
       if (data.ok) {
         let res = await data.json()
-<<<<<<< HEAD
-        console.log(res,"Result")
-        setProductData(res[0].categories[0].products);
-        
-=======
         let prod = []
 
         for(let i =0;i<res[0].categories.length;i++){
@@ -61,7 +56,6 @@ const Content = () => {
         }
         setProductData(prod);
         console.log(prod);
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
       }
       
     } catch (err) {

@@ -9,18 +9,11 @@ const Item = () => {
   const router = useRouter();
 
   const deleteProduct = async () => {
-<<<<<<< HEAD
-
-    console.log(router.query.id);
-    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/delete", {
-      method: "POST",
-=======
     // const data = api.delete("/" + router.query.id);
     // console.log(data);
     console.log(JSON.stringify({ id: router.query.id }));
     await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/delete", {
       method: "post",
->>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
       credentials: "include",
       body: JSON.stringify({ id: router.query.id }),
     }).then(() => {
