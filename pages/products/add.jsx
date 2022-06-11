@@ -60,8 +60,8 @@ const Item = () => {
     const prodBody = {
       "name": prodName,
       "id": prodBarcode,
-      "price": 21.99,
-      "discount": 1.1,
+      "price": parseFloat((parseFloat(prodPrice) - 0.01).toFixed(2)),
+      "discount": parseFloat((parseFloat(prodDiscount) -0.01).toFixed(2)),
       "brand": prodBrand,
       "categories": selectedCat,
       "tags": selectedTags,

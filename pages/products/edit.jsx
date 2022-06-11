@@ -46,7 +46,9 @@ const Edit = ({ item }) => {
   const [prodDiscount, setProdDiscount] = useState(0.0);
   const [prodStock, setProdStock] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
+  const [location, setLocation] = useState("");
 
+  const [sold, setSold] = useState(0);
   useEffect(() => {
     getData().then((d) => {
       console.log(d);
@@ -59,6 +61,8 @@ const Edit = ({ item }) => {
       setProdDiscount(d.Discount);
       setProdStock(d.InStock);
       setProdBarcode(d.Id);
+      setSold(d.TotalSold);
+      setLocation(d.Location);
     });
   }, []);
 
@@ -91,21 +95,17 @@ const Edit = ({ item }) => {
       StoreId: "20",
       Categories: selectedCat,
       Tags: selectedTags,
-      Location: "Aisle 3",
+      Location: location,
       InStock: parseInt(prodStock),
       LastStockAddition:
       date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       ExpiryDate: "2021-10-03 12:13",
-      TotalSold: 0,
+      TotalSold: sold,
     };
     console.log(JSON.stringify(reqBody));
     
     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/update", {
       method: "POST",
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
       credentials: "include",
       body: JSON.stringify(reqBody)
     })
@@ -180,7 +180,7 @@ const Edit = ({ item }) => {
                 />
               </div>
               {/* Select Inputs  */}
-              <div className="space-y-2 col-span-6 sm:col-span-4">
+              {/* <div className="space-y-2 col-span-6 sm:col-span-4">
                 <Listbox onChange={() => {}}>
                   {({ open }) => (
                     <div>
@@ -272,7 +272,7 @@ const Edit = ({ item }) => {
                     </div>
                   )}
                 </Listbox>
-              </div>
+              </div> */}
               <div className=" col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodBrand"
@@ -320,6 +320,22 @@ const Edit = ({ item }) => {
                       </div>
                     ))
                   : null}
+              </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                />
               </div>
               {/* Number Inputs  */}
               {/* <div className="col-span-6 sm:col-span-4">
@@ -388,7 +404,7 @@ const Edit = ({ item }) => {
               </div>
 
               {/* Photo Section  */}
-              <div className="space-y-4 col-span-6 sm:col-span-4">
+              {/* <div className="space-y-4 col-span-6 sm:col-span-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Product Photo
                 </label>
@@ -426,7 +442,7 @@ const Edit = ({ item }) => {
                     <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 space-x-4">
               <Link href="/products">
