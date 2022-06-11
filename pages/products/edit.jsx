@@ -33,7 +33,7 @@ const Edit = ({ item }) => {
   const router = useRouter();
   const {token, setToken} = useToken();
 
-  const [cats, setCats] = useState([]);
+  //   const [item, setItem] = useState({});
 
   const [selectedCat, setSelectedCat] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -45,7 +45,6 @@ const Edit = ({ item }) => {
   const [prodPrice, setProdPrice] = useState(0.0);
   const [prodDiscount, setProdDiscount] = useState(0.0);
   const [prodStock, setProdStock] = useState("");
-  const [prodAisle, setProdAisle] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
   const [location, setLocation] = useState("");
   const [cost, setCost] = useState(0);
@@ -73,7 +72,9 @@ const Edit = ({ item }) => {
   const getData = async () => {
     console.log(router.query.id, "Product Id");
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
-      method: "POST",    
+      method: "POST",
+      // mode: "no-cors",
+    
       credentials: "include",
       body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
     });
@@ -106,24 +107,7 @@ const Edit = ({ item }) => {
       Cost: cost,
       Description: description
     };
-
-    const prodBody = {
-      "name": prodName,
-      "id": prodBarcode,
-      "price": 21.99,
-      "discount": 1.1,
-      "brand": prodBrand,
-      "categories": selectedCat,
-      "tags": selectedTags,
-      "location": prodAisle,
-      "inStock": parseInt(prodStock),
-      "ExpiryDate": "2023-10-03 12:13",
-      "totalSold": 0,
-      "cost": parseInt(prodCost),
-      "lastStockAddition": date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
-      "description": prodDesc
-    }
-    console.log(prodBody);
+    console.log(JSON.stringify(reqBody));
     
     let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/update", {
       method: "POST",
@@ -157,30 +141,6 @@ const Edit = ({ item }) => {
     }
     console.log(selectedCat);
   };
-
-  const getCategories = async () => {
-    try {
-      const response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/names", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-        credentials: "include",
-        body: JSON.stringify({ store_id: token.currentUser.email })
-        // body: JSON.stringify({store_id:"6299fdaf2ac2473303d0dcb5"})
-      })
-      let res = await response.json()
-      setCats(res);
-      console.log(res,"Category Names")
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    getCategories()
-  },[])
 
   return (
     <div>
@@ -268,7 +228,7 @@ const Edit = ({ item }) => {
                           <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                             { people ? "" : people.map((person) => (
                               <Listbox.Option
-                                key={i}
+                                key={person.id}
                                 className={({ active }) =>
                                   classNames(
                                     active
@@ -277,12 +237,16 @@ const Edit = ({ item }) => {
                                     "cursor-default select-none relative py-2 pl-3 pr-9"
                                   )
                                 }
-                                value={cat}
+                                value={person}
                               >
                                 {({ selected, active }) => (
                                   <>
                                     <div className="flex items-center">
-                                      
+                                      <img
+                                        src={person.avatar}
+                                        alt=""
+                                        className="flex-shrink-0 h-6 w-6 rounded-full"
+                                      />
                                       <span
                                         className={classNames(
                                           selectedCat
@@ -291,7 +255,7 @@ const Edit = ({ item }) => {
                                           "ml-3 block truncate"
                                         )}
                                       >
-                                        {cat}
+                                        {person.name}
                                       </span>
                                     </div>
 
@@ -307,10 +271,10 @@ const Edit = ({ item }) => {
                                         <input
                                           type="checkbox"
                                           onChange={() =>
-                                            selectCategory(cat)
+                                            selectCategory(person.name)
                                           }
                                           defaultChecked={
-                                            selectedCat.includes(cat)
+                                            selectedCat.includes(person.name)
                                               ? true
                                               : false
                                           }
@@ -395,7 +359,7 @@ const Edit = ({ item }) => {
                 />
               </div>
               {/* Number Inputs  */}
-              <div className="col-span-6 sm:col-span-4">
+              {/* <div className="col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodCost"
                   className="block text-sm font-medium text-gray-700"
@@ -410,7 +374,7 @@ const Edit = ({ item }) => {
                   onChange={(e) => setProdCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
-              </div>
+              </div> */}
               <div className="col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodPrice"
@@ -472,54 +436,6 @@ const Edit = ({ item }) => {
                   id="prodStock"
                   value={prodStock}
                   onChange={(e) => setProdStock(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
-              </div>
-              <div className=" col-span-6 sm:col-span-4">
-                <label
-                  htmlFor="prodBarcode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Aisle No.
-                </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodAisle}
-                  onChange={(e) => setProdAisle(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
-              </div>
-              <div className=" col-span-6 sm:col-span-4">
-                <label
-                  htmlFor="prodBarcode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Barcode
-                </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodBarcode}
-                  onChange={(e) => setProdBarcode(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
-              </div>
-              <div className=" col-span-6 sm:col-span-4">
-                <label
-                  htmlFor="prodBarcode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Description
-                </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodDesc}
-                  onChange={(e) => setProdDesc(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
               </div>
