@@ -47,7 +47,8 @@ const Edit = ({ item }) => {
   const [prodStock, setProdStock] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
   const [location, setLocation] = useState("");
-
+  const [cost, setCost] = useState(0);
+  const [description, setDescription] = useState("")
   const [sold, setSold] = useState(0);
   useEffect(() => {
     getData().then((d) => {
@@ -63,6 +64,8 @@ const Edit = ({ item }) => {
       setProdBarcode(d.Id);
       setSold(d.TotalSold);
       setLocation(d.Location);
+      setCost(d.Cost);
+      setDescription(d.Description);
     });
   }, []);
 
@@ -90,9 +93,9 @@ const Edit = ({ item }) => {
       Id: prodBarcode,
       Name: prodName,
       Brand: prodBrand,
-      Price: parseFloat(prodPrice),
-      Discount: parseFloat(prodDiscount),
-      StoreId: "20",
+      Price: parseFloat((parseFloat(prodPrice) - 0.01).toFixed(2)),
+      Discount: parseFloat((parseFloat(prodDiscount) -0.01).toFixed(2)),
+      StoreId: token.currentUser.email,
       Categories: selectedCat,
       Tags: selectedTags,
       Location: location,
@@ -101,6 +104,8 @@ const Edit = ({ item }) => {
       date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       ExpiryDate: "2021-10-03 12:13",
       TotalSold: sold,
+      Cost: cost,
+      Description: description
     };
     console.log(JSON.stringify(reqBody));
     
@@ -161,6 +166,22 @@ const Edit = ({ item }) => {
                   value={prodName}
                   onChange={(e) => setProdName(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none "
+                />
+              </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -367,6 +388,22 @@ const Edit = ({ item }) => {
                   id="prodPrice"
                   value={prodPrice}
                   onChange={(e) => setProdPrice(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                />
+              </div>
+              <div className="col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="cost"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Cost
+                </label>
+                <input
+                  type="number"
+                  name="cost"
+                  id="cost"
+                  value={cost}
+                  onChange={(e) => setCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
               </div>
