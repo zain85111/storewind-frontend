@@ -10,8 +10,6 @@ const Bill = ({ query }) => {
     const { token, setToken } = useToken();
     const router = useRouter();
 
-
-
     // useEffect(() => {
     //     getReceipts().then((recs) => {
     //         console.log(router.query.billId)
@@ -27,9 +25,9 @@ const Bill = ({ query }) => {
     //     });
     // }, []);
     const [receipt, setReceipt] = useState(null);
-    useEffect(()=>{
+    useEffect(() => {
         const getReceipts = async () => {
-            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt",{
+            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
@@ -42,10 +40,12 @@ const Bill = ({ query }) => {
             let result = await response.json();
             console.log("Res: ", result);
             setReceipt(result);
+
+
         }
         getReceipts();
-    },[])
-    
+    }, [])
+
 
 
     // const products = [
@@ -77,10 +77,6 @@ const Bill = ({ query }) => {
 
     // // const products = receipt.products;
 
-    let noOfItems = 0;
-    receipt.products.map(p => {
-        noOfItems += parseInt(p.quantity);
-    })
 
     return (
         <div>
@@ -88,96 +84,95 @@ const Bill = ({ query }) => {
                 <title>Storewind | Bill Details</title>
             </Head>
             <Navbar pageTitle={"Bill Details"} />
-            {receipt==null ? null:
-            <div className="p-4 m-2" key={receipt._id}>
-                <div className="py-4 flex justify-between space-x-10 ">
-                    <div className="w-full text space-y-10">
-                        <div className="flex justify-between">
-                            <p className="font-bold">Bill ID:</p>
-                            <p className="">{receipt._id}</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p className="font-bold">Employee ID</p>
-                            <p className="">{receipt.emp_id}</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p className="font-bold">Date</p>
-                            <p className="">{new Date(receipt.receipt_date).toDateString()}</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p className="font-bold">Amount:</p>
-                            <p className="">{receipt.amount}</p>
-                        </div>
-                        <div className="flex justify-between">
-                            <p className="font-bold">No. of Items:</p>
-                            {/* <p className="">{noOfItems}</p> */}
-                        </div>
-                        <div className="flex flex-col justify-between ">
-                            <p className="font-bold">Products</p>
+            {receipt == null ? null :
+                <div className="p-4 m-2" key={receipt._id}>
+                    <div className="py-4 flex justify-between space-x-10 ">
+                        <div className="w-full text space-y-10">
+                            <div className="flex justify-between">
+                                <p className="font-bold">Bill ID:</p>
+                                <p className="">{receipt._id}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="font-bold">Employee ID</p>
+                                <p className="">{receipt.emp_id}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="font-bold">Date</p>
+                                <p className="">{new Date(receipt.receipt_date).toDateString()}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="font-bold">Amount:</p>
+                                <p className="">{receipt.amount}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="font-bold">No. of Items:</p>
+                                <p className="">{receipt.products.length}</p>
+                            </div>
+                            <div className="flex flex-col justify-between ">
+                                <p className="font-bold">Products</p>
                                 <div className="w-full space-y-2 pt-3 max-h-[320px] overflow-y-auto">
                                     {
-                                        receipt.products.map((p,i) => (         
+                                        receipt.products.map((p, i) => (
                                             <Disclosure key={i}>
-                                            {({ open }) => (
-                                                <>
-                                                <Disclosure.Button className="flex w-full justify-between rounded-lg bg-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-500 hover:bg-white focus:outline-none focus-visible:ring focus-visible:ring-green-600 focus-visible:ring-opacity-75">
-                                                    <span>{ p.product_name}</span>
-                                                    <ChevronUpIcon
-                                                    className={`${
-                                                        open ? 'rotate-180 transform' : ''
-                                                    } h-5 w-5 text-gray-500`}
-                                                    />
-                                                </Disclosure.Button>
-                                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                                                    <div className="flex justify-between text-sm">
-                                                        <p className="font-bold ">Price:</p>
-                                                        <p>{p.price} PKR</p>
-                                                    </div>
-                                                    <div className="flex justify-between text-sm">
-                                                        <p className="font-bold ">Quantity:</p>
-                                                        <p>{p.quantity}</p>
-                                                    </div>
-                                                    <div className="flex justify-between text-sm">
-                                                        <p className="font-bold ">Discount:</p>
-                                                        <p>{p.discount}%</p>
-                                                    </div>
-                                                    <div className="flex  flex-col space-x-3text-sm">
-                                                        <p className="font-bold ">Categories:</p>
-                                                        <div>
-                                                        {p.categories.map((c,i) => (
-                                                            <span>{c} { i < p.categories.length-1? <>, </>:<></>}</span>
-                                                        ))}
-                                                        </div>
-                                                                    
-                                                    </div>
-                                                </Disclosure.Panel>
-                                                </>
-                                            )}
+                                                {({ open }) => (
+                                                    <>
+                                                        <Disclosure.Button className="flex w-full justify-between rounded-lg bg-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-500 hover:bg-white focus:outline-none focus-visible:ring focus-visible:ring-green-600 focus-visible:ring-opacity-75">
+                                                            <span>{p.product_name}</span>
+                                                            <ChevronUpIcon
+                                                                className={`${open ? 'rotate-180 transform' : ''
+                                                                    } h-5 w-5 text-gray-500`}
+                                                            />
+                                                        </Disclosure.Button>
+                                                        <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                                                            <div className="flex justify-between text-sm">
+                                                                <p className="font-bold ">Price:</p>
+                                                                <p>{p.price} PKR</p>
+                                                            </div>
+                                                            <div className="flex justify-between text-sm">
+                                                                <p className="font-bold ">Quantity:</p>
+                                                                <p>{p.quantity}</p>
+                                                            </div>
+                                                            <div className="flex justify-between text-sm">
+                                                                <p className="font-bold ">Discount:</p>
+                                                                <p>{p.discount}%</p>
+                                                            </div>
+                                                            <div className="flex  flex-col space-x-3text-sm">
+                                                                <p className="font-bold ">Categories:</p>
+                                                                <div>
+                                                                    {p.categories.map((c, i) => (
+                                                                        <span>{c} {i < p.categories.length - 1 ? <>, </> : <></>}</span>
+                                                                    ))}
+                                                                </div>
+
+                                                            </div>
+                                                        </Disclosure.Panel>
+                                                    </>
+                                                )}
                                             </Disclosure>
                                         ))
                                     }
-                                    
-                                    
+
+
                                 </div>
-                        </div>                   
-                        <div className="flex flex-col justify-between">
-                            <p className="font-bold">Payment Method:</p>
-                            <p className="">{receipt.payment_method} </p>
-                        </div>
-                        <div className="flex flex-col justify-between">
-                            <p className="font-bold">Narration:</p>
-                            <p className="">{receipt.narration}</p>
+                            </div>
+                            <div className="flex flex-col justify-between">
+                                <p className="font-bold">Payment Method:</p>
+                                <p className="">{receipt.payment_method} </p>
+                            </div>
+                            <div className="flex flex-col justify-between">
+                                <p className="font-bold">Narration:</p>
+                                <p className="">{receipt.narration}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-}
+            }
         </div>
     );
 };
 
 Bill.getInitialProps = ({ query }) => {
-  return { query };
+    return { query };
 };
 
 export default Bill;

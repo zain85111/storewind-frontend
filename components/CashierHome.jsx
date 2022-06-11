@@ -345,15 +345,16 @@ const Billing = () => {
             credentials: "include",
             body: JSON.stringify(reciept),
         })
+        
+        console.log(JSON.stringify(reciept))
+        console.log(await response.json());
+        print();
         setCashOrCard("");
         setDiscount(0);
         setTotal(0);
         setScannedCodes([]);
         setShowList([]);
         setNotFound("");
-        console.log(JSON.stringify(reciept))
-        console.log(await response.json());
-        print();
     }
 
     async function getProduct(id) {

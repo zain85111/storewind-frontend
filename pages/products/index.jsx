@@ -15,6 +15,7 @@ const Products = () => {
     
     
     
+<<<<<<< HEAD
   const [result, setResult] = useState([]);
   
 
@@ -53,6 +54,8 @@ const Products = () => {
     
     // getData();
   }, []);
+=======
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
 
   return (
     <div>
@@ -60,7 +63,8 @@ const Products = () => {
         <title>Storewind | Products</title>
       </Head>
       <Navbar pageTitle={"Products"} />
-      <Content data={data} />
+      <Content />
+
     </div>
   );
 };

@@ -16,41 +16,30 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/solid";
 import { Menu, Transition, Dialog, Listbox } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState,useEffect} from "react";
 import Link from "next/link";
 import useToken from "../helper/useToken";
 
-
-
-const filters = [
-  {
-    id: 1,
-    name:'Filter A',
-  },
-  {
-    id: 2,
-    name:'Filter B',
-  },
-  {
-    id: 3,
-    name:'Filter C',
-  },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Content = ({ data }) => {
-  const {token} = useToken()
-
+const Content = () => {
   const [productData, setProductData] = useState([]);
+  // setProductData(data.products[0].categories[0].products);
+  
+  // console.log(productData, "Products");
+  const { token ,setToken} = useToken();
 
+  const [result, setResult] = useState(null);
+  
 
   const getData = async () => {
     try {
       const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/", {
         method: "POST",
+        // mode:'no-cors',
         headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
@@ -60,9 +49,19 @@ const Content = ({ data }) => {
       }); 
       if (data.ok) {
         let res = await data.json()
+<<<<<<< HEAD
         console.log(res,"Result")
         setProductData(res[0].categories[0].products);
         
+=======
+        let prod = []
+
+        for(let i =0;i<res[0].categories.length;i++){
+          prod = [...prod, ...res[0].categories[i].products]
+        }
+        setProductData(prod);
+        console.log(prod);
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
       }
       
     } catch (err) {
@@ -70,120 +69,14 @@ const Content = ({ data }) => {
     }
   };
 
-
-  // setProductData( data.products[0].categories[0].products);
-  console.log(productData, "Products");
-  
-  const pproductData = [
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-    {
-      id: '213',
-      Name: 'Glass',
-      Brand:'MAC',
-      Category: 'Kitchen',
-      Price: 12.00,
-      Discount: 10,
-      InStock:93,
-    },
-  ];
+  // useEffect(() => {
+  //   if (token.currentUser.rolename != 'ADMIN') {
+  //     router.push('/')
+  //   }
+  // })
+  useEffect(() => {
+    getData();
+  }, []);
 
   useEffect(() => {
     getData();
@@ -274,7 +167,7 @@ const Content = ({ data }) => {
               </tr>
             </thead>
             <tbody className="">
-              {productData.slice(0, 12).map((item, i) => (
+              {productData.map((item, i) => (
                 <tr
                   className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
                   key={i}

@@ -253,7 +253,6 @@ const Receipts = () => {
                                     <th>Amount</th>
                                     <th>Created On</th>
                                     <th>Empolyee ID</th>
-                                    <th>User ID</th>
                                     <th>Payment Method</th>
                                     <th>Actions</th>
                                 </tr>
@@ -274,7 +273,6 @@ const Receipts = () => {
                                 <td>{item.amount} PKR</td>
                                 <td>{new Date(item.receipt_date).toDateString()}</td>
                                 <td>{item.emp_id.slice(0,7)+"..."}</td>
-                                <td>urs-24</td>
                                 <td>{item.payment_method}</td>
                                 <td className=" flex justify-center py-2 ">
                                     <Menu as="div" className="">

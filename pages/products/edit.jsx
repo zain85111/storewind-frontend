@@ -28,68 +28,6 @@ const styles = {
   },
 };
 
-const people = [
-  {
-    id: 1,
-    name: "Wade Cooper",
-    avatar:
-      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 2,
-    name: "Arlene Mccoy",
-    avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 3,
-    name: "Devon Webb",
-    avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2.25&w=256&h=256&q=80",
-  },
-  {
-    id: 4,
-    name: "Tom Cook",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 5,
-    name: "Tanya Fox",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 6,
-    name: "Hellen Schmidt",
-    avatar:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 7,
-    name: "Caroline Schultz",
-    avatar:
-      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 8,
-    name: "Mason Heaney",
-    avatar:
-      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 9,
-    name: "Claudie Smitham",
-    avatar:
-      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 10,
-    name: "Emil Schaefer",
-    avatar:
-      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=htmlFormat&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
 
 const Edit = ({ item }) => {
   const router = useRouter();
@@ -109,8 +47,15 @@ const Edit = ({ item }) => {
   const [prodStock, setProdStock] = useState("");
   const [prodAisle, setProdAisle] = useState("");
   const [prodBarcode, setProdBarcode] = useState("");
+<<<<<<< HEAD
   const [prodDesc, setProdDesc] = useState("");
 
+=======
+  const [location, setLocation] = useState("");
+  const [cost, setCost] = useState(0);
+  const [description, setDescription] = useState("")
+  const [sold, setSold] = useState(0);
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
   useEffect(() => {
     getData().then((d) => {
       console.log(d);
@@ -123,6 +68,10 @@ const Edit = ({ item }) => {
       setProdDiscount(d.Discount);
       setProdStock(d.InStock);
       setProdBarcode(d.Id);
+      setSold(d.TotalSold);
+      setLocation(d.Location);
+      setCost(d.Cost);
+      setDescription(d.Description);
     });
   }, []);
 
@@ -130,10 +79,15 @@ const Edit = ({ item }) => {
     console.log(router.query.id, "Product Id");
     const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
       method: "POST",
+<<<<<<< HEAD
       // headers: {
       //     'Accept': 'application/json, text/plain, */*',
       //     'Content-Type': 'application/json'
       // },
+=======
+      // mode: "no-cors",
+    
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
       credentials: "include",
       body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
     });
@@ -152,17 +106,19 @@ const Edit = ({ item }) => {
       Id: prodBarcode,
       Name: prodName,
       Brand: prodBrand,
-      Price: parseFloat(prodPrice),
-      Discount: parseFloat(prodDiscount),
-      StoreId: "20",
+      Price: parseFloat((parseFloat(prodPrice) - 0.01).toFixed(2)),
+      Discount: parseFloat((parseFloat(prodDiscount) -0.01).toFixed(2)),
+      StoreId: token.currentUser.email,
       Categories: selectedCat,
       Tags: selectedTags,
-      Location: "Aisle 3",
+      Location: location,
       InStock: parseInt(prodStock),
       LastStockAddition:
       date.toISOString().split("T")[0] + " " + hour + ":" + minutes,
       ExpiryDate: "2021-10-03 12:13",
-      TotalSold: 0,
+      TotalSold: sold,
+      Cost: cost,
+      Description: description
     };
 
     const prodBody = {
@@ -268,6 +224,22 @@ const Edit = ({ item }) => {
               </div>
               <div className=" col-span-6 sm:col-span-4">
                 <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                />
+              </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
                   htmlFor="prodBrand"
                   className="block text-sm font-medium text-gray-700"
                 >
@@ -283,7 +255,7 @@ const Edit = ({ item }) => {
                 />
               </div>
               {/* Select Inputs  */}
-              <div className="space-y-2 col-span-6 sm:col-span-4">
+              {/* <div className="space-y-2 col-span-6 sm:col-span-4">
                 <Listbox onChange={() => {}}>
                   {({ open }) => (
                     <div>
@@ -308,7 +280,11 @@ const Edit = ({ item }) => {
                           leaveTo="opacity-0"
                         >
                           <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+<<<<<<< HEAD
                             {cats.map((cat,i) => (
+=======
+                            { people ? "" : people.map((person) => (
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
                               <Listbox.Option
                                 key={i}
                                 className={({ active }) =>
@@ -371,7 +347,7 @@ const Edit = ({ item }) => {
                     </div>
                   )}
                 </Listbox>
-              </div>
+              </div> */}
               <div className=" col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodBrand"
@@ -420,6 +396,22 @@ const Edit = ({ item }) => {
                     ))
                   : null}
               </div>
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                />
+              </div>
               {/* Number Inputs  */}
               <div className="col-span-6 sm:col-span-4">
                 <label
@@ -450,6 +442,22 @@ const Edit = ({ item }) => {
                   id="prodPrice"
                   value={prodPrice}
                   onChange={(e) => setProdPrice(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                />
+              </div>
+              <div className="col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="cost"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Cost
+                </label>
+                <input
+                  type="number"
+                  name="cost"
+                  id="cost"
+                  value={cost}
+                  onChange={(e) => setCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
                 />
               </div>
@@ -535,7 +543,10 @@ const Edit = ({ item }) => {
               </div>
 
               {/* Photo Section  */}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43eb488c739627d6dcb984aeeaca2cd904568dd3
               {/* <div className="space-y-4 col-span-6 sm:col-span-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Product Photo
