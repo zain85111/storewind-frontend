@@ -27,7 +27,7 @@ const Employee = ({ query }) => {
     }, []);
 
     const getEmployees = async () => {
-
+        console.log({ emp_id: router.query.empId})
         const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
             method: "POST",
             headers: {
@@ -35,9 +35,10 @@ const Employee = ({ query }) => {
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
+            body: JSON.stringify({ emp_id: router.query.empId}),
         });
         let res = await data.json()
+        console.log(res);
         return res; 
     };
  
@@ -85,10 +86,7 @@ const Employee = ({ query }) => {
                         <p className="font-bold">Total Sales:</p>
                         <p className="">{currEmp.totalSales}</p>
                     </div>
-                    <div className="flex justify-between">
-                        <p className="font-bold">Current Duty Schedule:</p>
-                        <p className="">{currEmp.dutySchedule}</p>
-                    </div>
+                   
           
                 </div>
             </div>

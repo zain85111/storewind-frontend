@@ -19,34 +19,34 @@ const EditEmployee = () => {
     const [totalSales, setTotalSales] = useState("");
     const [storeId, setStoreId] = useState("");
     const [joiningDate, setJoiningDate] = useState("");
-
+    const [address, setAddress] = useState("")
+    const [salary, setSalary] = useState("")
 
     const [currEmp, setCurrEmp] = useState({});
 
     useEffect(() => {
-        getEmployee().then((emps) => {
-            console.log(emps, "employees");
+        getEmployee().then((emp) => {
+            console.log(emp, "employees");
             console.log(router.query.id, "Employee Id");
 
-            emps.map(e => {
-                if (e._id === router.query.id) {
-                    setCurrEmp(e);
-                }
-            })
-            console.log(currEmp,"Current Emp")
-
+           
+            currEmp = emp[0]
             setEmpName(currEmp.emp_name);
             setCnic(currEmp.cnic);
             setPhone(currEmp.phone);
-            setEmail(currEmp.email);
+            setEmail(currEmp.emp_mail);
             setTotalSales(currEmp.totalSales);
             setStoreId(currEmp.store_id);
             setJoiningDate(currEmp.joining_date);
+            setPassword(currEmp.emp_password);
+            setSalary(currEmp.salary);
+            setAddress(currEmp.address);
+
         });
     }, []);
 
     const getEmployee = async () => {
-
+        console.log({ emp_id: router.query.id})
         const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
             method: "POST",
             headers: {
@@ -54,7 +54,7 @@ const EditEmployee = () => {
                 'Content-Type': 'application/json'
             },
             credentials: "include",
-            body: JSON.stringify({ id: router.query.id , storeId:token.currentUser.email}),
+            body: JSON.stringify({ emp_id: router.query.id }),
         });
         let res = await data.json()
         return res; 
@@ -69,7 +69,12 @@ const EditEmployee = () => {
             "cnic": cnic,
             "totalSales": totalSales,
             "phone": phone,
-            "emp_id": email
+            "emp_mail": email,
+            "emp_id": router.query.id,
+            "emp_password": password,
+            "address": address,
+            "salary": salary,
+
         }
 
         console.log(document.cookie)
@@ -78,6 +83,10 @@ const EditEmployee = () => {
 
         let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees", {
             method: "PATCH",
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
             credentials: "include",
             body: JSON.stringify(empBody)
         })
@@ -121,7 +130,7 @@ const EditEmployee = () => {
                         </div>
                         <div className=" col-span-6 sm:col-span-4">
                             <label
-                            htmlFor="cnie"
+                            htmlFor="cnic"
                             className="block text-sm font-medium text-gray-700"
                             >
                             CNIC
@@ -132,6 +141,38 @@ const EditEmployee = () => {
                             id="cnic"
                             value={cnic}
                             onChange={(e) => setCnic(e.target.value)}
+                            className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                            />
+                        </div>
+                        <div className=" col-span-6 sm:col-span-4">
+                            <label
+                            htmlFor="address"
+                            className="block text-sm font-medium text-gray-700"
+                            >
+                            Address
+                            </label>
+                            <input
+                            type="text"
+                            name="address"
+                            id="address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                            />
+                        </div>
+                        <div className=" col-span-6 sm:col-span-4">
+                            <label
+                            htmlFor="Salary"
+                            className="block text-sm font-medium text-gray-700"
+                            >
+                            Salary
+                            </label>
+                            <input
+                            type="text"
+                            name="Salary"
+                            id="Salary"
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
                             className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
                             />
                         </div>
@@ -152,7 +193,7 @@ const EditEmployee = () => {
                             />
                         </div>
                         
-                        <div className=" col-span-6 sm:col-span-4">
+                        {/* <div className=" col-span-6 sm:col-span-4">
                             <label
                             htmlFor="email"
                             className="block text-sm font-medium text-gray-700"
@@ -183,7 +224,7 @@ const EditEmployee = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
                             />
-                        </div>
+                        </div> */}
                 
                     </div>
                     <div className="px-4 pt-10 bg-gray-50 text-right sm:px-6 space-x-4">

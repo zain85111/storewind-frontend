@@ -35,19 +35,11 @@ const CashierHistory = () => {
         }
     }
     
-<<<<<<< HEAD
-    // useEffect(() => {
-    //     if (token.currentUser.rolename != 'FMP') {
-    //         router.push('/')
-    //     }
-    // })
-=======
     useEffect(() => {
         if (token.currentUser.rolename != 'EMP') {
             router.push('/')
         }
     })
->>>>>>> f85b83eb2e04b6e8921c97dff180d81acc241bbd
 
     useEffect(() => {
         getReceipts();

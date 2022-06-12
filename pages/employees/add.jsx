@@ -36,7 +36,8 @@ const AddEmployee = () => {
             "totalSales": "0",
             "phone": phone,
             "emp_id": email,
-            "emp_mail": email,"address": address,"salary":salary
+            "emp_mail": email,"address": address,"salary":salary,
+            "emp_password": password,
         }
 
         console.log(document.cookie)
