@@ -12,7 +12,7 @@ const Item = ({ prod, id, query }) => {
   const [item, setItem] = useState({});
   useEffect(() => {
     getData().then((d) => {
-      console.log(d);
+      console.log(d,"Product Details Page");
       setItem(d);
     });
   }, []);
@@ -24,11 +24,6 @@ const Item = ({ prod, id, query }) => {
       credentials: "include",
       body: JSON.stringify({ id: query.itemId, storeId: token.currentUser.email }),
     });
-
-    // const data = await fetch("http://18.116.39.224:8080/product/", {method="POST", body:JSON.stringify({
-    //     id: query.itemId,
-    //     })});
-    // data.json().then(d=>{setItem(d); console.log(d)});
     return data.json();
   };
 
@@ -84,7 +79,7 @@ const Item = ({ prod, id, query }) => {
 
         {/* Buttons */}
         <div className="pt-4 space-x-4 flex justify-end items-center">
-          <Link href={"/products/edit/?id=" + item.id}>
+          <Link href={"/products/edit/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-400 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
@@ -92,7 +87,7 @@ const Item = ({ prod, id, query }) => {
               Edit
             </button>
           </Link>
-          <Link href={"/products/delete/?id=" + item.id}>
+          <Link href={"/products/delete/?id=" + item.Id}>
             <button
               type="button"
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"

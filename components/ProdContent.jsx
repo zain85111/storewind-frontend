@@ -73,7 +73,6 @@ const Content = () => {
   }, []);
 
   useEffect(() => {
-    console.log("aaaaaaaaaaaaa")
     getData();
   },[])
 

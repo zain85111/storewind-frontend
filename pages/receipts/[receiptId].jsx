@@ -147,6 +147,9 @@ const Receipt = ({ query }) => {
                     </div>
                     <div className="flex flex-col justify-between ">
                         <p className="font-bold">Products</p>
+                            {
+                                products ? (
+                                    
                             <div className="w-full space-y-2 pt-3 max-h-[320px] overflow-y-auto">
                                 {
                                     products == null?"":
@@ -193,9 +196,11 @@ const Receipt = ({ query }) => {
                                 
                                 
                             </div>
+                                ):(<></>)
+                            }    
                     </div>                   
                     
-                    <div className="flex flex-col justify-between">
+                    <div className="flex justify-between">
                         <p className="font-bold">Payment Method:</p>
                         <p className="">{receipt.payment_method} </p>
                     </div>
@@ -205,14 +210,14 @@ const Receipt = ({ query }) => {
 
             {/* Buttons */}
             <div className="pt-4 space-x-4 flex justify-end items-center">
-            <Link href={"/receipts/edit/?id=" + receipt._id}>
+            {/* <Link href={"/receipts/edit/?id=" + receipt._id}>
                 <button
                 type="button"
                 className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-[#44814E] border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
                 >
                 Edit
                 </button>
-            </Link>
+            </Link> */}
             <Link href={"/receipts/delete/?id=" + receipt._id}>
                 <button
                 type="button"

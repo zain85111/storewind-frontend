@@ -11,6 +11,7 @@ import {
 import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useToken from "../../helper/useToken";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
 const styles = {
   tagsInput: {
@@ -33,10 +34,38 @@ const Item = () => {
   const router = useRouter();
   const { token, setToken } = useToken();
 
+  
+  const [catBtn, setCatBtn] = useState(false);
+  const [catBtnText, setCatBtnText] = useState("Add New");
+
+  const changeCatInput = () => {
+    if (!catBtn) {
+      setCatBtnText("Get Old")
+    } else {
+      setCatBtnText( "Add New")
+    }
+    setCatBtn(!catBtn);
+  }
+
+  const [brcdBtn, setBrcdBtn] = useState(false);
+  const [brcdBtnText, setBrcdBtnText] = useState("Scan");
+
+  const changeBrchInput = () => {
+    if (!brcdBtn) {
+      setBrcdBtnText("Type")
+    } else {
+      setBrcdBtnText( "Scan")
+    }
+    setBrcdBtn(!brcdBtn);
+    scannBrcd();
+  }
+  
+
 
   const [cats, setCats] = useState([]);
 
   const [selectedCat, setSelectedCat] = useState([]);
+  const [catsInput, setCatsInput] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [tagsInput, setTagsInput] = useState([]);
 
@@ -135,7 +164,6 @@ const Item = () => {
           },
         credentials: "include",
         body: JSON.stringify({ store_id: token.currentUser.email })
-        // body: JSON.stringify({store_id:"6299fdaf2ac2473303d0dcb5"})
       })
       let res = await response.json()
       setCats(res);
@@ -147,7 +175,47 @@ const Item = () => {
 
   useEffect(() => {
     getCategories()
+  }, [])
+  
+
+
+  const scannBrcd = () => {
+
+        // Html5QrcodeScanner Section
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            setProdBarcode(decodedText)
+            console.log(prodBarcode, "Decoded Product Barcode")
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            {
+                fps: 1, qrbox: { width: 450, height: 250 }, experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
+                rememberLastUsedCamera: true
+            },
+            false
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+        // ---------------------------
+  }
+  useEffect(() => {
+    scannBrcd();
   },[])
+  
+  
+
+
   return (
     <div>
       <Head>
@@ -190,96 +258,172 @@ const Item = () => {
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
                 />
               </div>
-              {/* Select Inputs  */}
+              <div className=" col-span-6 sm:col-span-4">
+                <label
+                  htmlFor="prodBarcode"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  name="prodNBarcode"
+                  id="prodBarcode"
+                  value={prodDesc}
+                  onChange={(e) => setProdDesc(e.target.value)}
+                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                />
+              </div>
+              {/* ------------Select Inputs------------  */}
+
+              {/* Categories  */}
               <div className="space-y-2 col-span-6 sm:col-span-4">
                 <Listbox onChange={() => {}}>
                   {({ open }) => (
-                    <div>
+                    <div className="">
                       <Listbox.Label className="block text-sm font-medium text-gray-700">
                         Categories
                       </Listbox.Label>
-                      <div className="mt-1 relative">
-                        <Listbox.Button className="relative w-full  border-b-2 border-black outline-none shadow-sm pl-3 pr-10 py-2 text-left  focus:border-green-700  sm:text-sm">
-                          <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                            <SelectorIcon
-                              className="h-5 w-5 text-gray-400"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </Listbox.Button>
+                      <div className="mt-1 relative flex">
+                        {
+                          catBtn ?
+                            (
+                              <>
+                                <input
+                                  type="text"
+                                  name="tagsInput"
+                                  id="tagsInput"
+                                  value={catsInput}
+                                  onChange={(e) => setCatsInput(e.target.value)}
+                                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                                />
+                                <div
+                                  onClick={() => {
+                                    if (!selectedCat.includes(catsInput)) {
+                                      let temp = [...selectedCat];
+                                      temp.push(catsInput);
+                                      setSelectedCat(temp);
+                                      console.log(selectedCat);
+                                    }
+                                  }}
+                                  style={styles.pointer}
+                                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                >
+                                  +
+                                </div>
+                                
+                              </>
+                            )
+                            :
+                            (
+                              <>
+                                <Listbox.Button className="relative w-full  border-b-2 border-black outline-none shadow-sm pl-3 pr-10 py-2 text-left  focus:border-green-700  sm:text-sm">
+                                  <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                    <SelectorIcon
+                                      className="h-5 w-5 text-gray-400"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                </Listbox.Button>
 
-                        <Transition
-                          show={open}
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                            {cats.map((cat,i) => (
-                              <Listbox.Option
-                                key={i}
-                                className={({ active }) =>
-                                  classNames(
-                                    active
-                                      ? "text-white bg-green-600"
-                                      : "text-gray-900",
-                                    "cursor-default select-none relative py-2 pl-3 pr-9"
-                                  )
-                                }
-                                value={cat}
+                                <Transition
+                                  show={open}
+                                  as={Fragment}
+                                  leave="transition ease-in duration-100"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                    {cats.map((cat,i) => (
+                                      <Listbox.Option
+                                        key={i}
+                                        className={({ active }) =>
+                                          classNames(
+                                            active
+                                              ? "text-white bg-green-600"
+                                              : "text-gray-900",
+                                            "cursor-default select-none relative py-2 pl-3 pr-9"
+                                          )
+                                        }
+                                        value={cat}
+                                      >
+                                        {({ selected, active }) => (
+                                          <>
+                                            <div className="flex items-center">
+                                              
+                                              <span
+                                                className={classNames(
+                                                  selectedCat
+                                                    ? "font-semibold"
+                                                    : "font-normal",
+                                                  "ml-3 block truncate"
+                                                )}
+                                              >
+                                                {cat}
+                                              </span>
+                                            </div>
+
+                                            {selectedCat ? (
+                                              <span
+                                                className={classNames(
+                                                  active
+                                                    ? "text-white"
+                                                    : "text-green-600",
+                                                  "absolute inset-y-0 right-0 flex items-center pr-4"
+                                                )}
+                                              >
+                                                <input
+                                                  type="checkbox"
+                                                  onChange={() =>
+                                                    selectCategory(cat)
+                                                  }
+                                                  defaultChecked={
+                                                    selectedCat.includes(cat)
+                                                      ? true
+                                                      : false
+                                                  }
+                                                  className="h-5 w-5"
+                                                  aria-hidden="true"
+                                                />
+                                              </span>
+                                            ) : null}
+                                          </>
+                                        )}
+                                      </Listbox.Option>
+                                    ))}
+                                  </Listbox.Options>
+                                </Transition>
+                              </>
+                            )
+                        }
+                      
+                        <div className="catBtn">
+                          <button onClick={changeCatInput} className="inline-flex justify-center py-2 px-4 ml-5 border border-transparent shadow-sm text-[10px] font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">{catBtnText}</button>
+                        </div>
+                      </div>
+
+                      {/* Added Categories  */}
+                      <div className=" pt-6 col-span-6 sm:col-span-4">
+                        {selectedCat
+                          ? selectedCat.map((m) => (
+                              <div
+                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                style={styles.pills}
+                                onClick={() => {
+                                  console.log(m);
+                                  setSelectedCat(removeItem([...selectedCat], m));
+                                }}
                               >
-                                {({ selected, active }) => (
-                                  <>
-                                    <div className="flex items-center">
-                                      
-                                      <span
-                                        className={classNames(
-                                          selectedCat
-                                            ? "font-semibold"
-                                            : "font-normal",
-                                          "ml-3 block truncate"
-                                        )}
-                                      >
-                                        {cat}
-                                      </span>
-                                    </div>
-
-                                    {selectedCat ? (
-                                      <span
-                                        className={classNames(
-                                          active
-                                            ? "text-white"
-                                            : "text-green-600",
-                                          "absolute inset-y-0 right-0 flex items-center pr-4"
-                                        )}
-                                      >
-                                        <input
-                                          type="checkbox"
-                                          onChange={() =>
-                                            selectCategory(cat)
-                                          }
-                                          defaultChecked={
-                                            selectedCat.includes(cat)
-                                              ? true
-                                              : false
-                                          }
-                                          className="h-5 w-5"
-                                          aria-hidden="true"
-                                        />
-                                      </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
+                                <p>{m}</p>
+                              </div>
+                            ))
+                          : null}
                       </div>
                     </div>
                   )}
                 </Listbox>
               </div>
+              {/* Tags  */}
               <div className=" col-span-6 sm:col-span-4">
                 <label
                   htmlFor="prodBrand"
@@ -306,9 +450,9 @@ const Item = () => {
                       }
                     }}
                     style={styles.pointer}
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   >
-                    Add
+                    +
                   </div>
                 </div>
               </div>
@@ -316,7 +460,7 @@ const Item = () => {
                 {selectedTags
                   ? selectedTags.map((m) => (
                       <div
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                         style={styles.pills}
                         onClick={() => {
                           console.log(m);
@@ -414,33 +558,39 @@ const Item = () => {
                   htmlFor="prodBarcode"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Barcode
+                  Barcode: { prodBarcode}
                 </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodBarcode}
-                  onChange={(e) => setProdBarcode(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
+                <div className="w-full px-8 py-6">
+                  <div id="reader" width="600px" height="200px"></div>
+                </div>
+                {/* <div className="flex mb-5">
+                  {
+                    brcdBtn ?
+                      (
+                        <>
+                          <div className="w-full px-8">
+                              <div id="reader" width="600px"></div>
+                          </div>
+                        </>
+                      )
+                      :
+                      (
+                        <>
+                          <input
+                            type="text"
+                            name="prodNBarcode"
+                            id="prodBarcode"
+                            value={prodBarcode}
+                            onChange={(e) => setProdBarcode(e.target.value)}
+                            className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                          />
+                        </>
+                      )
+                  }
+                  <button onClick={changeBrchInput} className="inline-flex justify-center py-2 px-4 ml-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">{brcdBtnText}</button>
+                </div> */}
               </div>
-              <div className=" col-span-6 sm:col-span-4">
-                <label
-                  htmlFor="prodBarcode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Description
-                </label>
-                <input
-                  type="text"
-                  name="prodNBarcode"
-                  id="prodBarcode"
-                  value={prodDesc}
-                  onChange={(e) => setProdDesc(e.target.value)}
-                  className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
-                />
-              </div>
+              
 
               {/* Photo Section  */}
 
@@ -491,9 +641,8 @@ const Item = () => {
                 </button>
               </Link>
               <button
-                // type="submit"
                 onClick={addProduct}
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 Add Item
               </button>
