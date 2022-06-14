@@ -323,7 +323,8 @@ const Billing = () => {
                 discount: showList[i].Discount.toString(),
                 categories: showList[i].Categories,
                 subCategories: showList[i].Tags,
-                quantity: showList[i].recQuantity
+                quantity: showList[i].recQuantity,
+                brand: showList[i].Brand
             })
         }
 
@@ -432,7 +433,16 @@ const Billing = () => {
         // ---------------------------
 
     }, []);
+    const deleteProduct = (id)=>{
+        const newArr = JSON.parse(JSON.stringify(scannedCodes));
+        for(let i=0;i<newArr.length;i++){
+            if(newArr[i].Id == id){
+                newArr.splice(i, 1);
+            }
+        }
 
+        setScannedCodes(newArr);
+    }
 
     // Date of Today's Bill
 
@@ -543,7 +553,7 @@ const Billing = () => {
 
                                                     </div>
 
-                                                    <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 ">
+                                                    <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 " onClick={()=>deleteProduct(scannedCode.Id)}>
                                                         <TrashIcon className="h-6 w-6 text-red-800" />
                                                     </button>
                                                 </div>
