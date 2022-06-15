@@ -298,25 +298,25 @@ const Billing = () => {
     const [discount, setDiscount] = useState(0);
     const [cashOrCard, setCashOrCard] = useState("");
 
-    const printBill = async ()=>{
-        if(scannedCodes.length == 0){
+    const printBill = async () => {
+        if (scannedCodes.length == 0) {
             setNotFound("Scan a product first");
             return;
         }
-        if(cashOrCard == ""){
+        if (cashOrCard == "") {
             setNotFound("Select Payment Method");
             return;
         }
         let d = new Date();
         let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
         let mo = new Intl.DateTimeFormat('en', { month: 'numeric' }).format(d);
-        if(mo<10){
+        if (mo < 10) {
             mo = "0" + mo.toString();
         }
         let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
         d = `${ye}-${mo}-${da}`;
         let productRec = []
-        for(let i=0;i<showList.length;i++){
+        for (let i = 0; i < showList.length; i++) {
             productRec.push({
                 product_name: showList[i].Name,
                 price: showList[i].Price.toString(),
@@ -331,23 +331,23 @@ const Billing = () => {
 
         const reciept = {
             emp_id: token.currentUser.email,
-            receipt_date: d+"T00:00:00.000Z",
-            amount: (total-discount).toString(),
+            receipt_date: d + "T00:00:00.000Z",
+            amount: (total - discount).toString(),
             narration: "String",
-            payment_method:cashOrCard,
-            products:productRec
-    }
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
+            payment_method: cashOrCard,
+            products: productRec
+        }
+        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
             method: "POST",
             headers: {
-            
+
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
             credentials: "include",
             body: JSON.stringify(reciept),
         })
-        
+
         console.log(JSON.stringify(reciept))
         console.log(await response.json());
         print();
@@ -372,29 +372,29 @@ const Billing = () => {
             setNotFound("Product Not Found");
         } else {
             setNotFound("");
-            
+
             // let res = JSON.stringify(scannedCodes);
             // res = JSON.parse(res);
             // res.push(result);        
-            setScannedCodes(scannedCodes=>[...scannedCodes, result]);
+            setScannedCodes(scannedCodes => [...scannedCodes, result]);
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         let alreadyAdded = [];
         let products = [];
         let tTemp = 0;
         let dTemp = 0;
-        for(let i=0;i<scannedCodes.length;i++){
+        for (let i = 0; i < scannedCodes.length; i++) {
             tTemp += parseFloat(scannedCodes[i].Price)
             dTemp += (parseFloat(scannedCodes[i].Discount) / 100) * parseFloat(scannedCodes[i].Price);
-            if(alreadyAdded.includes(scannedCodes[i].Id)){
-                for(let j =0;j<products.length;j++){
-                    if(products[j].Id == scannedCodes[i].Id){
+            if (alreadyAdded.includes(scannedCodes[i].Id)) {
+                for (let j = 0; j < products.length; j++) {
+                    if (products[j].Id == scannedCodes[i].Id) {
                         products[j].recQuantity++;
                     }
                 }
             }
-            else{
+            else {
                 alreadyAdded.push(scannedCodes[i].Id);
                 let scCode = JSON.parse(JSON.stringify(scannedCodes[i]))
                 scCode.recQuantity = 1;
@@ -404,7 +404,7 @@ const Billing = () => {
         setShowList(products);
         setTotal(tTemp);
         setDiscount(dTemp)
-    },[scannedCodes]);
+    }, [scannedCodes]);
     useEffect(() => {
         // Html5QrcodeScanner Section
 
@@ -434,10 +434,10 @@ const Billing = () => {
         // ---------------------------
 
     }, []);
-    const deleteProduct = (id)=>{
+    const deleteProduct = (id) => {
         const newArr = JSON.parse(JSON.stringify(scannedCodes));
-        for(let i=0;i<newArr.length;i++){
-            if(newArr[i].Id == id){
+        for (let i = 0; i < newArr.length; i++) {
+            if (newArr[i].Id == id) {
                 newArr.splice(i, 1);
             }
         }
@@ -457,7 +457,7 @@ const Billing = () => {
     useEffect(async () => {
         let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
             method: 'POST',
-           
+
             credentials: "include",
             body: JSON.stringify({ "_id": token.currentUser.iat })
         });
@@ -469,7 +469,7 @@ const Billing = () => {
 
     return (
         <div id="page">
-<style jsx global>{`
+            <style jsx global>{`
        @media print {
         body *{
           visibility: hidden;
@@ -485,6 +485,9 @@ const Billing = () => {
           top: 0;
         }
         #dontShow{
+            visibility: hidden;
+        }
+        #dontShow2{
             visibility: hidden;
         }
       }
@@ -540,11 +543,11 @@ const Billing = () => {
                             </div>
                             {
 
-                                    showList.length > 0 ? (
+                                showList.length > 0 ? (
                                     <div className="h-80 space-y-3 overflow-y-auto" >
                                         {
 
-                                        showList.map((scannedCode, index) => (
+                                            showList.map((scannedCode, index) => (
 
                                                 <div key={index} className="h-20 flex justify-between items-center p-2 bg-gray-100 rounded-xl">
                                                     <div className="space-y-1" >
@@ -554,7 +557,7 @@ const Billing = () => {
 
                                                     </div>
 
-                                                    <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 " onClick={()=>deleteProduct(scannedCode.Id)}>
+                                                    <button className="flex flex-col items-center space-y-3  rounded-lg hover:bg-gray-00 hover:opacity-80 " id="dontShow2" onClick={() => deleteProduct(scannedCode.Id)}>
                                                         <TrashIcon className="h-6 w-6 text-red-800" />
                                                     </button>
                                                 </div>
@@ -571,7 +574,7 @@ const Billing = () => {
                                 <div className='space-y-2'>
                                     <div className='flex justify-between text-gray-500'>
                                         <p className='text-xs'>Sub Total</p>
-                                        <p className='text-xs'>{ total } PKR</p>
+                                        <p className='text-xs'>{total} PKR</p>
                                     </div>
                                     <div className='flex justify-between  text-gray-500'>
                                         <p className='text-xs'>Discount</p>
@@ -585,7 +588,7 @@ const Billing = () => {
                                     <div className="border-b-2 border-green-800"></div>
                                     <div className='flex justify-between  '>
                                         <p className='text-xs'>Grand Total</p>
-                                        <p className='text-xs'>{ total-discount } PKR</p>
+                                        <p className='text-xs'>{total - discount} PKR</p>
                                     </div>
                                 </div>
                             </div>
@@ -594,9 +597,9 @@ const Billing = () => {
                                 <h4 className="font-semibold">Payment</h4>
                                 <div className='space-y-4 flex flex-col justify-between'>
                                     <div className="flex justify-between text-center">
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Cash")}} id={cashOrCard == "Cash" ? " ":"dontShow"}>Cash</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("Card")}} id={cashOrCard == "Card" ? " ":"dontShow"}>Card</button>
-                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={()=>{setNotFound("");setCashOrCard("E-wallet")}} id={cashOrCard == "E-wallet" ? " ":"dontShow"}>E-wallet</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={() => { setNotFound(""); setCashOrCard("Cash") }} id={cashOrCard == "Cash" ? " " : "dontShow"}>Cash</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={() => { setNotFound(""); setCashOrCard("Card") }} id={cashOrCard == "Card" ? " " : "dontShow"}>Card</button>
+                                        <button className="h-20 w-20 bg-gradient-to-bl from-[#FF827A] to-[#FFA825] rounded-xl text-white " onClick={() => { setNotFound(""); setCashOrCard("E-wallet") }} id={cashOrCard == "E-wallet" ? " " : "dontShow"}>E-wallet</button>
                                     </div>
                                     <button className="bg-green-700 text-white  p-2 text-sm rounded-xl" onClick={printBill}>Print Bill</button>
                                 </div>
