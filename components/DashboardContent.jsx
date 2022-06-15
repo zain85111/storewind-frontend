@@ -213,47 +213,44 @@ import {
       return (
           <div className="p-5 space-y-6 ">
               <div className="flex justify-between space-x-4 items-center ">
-                  <div className="bg-white w-72 h-44 rounded-xl">
-                      <div className="flex items-center space-x-5 px-8 py-5 ">
-                          <ChartBarIcon className="w-8 h-8 text-gray-500" />
+                  <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                      <div className="flex items-center space-x-10 px-8 ">
+                          <ChartBarIcon className="w-12 h-12 text-gray-500" />
                           <div className="space-y-1">
-                              <p className="text-2xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalSales)}</p>
-                              <p className="text-gray-500 text-sm">Total Sales</p>
+                              <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalSales)}</p>
+                              <p className="text-gray-500 text-">Total Sales</p>
                           </div>
                       </div>
-                      <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                   </div>
-                  <div className="bg-white w-72 h-44 rounded-xl">
-                      <div className="flex items-center space-x-5 px-8 py-5 ">
-                          <CurrencyDollarIcon className="w-8 h-8 text-gray-500" />
+                  <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                      <div className="flex items-center space-x-10 px-8 ">
+                          <CurrencyDollarIcon className="w-12 h-12 text-gray-500" />
                           <div className="space-y-1">
-                              <p className="text-2xl font-bold text-gray-900">{topAnalytics==null ?" ": intToString(topAnalytics.revenue)}</p>
-                              <p className="text-gray-500 text-sm">Total Revenue</p>
+                              <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.revenue)}</p>
+                              <p className="text-gray-500 text-">Total Revenue</p>
                           </div>
                       </div>
-                      <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                   </div>
-                  <div className="bg-white w-72 h-44 rounded-xl">
-                      <div className="flex items-center space-x-5 px-8 py-5 ">
-                          <TicketIcon className="w-8 h-8 text-gray-500" />
+                  <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                      <div className="flex items-center space-x-10 px-8 ">
+                          <TicketIcon className="w-12 h-12 text-gray-500" />
                           <div className="space-y-1">
-                              <p className="text-2xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalOrders)}</p>
-                              <p className="text-gray-500 text-sm">Total Orders</p>
+                              <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalOrders)}</p>
+                              <p className="text-gray-500 text-">Total Orders</p>
                           </div>
                       </div>
-                      <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                   </div>
-                  <div className="bg-white w-72 h-44 rounded-xl">
-                      <div className="flex items-center space-x-5 px-8 py-5 ">
-                          <ClipboardListIcon className="w-8 h-8 text-gray-500" />
+                  <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                      <div className="flex items-center space-x-10 px-8 ">
+                          <ClipboardListIcon className="w-12 h-12 text-gray-500" />
                           <div className="space-y-1">
-                              <p className="text-2xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalProductsSold)}</p>
-                              <p className="text-gray-500 text-sm">Total Products Sold</p>
+                              <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalProductsSold)}</p>
+                              <p className="text-gray-500 text-">Total Products Sold</p>
                           </div>
                       </div>
-                      <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                   </div>
               </div>
+              
               {/* Top Products  */}
                   {topProduct ? (
                       <div className="space-y-10 p-4 bg-white rounded-lg h-fit">

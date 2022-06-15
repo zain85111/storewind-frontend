@@ -24,6 +24,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { useEffect, useState } from "react";
 import { Line } from 'react-chartjs-2';
 
 
@@ -85,22 +86,7 @@ const lineTrendData = {
 
 const Analytics = () => {
 
-    const filters = [
-        {
-            id: 1,
-            name:'Filter A',
-        },
-        {
-            id: 2,
-            name:'Filter B',
-        },
-        {
-            id: 3,
-            name:'Filter C',
-        },
-    ];
-
-    const topProducts = [
+    const ttopProducts = [
         {
             id: 23,
             name: 'Knife - Black',
@@ -167,7 +153,7 @@ const Analytics = () => {
             
         },
     ]
-    const topBrands = [
+    const ttopBrands = [
         {
             id: 23,
             name: 'MAC',
@@ -218,10 +204,94 @@ const Analytics = () => {
 
     ]
 
-    const categories = ['Daily', 'Weekly', 'Monthly']
     
+    const [topAnalytics, setTopAnalytics] = useState(null);
+    const [chartData, setChartData] = useState(null);
+    const [topProducts, setTopProducts] = useState(null);
+    const [topBrands, setTopBrands] = useState(null);
+
+    const [topAnalyticsTime, setTopAnalyticsTime] = useState("daily");
+    const [topProductTime, setTopProductTime] = useState("daily");
+    const [topBrandsTime, setTopBrandsTime] = useState("daily");
+
+    useEffect(()=>{
+        let d = new Date();
+        let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+        let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
+        let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+        d = `${ye}-${mo}-${da}` + "T00:00:00.000Z";
+        const getAnalytics = async()=>{
+            console.log(d,"Date");
+            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/analytics/weekly_bar_analytics", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({date: d}),
+            })
+
+            setChartData(await response.json());
+            console.log(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`);
+            let response2 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({date: d}),
+            })
+
+            const res = await response2.json()
+            console.log(res,"Top Brands")
+            setTopBrands(res);
+
+            let response3 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topProductTime}_top_products`, {
+                method: "POST",
+                headers: {
+
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({date: d}),
+            })
+            const res3 = await response3.json();
+            console.log(res3,"Top Products")
+            setTopProducts(res3);
 
 
+            let response4 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topAnalyticsTime}_analytics`, {
+                method: "POST",
+                headers: {
+
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({date: d}),
+            })
+
+            setTopAnalytics(await response4.json());
+        }
+        getAnalytics();
+
+    },[topBrandsTime, topProductTime, topAnalyticsTime]);
+
+    
+    function intToString(value) {
+        var suffixes = ["", "k", "m", "b","t"];
+        var suffixNum = Math.floor((""+value).length/3);
+        var shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+        if (shortValue % 1 != 0) {
+            shortValue = shortValue.toFixed(1);
+        }
+        return shortValue+suffixes[suffixNum];
+    }
+    const durations = ['Daily', 'Weekly', 'Monthly']
+    // const topProducts = [];
 
     return (
         <div>
@@ -237,27 +307,33 @@ const Analytics = () => {
                                 <p className="font-semibold text-lg">Sales Statistics</p>
                                 <div className="w-1/3">
                                     <Tab.List className="flex p-1 space-x-1 bg-white rounded-xl">
-                                    {categories.map((category,idx) => (
+                                    {durations.map((duration,idx) => (
                                         <Tab
-                                        key={idx}
-                                        className={({ selected }) =>
-                                            classNames(
-                                            'w-full py-2.5 text-sm leading-5 font-medium text-white rounded-lg',
-                                            'focus:outline-none focus:ring-2 ring-offset-2  ring-white ring-opacity-60',
-                                            selected
-                                                ? 'bg-green-700 shadow'
-                                                : 'text-green-700 hover:bg-white/[0.12] '
-                                            )
-                                        }
+                                            key={idx}
+                                            onClick={() => {
+                                                setTopAnalyticsTime(duration);
+                                                setTopProductTime(duration);
+                                                setTopBrandsTime(duration);
+                                                console.log(topAnalyticsTime);
+                                            }}
+                                            className={({ selected }) =>
+                                                classNames(
+                                                'w-full py-2.5 text-sm leading-5 font-medium text-white rounded-lg',
+                                                'focus:outline-none focus:ring-2 ring-offset-2  ring-white ring-opacity-60',
+                                                selected
+                                                    ? 'bg-green-700 shadow'
+                                                    : 'text-green-700 hover:bg-white/[0.12] '
+                                                )
+                                            }
                                         >
-                                        {category}
+                                        {duration}
                                         </Tab>
                                     ))}
                                     </Tab.List>
                                 </div>
                             </div>
                             <Tab.Panels className="mt-10">
-                                {Object.values(categories).map((posts, idx) => (
+                                {Object.values(durations).map((posts, idx) => (
                                     <Tab.Panel
                                     key={idx}
                                     className={classNames(
@@ -265,46 +341,42 @@ const Analytics = () => {
                                         
                                     )}
                                     >
-                <div className="bg-white w-72 h-44 rounded-xl">
-                    <div className="flex items-center space-x-5 px-8 py-5 ">
-                        <ChartBarIcon className="w-8 h-8 text-gray-500" />
-                        <div className="space-y-1">
-                            <p className="text-2xl font-bold text-gray-900">248K</p>
-                            <p className="text-gray-500 text-sm">Total Sales</p>
-                        </div>
-                    </div>
-                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                </div>
-                <div className="bg-white w-72 h-44 rounded-xl">
-                    <div className="flex items-center space-x-5 px-8 py-5 ">
-                        <CurrencyDollarIcon className="w-8 h-8 text-gray-500" />
-                        <div className="space-y-1">
-                            <p className="text-2xl font-bold text-gray-900">133K</p>
-                            <p className="text-gray-500 text-sm">Total Revenue</p>
-                        </div>
-                    </div>
-                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                </div>
-                <div className="bg-white w-72 h-44 rounded-xl">
-                    <div className="flex items-center space-x-5 px-8 py-5 ">
-                        <TicketIcon className="w-8 h-8 text-gray-500" />
-                        <div className="space-y-1">
-                            <p className="text-2xl font-bold text-gray-900">6K</p>
-                            <p className="text-gray-500 text-sm">Total Orders</p>
-                        </div>
-                    </div>
-                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                </div>
-                <div className="bg-white w-72 h-44 rounded-xl">
-                    <div className="flex items-center space-x-5 px-8 py-5 ">
-                        <ClipboardListIcon className="w-8 h-8 text-gray-500" />
-                        <div className="space-y-1">
-                            <p className="text-2xl font-bold text-gray-900">32K</p>
-                            <p className="text-gray-500 text-sm">Total Products Sold</p>
-                        </div>
-                    </div>
-                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                </div>
+                                        <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                                            <div className="flex items-center space-x-10 px-8 ">
+                                                <ChartBarIcon className="w-12 h-12 text-gray-500" />
+                                                <div className="space-y-1">
+                                                    <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalSales)}</p>
+                                                    <p className="text-gray-500 text-">Total Sales</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                                            <div className="flex items-center space-x-10 px-8 ">
+                                                <CurrencyDollarIcon className="w-12 h-12 text-gray-500" />
+                                                <div className="space-y-1">
+                                                    <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.revenue)}</p>
+                                                    <p className="text-gray-500 text-">Total Revenue</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                                            <div className="flex items-center space-x-10 px-8 ">
+                                                <TicketIcon className="w-12 h-12 text-gray-500" />
+                                                <div className="space-y-1">
+                                                    <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalOrders)}</p>
+                                                    <p className="text-gray-500 text-">Total Orders</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
+                                            <div className="flex items-center space-x-10 px-8 ">
+                                                <ClipboardListIcon className="w-12 h-12 text-gray-500" />
+                                                <div className="space-y-1">
+                                                    <p className="text-4xl font-bold text-gray-900">{topAnalytics==null ?" ":intToString(topAnalytics.totalProductsSold)}</p>
+                                                    <p className="text-gray-500 text-">Total Products Sold</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </Tab.Panel>
                                 ))}
@@ -327,48 +399,6 @@ const Analytics = () => {
                                     <p>Download Report</p>
                                     </button>
                                 </Link>
-                                <Menu as="div" className="">
-                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
-                                        <FilterIcon className="h-4 w-4 text-green-800" />
-                                        <p>Filter</p>
-                                        <ChevronDownIcon className=" h-4 w-4 text-green-800" />
-                                    </Menu.Button>
-                                    <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                    >
-                                        <Menu.Items className="origin-top-right absolute right-4 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <div className="py-1">
-                                            {
-                                                filters.map((f) => (
-                                                
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                    <button
-                                                        type="submit"
-                                                        className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                    >
-                                                        {f.name}
-                                                    </button>
-                                                    )}
-                                                </Menu.Item>
-                                                ))
-                                            }
-                                            
-                                            </div>
-                                        </Menu.Items>
-                                    </Transition>
-                                </Menu>
                             </div>
 
                         </div>
@@ -376,7 +406,7 @@ const Analytics = () => {
                         <table className="hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
                             <thead className="">
                                 <tr className="h-16  text-sm">
-                                    <th className="space-x-4 p-2"><input type="checkbox" /></th>
+                                    <th>Sr.</th>
                                     <th>ID</th>
                                     <th>Image</th>
                                     <th>Name</th>
@@ -386,25 +416,20 @@ const Analytics = () => {
                                     <th>Revenue</th>
                                     <th>Discount</th>
                                     <th>Items Sold</th>
-                                    <th>Trend</th>
-                                    <th>Actions</th>
+                                    {/* <th>Trend</th> */}
                                 </tr>
                             </thead>
                             <tbody className="">
                             {topProducts.slice(0, 5).map((item, i) => (
                                 <tr
                                 className="h-14 hover:bg-gray-50 min-w-full text-xs"
-                                key={item.id}
+                                key={i}
                                 >
-                                    <td className="space-x-4 p-2 min-w-max"><input type="checkbox" id="itemChk" /></td>
+                                    <td>{i+1}</td>
                                     <td>{item.id}</td>
                                     <td className="flex justify-center items-center">
-                                        <div className="h-7 w-7 bg-white items-center flex justify-center rounded-full">
-                                        <img
-                                            src="https://picsum.photos/200"
-                                            alt=""
-                                            className="h-5 w-5 "
-                                        />
+                                        <div className="h-7 w-7 pt-6 bg-white items-center flex justify-center rounded-full">
+                                            <img src="https://picsum.photos/200" alt="" className="h-5 w-5 "/>
                                         </div>
                                     </td>
                                     <td>{item.name}</td>
@@ -414,91 +439,10 @@ const Analytics = () => {
                                     <td>{item.revenue}</td>
                                     <td>{item.discount}</td>
                                     <td>{item.itemsSold}</td>
-                                    <td>{item.trendData}</td>
-                                    <td className=" flex justify-center py-2 ">
-                                        <Menu as="div" className="">
-                                            <Menu.Button className="active:text-green-600">
-                                                <DotsHorizontalIcon className=" h-5 w-5" aria-hidden="true"/>
-                                            </Menu.Button>
-                                            <Transition
-                                                as={Fragment}
-                                                enter="transition ease-out duration-100"
-                                                enterFrom="transform opacity-0 scale-95"
-                                                enterTo="transform opacity-100 scale-100"
-                                                leave="transition ease-in duration-75"
-                                                leaveFrom="transform opacity-100 scale-100"
-                                                leaveTo="transform opacity-0 scale-95"
-                                            >
-                                                <Menu.Items className=" absolute right-10 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                <div className="py-1">
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link
-                                                            href={"/topProducts/" + item.id}
-                                                            key={item.id}
-                                                        >
-                                                            <button className="flex space-x-2">
-                                                            <ViewListIcon className="h-5 w-5" />
-                                                            <p>Details</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link href={"/topProducts/edit/?id=" + item.id}>
-                                                            <button className="flex space-x-2">
-                                                            <PencilAltIcon className="h-5 w-5" />
-                                                            <p>Update</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link
-                                                            href={"/topProducts/delete/?id=" + item.id}
-                                                        >
-                                                            <button className="flex space-x-2">
-                                                            <TrashIcon className="h-5 w-5" />
-                                                            <p>Remove</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    
-                                                </div>
-                                                </Menu.Items>
-                                            </Transition>
-                                        </Menu>
-                                    </td>
+                                    {/* <td className="w-20">
+                                        <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
+                                    </td> */}
+                                    
                                 </tr>
                             ))}
                             </tbody>
@@ -522,48 +466,6 @@ const Analytics = () => {
                                     <p>Download Report</p>
                                     </button>
                                 </Link>
-                                <Menu as="div" className="">
-                                    <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
-                                        <FilterIcon className="h-4 w-4 text-green-800" />
-                                        <p>Filter</p>
-                                        <ChevronDownIcon className=" h-4 w-4 text-green-800" />
-                                    </Menu.Button>
-                                    <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                    >
-                                        <Menu.Items className="origin-top-right absolute right-4 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <div className="py-1">
-                                            {
-                                                filters.map((f) => (
-                                                
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                    <button
-                                                        type="submit"
-                                                        className={classNames(
-                                                        active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                        "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                    >
-                                                        {f.name}
-                                                    </button>
-                                                    )}
-                                                </Menu.Item>
-                                                ))
-                                            }
-                                            
-                                            </div>
-                                        </Menu.Items>
-                                    </Transition>
-                                </Menu>
                             </div>
 
                         </div>
@@ -571,115 +473,32 @@ const Analytics = () => {
                         <table className="hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
                             <thead className="">
                                 <tr className="h-16  text-sm">
-                                    <th className="space-x-4 p-2"><input type="checkbox" /></th>
+                                    <th>Sr.</th>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Revenue</th>
                                     <th>Discount</th>
                                     <th>Items Sold</th>
-                                    <th>Trend</th>
-                                    <th>Actions</th>
+                                    {/* <th>Trend</th> */}
                                 </tr>
                             </thead>
                             <tbody className="">
                             {topBrands.slice(0, 5).map((item, i) => (
                                 <tr
                                 className="h-14 hover:bg-gray-50 min-w-full text-xs"
-                                key={item.id}
+                                key={i}
                                 >
-                                    <td className="space-x-4 p-2 min-w-max"><input type="checkbox" id="itemChk" /></td>
+                                    <td>{i+1}</td>
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
                                     <td>{item.category}</td>
                                     <td>{item.revenue}</td>
                                     <td>{item.discount}</td>
                                     <td>{item.itemsSold}</td>
-                                    <td>{item.trendData}</td>
-                                    <td className=" flex justify-center py-2 ">
-                                        <Menu as="div" className="">
-                                            <Menu.Button className="active:text-green-600">
-                                                <DotsHorizontalIcon className=" h-5 w-5" aria-hidden="true"/>
-                                            </Menu.Button>
-                                            <Transition
-                                                as={Fragment}
-                                                enter="transition ease-out duration-100"
-                                                enterFrom="transform opacity-0 scale-95"
-                                                enterTo="transform opacity-100 scale-100"
-                                                leave="transition ease-in duration-75"
-                                                leaveFrom="transform opacity-100 scale-100"
-                                                leaveTo="transform opacity-0 scale-95"
-                                            >
-                                                <Menu.Items className=" absolute right-10 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                <div className="py-1">
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link
-                                                            href={"/topProducts/" + item.id}
-                                                            key={item.id}
-                                                        >
-                                                            <button className="flex space-x-2">
-                                                            <ViewListIcon className="h-5 w-5" />
-                                                            <p>Details</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link href={"/topProducts/edit/?id=" + item.id}>
-                                                            <button className="flex space-x-2">
-                                                            <PencilAltIcon className="h-5 w-5" />
-                                                            <p>Update</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                    {({ active }) => (
-                                                        <div
-                                                        className={classNames(
-                                                            active
-                                                            ? "bg-gray-100 text-gray-900"
-                                                            : "text-gray-700",
-                                                            "block w-full text-left px-4 py-2 text-sm"
-                                                        )}
-                                                        >
-                                                        <Link
-                                                            href={"/topProducts/delete/?id=" + item.id}
-                                                        >
-                                                            <button className="flex space-x-2">
-                                                            <TrashIcon className="h-5 w-5" />
-                                                            <p>Remove</p>
-                                                            </button>
-                                                        </Link>
-                                                        </div>
-                                                    )}
-                                                    </Menu.Item>
-                                                    
-                                                </div>
-                                                </Menu.Items>
-                                            </Transition>
-                                        </Menu>
-                                    </td>
+                                    {/* <td>
+                                        <Line width={200} height={70} options={lineTrendDataOptions} data={item.trendData}  />
+                                    </td> */}
                                 </tr>
                             ))}
                             </tbody>
