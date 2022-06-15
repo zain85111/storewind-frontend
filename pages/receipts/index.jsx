@@ -364,7 +364,7 @@ const Receipts = () => {
                         </table>
 
                         {/* Pagination  */}
-                        {receipts.length > 10 ? (
+                        {/* {receipts.length > 10 ? (
                         <div className="p-4 flex items-center justify-between border-t border-gray-200 sm:px-6 ">
                             <div className="flex-1 flex justify-between sm:hidden">
                                 <a
@@ -450,7 +450,7 @@ const Receipts = () => {
                         </div>
                             ) : (
                             <></>
-                        )}
+                        )} */}
 
                     </div>
                 ) : (
