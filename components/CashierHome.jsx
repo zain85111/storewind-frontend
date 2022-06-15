@@ -324,7 +324,8 @@ const Billing = () => {
                 categories: showList[i].Categories,
                 subCategories: showList[i].Tags,
                 quantity: showList[i].recQuantity,
-                brand: showList[i].Brand
+                brand: showList[i].Brand,
+                cost: showList[i].Cost,
             })
         }
 
