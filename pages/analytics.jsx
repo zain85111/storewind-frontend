@@ -86,123 +86,7 @@ const lineTrendData = {
 
 const Analytics = () => {
 
-    const ttopProducts = [
-        {
-            id: 23,
-            name: 'Knife - Black',
-            imgUrl: '',
-            brand: 'Mac',
-            category: 'kitchen',
-            price: 23.12,
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-            
-        },
-        {
-            id: 23,
-            name: 'Knife - Black',
-            imgUrl: '',
-            brand: 'Mac',
-            category: 'kitchen',
-            price: 23.12,
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-            
-        },
-        {
-            id: 23,
-            name: 'Knife - Black',
-            imgUrl: '',
-            brand: 'Mac',
-            category: 'kitchen',
-            price: 23.12,
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-            
-        },
-        {
-            id: 23,
-            name: 'Knife - Black',
-            imgUrl: '',
-            brand: 'Mac',
-            category: 'kitchen',
-            price: 23.12,
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-            
-        },
-        {
-            id: 23,
-            name: 'Knife - Black',
-            imgUrl: '',
-            brand: 'Mac',
-            category: 'kitchen',
-            price: 23.12,
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-            
-        },
-    ]
-    const ttopBrands = [
-        {
-            id: 23,
-            name: 'MAC',
-            category: 'kitchen',
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-        },
-        {
-            id: 23,
-            name: 'MAC',
-            category: 'kitchen',
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-        },
-        {
-            id: 23,
-            name: 'MAC',
-            category: 'kitchen',
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-        },
-        {
-            id: 23,
-            name: 'MAC',
-            category: 'kitchen',
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-        },
-        {
-            id: 23,
-            name: 'MAC',
-            category: 'kitchen',
-            discount: 920.00,
-            revenue: 3541.00,
-            itemsSold: 412,
-            trendData:'',
-        },
-
-
-
-    ]
+    
 
     
     const [topAnalytics, setTopAnalytics] = useState(null);
@@ -391,14 +275,7 @@ const Analytics = () => {
                         <div className="flex justify-between items-center h-14 ">
                             <p className="font-semibold text-lg">Top Products</p>
                             <div className="flex space-x-4 ">
-                                <Link href={"/topProducts/download"}>
-                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
-                                    <span>
-                                        <DownloadIcon className="h-5 w-5 text-green-800" />
-                                    </span>
-                                    <p>Download Report</p>
-                                    </button>
-                                </Link>
+                               
                             </div>
 
                         </div>
@@ -407,14 +284,9 @@ const Analytics = () => {
                             <thead className="">
                                 <tr className="h-16  text-sm">
                                     <th>Sr.</th>
-                                    <th>ID</th>
-                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Brand</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Revenue</th>
-                                    <th>Discount</th>
+                                    <th>Sales</th>
                                     <th>Items Sold</th>
                                     {/* <th>Trend</th> */}
                                 </tr>
@@ -426,19 +298,12 @@ const Analytics = () => {
                                 key={i}
                                 >
                                     <td>{i+1}</td>
-                                    <td>{item.id}</td>
-                                    <td className="flex justify-center items-center">
-                                        <div className="h-7 w-7 pt-6 bg-white items-center flex justify-center rounded-full">
-                                            <img src="https://picsum.photos/200" alt="" className="h-5 w-5 "/>
-                                        </div>
-                                    </td>
-                                    <td>{item.name}</td>
+                                   
+                                    <td>{item.product}</td>
                                     <td>{item.brand}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.revenue}</td>
-                                    <td>{item.discount}</td>
-                                    <td>{item.itemsSold}</td>
+                                    <td>{item.sales}</td>
+                                    <td>{item.count}</td>
+                                    
                                     {/* <td className="w-20">
                                         <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
                                     </td> */}
@@ -458,14 +323,7 @@ const Analytics = () => {
                         <div className="flex justify-between items-center h-14 ">
                             <p className="font-semibold text-lg">Top Brands</p>
                             <div className="flex space-x-4 ">
-                                <Link href={"/topProducts/download"}>
-                                    <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
-                                    <span>
-                                        <DownloadIcon className="h-5 w-5 text-green-800" />
-                                    </span>
-                                    <p>Download Report</p>
-                                    </button>
-                                </Link>
+                              
                             </div>
 
                         </div>
@@ -474,11 +332,8 @@ const Analytics = () => {
                             <thead className="">
                                 <tr className="h-16  text-sm">
                                     <th>Sr.</th>
-                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Revenue</th>
-                                    <th>Discount</th>
+                                    <th>Sales</th>
                                     <th>Items Sold</th>
                                     {/* <th>Trend</th> */}
                                 </tr>
@@ -490,13 +345,11 @@ const Analytics = () => {
                                 key={i}
                                 >
                                     <td>{i+1}</td>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.revenue}</td>
-                                    <td>{item.discount}</td>
-                                    <td>{item.itemsSold}</td>
-                                    {/* <td>
+
+                                    <td>{item.brand}</td>
+                                    <td>{item.sales}</td>
+                                    <td>{item.count}</td>
+                                   {/* <td>
                                         <Line width={200} height={70} options={lineTrendDataOptions} data={item.trendData}  />
                                     </td> */}
                                 </tr>
