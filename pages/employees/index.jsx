@@ -143,7 +143,7 @@ const Employees = () => {
     const getAllEmps = async () => {
         try {
             
-            // let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/", {
+            // let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/", {
             //     method: 'POST',
             //     headers: {
                     
@@ -156,7 +156,7 @@ const Employees = () => {
     
             // let result = await response.json();
 
-            const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_all", {
+            const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_all", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',

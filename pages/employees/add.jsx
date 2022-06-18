@@ -44,7 +44,7 @@ const AddEmployee = () => {
 
         console.log(JSON.stringify(empBody));
 
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees", {
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -59,7 +59,7 @@ const AddEmployee = () => {
             "password": password,
         }
         console.log(empSignup);
-        let ress2 = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/users/signup", {
+        let ress2 = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/users/signup", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, text/plain, */*',

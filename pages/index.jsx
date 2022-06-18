@@ -9,7 +9,7 @@ function Home() {
   console.log(token)
   
   const getCurrEmp = async () => {
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+    let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
         method: 'POST',
         headers: {
             

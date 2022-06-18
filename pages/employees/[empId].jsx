@@ -28,7 +28,7 @@ const Employee = ({ query }) => {
 
     const getEmployees = async () => {
         console.log({ emp_id: router.query.empId})
-        const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+        const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, text/plain, */*',

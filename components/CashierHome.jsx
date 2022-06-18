@@ -107,7 +107,7 @@
 
 //     const getLastBill = async () => {
 
-//         let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/", {
+//         let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/", {
 //             method: 'POST',
 //             headers: {
 //                 'Accept': 'application/json, text/plain, */*',
@@ -337,7 +337,7 @@ const Billing = () => {
             payment_method: cashOrCard,
             products: productRec
         }
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/add", {
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/add", {
             method: "POST",
             headers: {
 
@@ -360,7 +360,7 @@ const Billing = () => {
     }
 
     async function getProduct(id) {
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/", {
             method: "POST",
 
             credentials: "include",
@@ -455,7 +455,7 @@ const Billing = () => {
 
 
     useEffect(async () => {
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
             method: 'POST',
 
             credentials: "include",

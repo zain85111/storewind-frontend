@@ -10,7 +10,7 @@ const Delete = () => {
   const deleteReceipt = async () => {
     console.log({ _id: router.query.id });
     console.log(router.query.id);
-    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/delete", {
+    await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/delete", {
     credentials: "include",
       method: "POST",
       body: JSON.stringify({ _id: router.query.id }),

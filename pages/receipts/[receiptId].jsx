@@ -45,7 +45,7 @@ const Receipt = ({ query }) => {
     }, []);
 
     const getReceipts = async () => {
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/",{
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/",{
             method: "POST",
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -63,7 +63,7 @@ const Receipt = ({ query }) => {
     //     console.log(query.receiptId); 
     //     try {
             
-    //         const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
+    //         const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/get_receipt", {
     //             method: "POST",
     //             headers: {
     //                 'Accept': 'application/json, text/plain, */*',

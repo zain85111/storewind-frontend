@@ -47,7 +47,7 @@ const EditEmployee = () => {
 
     const getEmployee = async () => {
         console.log({ emp_id: router.query.id})
-        const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/get_employee", {
+        const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
             method: "POST",
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -81,7 +81,7 @@ const EditEmployee = () => {
 
         console.log(JSON.stringify(empBody));
 
-        let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees", {
+        let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees", {
             method: "PATCH",
             headers: {
                 'Accept': 'application/json, text/plain, */*',

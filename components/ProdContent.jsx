@@ -37,7 +37,7 @@ const Content = () => {
 
   const getData = async () => {
     try {
-      const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/", {
+      const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/categories/", {
         method: "POST",
         // mode:'no-cors',
         headers: {

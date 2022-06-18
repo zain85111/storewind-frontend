@@ -71,7 +71,7 @@ const Edit = ({ item }) => {
 
   const getData = async () => {
     console.log(router.query.id, "Product Id");
-    const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
+    const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/", {
       method: "POST",
       // mode: "no-cors",
     
@@ -109,7 +109,7 @@ const Edit = ({ item }) => {
     };
     console.log(JSON.stringify(reqBody));
     
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/update", {
+    let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/update", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(reqBody)

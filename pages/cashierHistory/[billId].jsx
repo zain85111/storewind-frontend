@@ -27,7 +27,7 @@ const Bill = ({ query }) => {
     const [receipt, setReceipt] = useState(null);
     useEffect(() => {
         const getReceipts = async () => {
-            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/get_receipt", {
+            let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/get_receipt", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',

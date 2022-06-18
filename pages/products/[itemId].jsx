@@ -19,7 +19,7 @@ const Item = ({ prod, id, query }) => {
 
   const getData = async () => {
     console.log({ id: query.itemId, storeId: token.currentUser.email });
-    const data = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/", {
+    const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify({ id: query.itemId, storeId: token.currentUser.email }),

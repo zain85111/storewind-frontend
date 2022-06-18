@@ -106,7 +106,7 @@ const Analytics = () => {
         d = `${ye}-${mo}-${da}` + "T00:00:00.000Z";
         const getAnalytics = async()=>{
             console.log(d,"Date");
-            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/analytics/weekly_bar_analytics", {
+            let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/analytics/weekly_bar_analytics", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
@@ -117,8 +117,8 @@ const Analytics = () => {
             })
 
             setChartData(await response.json());
-            console.log(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`);
-            let response2 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`, {
+            console.log(`https://storewind.australiasoutheast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`);
+            let response2 = await fetch(`https://storewind.australiasoutheast.cloudapp.azure.com/api/analytics/${topBrandsTime}_top_brands`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
@@ -132,7 +132,7 @@ const Analytics = () => {
             console.log(res,"Top Brands")
             setTopBrands(res);
 
-            let response3 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topProductTime}_top_products`, {
+            let response3 = await fetch(`https://storewind.australiasoutheast.cloudapp.azure.com/api/analytics/${topProductTime}_top_products`, {
                 method: "POST",
                 headers: {
 
@@ -147,7 +147,7 @@ const Analytics = () => {
             setTopProducts(res3);
 
 
-            let response4 = await fetch(`https://storewind.australiaeast.cloudapp.azure.com/api/analytics/${topAnalyticsTime}_analytics`, {
+            let response4 = await fetch(`https://storewind.australiasoutheast.cloudapp.azure.com/api/analytics/${topAnalyticsTime}_analytics`, {
                 method: "POST",
                 headers: {
 

@@ -10,7 +10,7 @@ const Delete = () => {
 
     const deleteEmployee = async () => {
         console.log(router.query.id);
-        await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/employees/", {
+        await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/", {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json, text/plain, */*',

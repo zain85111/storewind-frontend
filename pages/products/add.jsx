@@ -105,7 +105,7 @@ const Item = () => {
     console.log(document.cookie)
 
     console.log(JSON.stringify(prodBody));
-    let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/add", {
+    let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/add", {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(prodBody)
@@ -156,7 +156,7 @@ const Item = () => {
 
   const getCategories = async () => {
     try {
-      const response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/categories/names", {
+      const response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/categories/names", {
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',

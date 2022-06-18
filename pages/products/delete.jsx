@@ -12,7 +12,7 @@ const Item = () => {
     // const data = api.delete("/" + router.query.id);
     // console.log(data);
     console.log(JSON.stringify({ id: router.query.id }));
-    await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/product/delete", {
+    await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/delete", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({ id: router.query.id }),

@@ -14,7 +14,7 @@ const CashierHistory = () => {
 
     const getReceipts = async () => {
         try {
-            let response = await fetch("https://storewind.australiaeast.cloudapp.azure.com/api/receipts/emp_receipts",{
+            let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/emp_receipts",{
                 method: "POST",
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
