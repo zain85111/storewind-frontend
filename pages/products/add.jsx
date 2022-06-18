@@ -240,6 +240,7 @@ const Item = () => {
                   value={prodName}
                   onChange={(e) => setProdName(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none "
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -256,6 +257,7 @@ const Item = () => {
                   value={prodBrand}
                   onChange={(e) => setProdBrand(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -272,6 +274,7 @@ const Item = () => {
                   value={prodDesc}
                   onChange={(e) => setProdDesc(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               {/* ------------Select Inputs------------  */}
@@ -296,6 +299,7 @@ const Item = () => {
                                   value={catsInput}
                                   onChange={(e) => setCatsInput(e.target.value)}
                                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                                  required
                                 />
                                 <div
                                   onClick={() => {
@@ -487,6 +491,7 @@ const Item = () => {
                   value={prodCost}
                   onChange={(e) => setProdCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -503,6 +508,7 @@ const Item = () => {
                   value={prodPrice}
                   onChange={(e) => setProdPrice(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -519,6 +525,7 @@ const Item = () => {
                   value={prodDiscount}
                   onChange={(e) => setProdDiscount(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -535,6 +542,7 @@ const Item = () => {
                   value={prodStock}
                   onChange={(e) => setProdStock(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -551,6 +559,7 @@ const Item = () => {
                   value={prodAisle}
                   onChange={(e) => setProdAisle(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">

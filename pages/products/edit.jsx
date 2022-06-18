@@ -166,6 +166,7 @@ const Edit = ({ item }) => {
                   value={prodName}
                   onChange={(e) => setProdName(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none "
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -182,6 +183,7 @@ const Edit = ({ item }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                  required
                 />
               </div>
               <div className=" col-span-6 sm:col-span-4">
@@ -356,6 +358,7 @@ const Edit = ({ item }) => {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-600 outline-none"
+                  required
                 />
               </div>
               {/* Number Inputs  */}
@@ -389,6 +392,7 @@ const Edit = ({ item }) => {
                   value={prodPrice}
                   onChange={(e) => setProdPrice(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -405,6 +409,7 @@ const Edit = ({ item }) => {
                   value={cost}
                   onChange={(e) => setCost(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -421,6 +426,7 @@ const Edit = ({ item }) => {
                   value={prodDiscount}
                   onChange={(e) => setProdDiscount(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-4">
@@ -437,6 +443,7 @@ const Edit = ({ item }) => {
                   value={prodStock}
                   onChange={(e) => setProdStock(e.target.value)}
                   className="p-1 w-full sm:text-sm border-black border-b-2 focus:border-green-700 outline-none"
+                  required
                 />
               </div>
 
