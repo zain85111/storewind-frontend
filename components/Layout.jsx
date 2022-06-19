@@ -11,8 +11,8 @@ const Layout = ({ children }) => {
         
         return (
            
-            <div className="bg-gray-100 grid grid-cols-5 min-h-screen" style={{fontFamily:''}}>
-                <div className="col-span-1">
+            <div className="flex lg:bg-gray-100 lg:grid lg:grid-cols-5 lg:min-h-screen" style={{fontFamily:''}}>
+                <div className="invisible w-0 lg:col-span-1  lg:visible">
                     {token.currentUser.rolename == 'ADMIN' ? (
                     <>
                         <Sidebar  />
@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
                             </>
                         )}
                 </div>
-                <div className="col-span-4">
+                <div className="w-full lg:col-span-4  ">
                     {children}
                 </div>
             </div>

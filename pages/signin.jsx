@@ -59,13 +59,13 @@ const Signin = (props) => {
                 <title>Storewind | Signin</title>
             </Head>
             <div className="flex  bg-white rounded-md shadow-lg   h-screen w-screen">
-                <div className="flex  justify-center h-full w-1/2 te text-white  bg-green-600 ">
+                <div className="hidden lg:flex  justify-center h-full w-1/2 te text-white  bg-green-600 ">
                     <div className="flex items-center justify-center my-3 text-4xl font-bold tracking-wider text-center space-x-4">
                         <Image src='/logo.png' height={80} width={80} className="shadow-md" />
                         <p className='text-6xl'>Storewind</p>
                     </div>
                 </div>
-                <div className="flex items-center justify-center w-1/2">
+                <div className="flex items-center justify-center w-full lg:w-1/2">
                     <div className="p-20 space-y-10 bg-white w-full">
                         <form onSubmit={(e)=>{e.preventDefault()}} className="flex flex-col space-y-8 ">
                             <h3 className="my-4 text-3xl font-semibold text-gray-700 text-center">Sign In</h3>
