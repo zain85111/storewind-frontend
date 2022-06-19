@@ -221,7 +221,7 @@ const Analytics = () => {
                                     <Tab.Panel
                                     key={idx}
                                     className={classNames(
-                                        'rounded-xl  space-x-4 flex justify-between items-center ',
+                                        'rounded-xl  grid grid-cols-2 gap-4 xl:space-x-4  xl:flex justify-between items-center ',
                                         
                                     )}
                                     >

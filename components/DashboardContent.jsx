@@ -262,7 +262,7 @@ export const DashboardContent = () => {
     const topProducts = null;
     return (
         <div className="p-5 space-y-6 ">
-            <div className="flex justify-between space-x-4 items-center ">
+            <div className="grid grid-cols-2 gap-4   xl:space-x-4  xl:flex justify-between items-center ">
                 <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
                     <div className="flex items-center space-x-10 px-8 ">
                         <ChartBarIcon className="w-12 h-12 text-gray-500" />
@@ -321,10 +321,10 @@ export const DashboardContent = () => {
             )}
 
             {/* Summary of Stats Section  */}
-            <div className="flex justify-between space-x-4">
+            <div className="flex flex-col justify-between space-y-4 lg:items-center lg:flex-row lg:space-x-4">
                 {/* Sales Stats */}
                 {topBrands ? (
-                    <div className="space-y-4 w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
+                    <div className="space-y-4 lg:w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
                         <div className="p-4 ">
                             <Tab.Group>
                                 <div className="flex justify-between items-center h-14 ">
@@ -400,7 +400,7 @@ export const DashboardContent = () => {
 
                 {/* Top Products  */}
                 {topProduct ? (
-                    <div className="space-y-4 w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
+                    <div className="space-y-4 lg:w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
                         <div className="p-4 ">
                             <Tab.Group>
                                 <div className="flex justify-between items-center h-14 ">
