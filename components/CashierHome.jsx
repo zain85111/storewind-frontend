@@ -327,6 +327,27 @@ const Billing = () => {
                 brand: showList[i].Brand,
                 cost: showList[i].Cost,
             })
+            const newForUpdate = JSON.parse(JSON.stringify(showList[i]));
+            
+            newForUpdate.InStock-=showList[i].recQuantity;
+            newForUpdate.TotalSold+=showList[i].recQuantity;
+
+            if(newForUpdate.InStock < 0){
+                newForUpdate.InStock = 0;
+                newForUpdate.TotalSold-=showList[i].recQuantity
+            }
+
+            newForUpdate.Price-=0.01;
+            newForUpdate.Discount-=0.01;
+
+
+            console.log(JSON.stringify(newForUpdate));
+            let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/update", {
+            method: "POST",
+           
+            credentials: "include",
+            body: JSON.stringify(newForUpdate),
+        })
         }
 
         const reciept = {
@@ -367,10 +388,11 @@ const Billing = () => {
             body: JSON.stringify({ id: id, storeId: token.currentUser.storeid }),
         })
         let result = await response.json();
-
+        
         if (result.Name == "") {
             setNotFound("Product Not Found");
-        } else {
+        }
+        else {
             setNotFound("");
 
             // let res = JSON.stringify(scannedCodes);
@@ -439,6 +461,7 @@ const Billing = () => {
         for (let i = 0; i < newArr.length; i++) {
             if (newArr[i].Id == id) {
                 newArr.splice(i, 1);
+                break;
             }
         }
 
@@ -470,6 +493,9 @@ const Billing = () => {
     return (
         <div id="page">
             <style jsx global>{`
+            #dontShow{
+                background: grey;
+            }
        @media print {
         body *{
           visibility: hidden;
