@@ -18,16 +18,18 @@ import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import useToken from "../../helper/useToken";
 import { useRouter } from "next/router";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Receipts = () => {
-    
-
-    const { token, setToken } = useToken();
+    const { token } = useToken();
     const router = useRouter();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const filters = [
         {
@@ -152,12 +154,18 @@ const Receipts = () => {
                 body: JSON.stringify({ store_id: token.currentUser.email }),
             })
             let result = await response.json();
-            console.log(result,"All Receipts")
-
+            
             setReceipts(result)
+            setIsLoading(false)
+            if (result.length <= 0) {
+                setErrorMessage("No Receipts found");
+            }
+            console.log(result,"All Receipts")
             
         } catch (err) {
             console.log(err);
+            setErrorMessage("Unable to fetch Receipts list");
+            setIsLoading(false);
         }
     }
     
@@ -169,29 +177,19 @@ const Receipts = () => {
     })
 
     useEffect(() => {
+        setIsLoading(true);
         getReceipts();
     },[])
 
-    return (
-        <div>
-            <Head>
-                <title>Storewind | Receipts</title>
-            </Head>
-            <Navbar pageTitle={"Receipts"} />
-            {/* Content  */}
+
+    const renderReceipts = (
+
             <div className="p-4 space-y-2 relative">
                 <div className="flex justify-end items-center max-h-[54px] ">
                     {receipts ? (
                     <>
                         <div className="flex space-x-4 ">
-                        {/* <Link href={"/receipts/add"}>
-                            <button className="text-xs font-semibold flex items-center rounded-xl p-2  space-x-4 border-[1px] border-green-800 bg-white active:text-green-600">
-                                <span>
-                                    <PlusCircleIcon className="h-5 w-5 text-green-800" />
-                                </span>
-                                <p>Add Receipt</p>
-                            </button>
-                        </Link> */}
+
                         {/* <Menu as="div" className="">
                             <Menu.Button className="active:text-green-600 text-sm font-semibold  border-[1px] border-green-800 bg-white p-2 flex items-center rounded-xl space-x-6">
                                 <FilterIcon className="h-4 w-4 text-green-800" />
@@ -457,6 +455,23 @@ const Receipts = () => {
                     <></>
                 )}               
             </div>
+    )
+
+    const loadingSpinner = (
+        <div className="w-full h-screen flex justify-center items-center ">
+            <LoadingSpinner />
+        </div>
+    );
+
+    return (
+        <div>
+            <Head>
+                <title>Storewind | Receipts</title>
+            </Head>
+            <Navbar pageTitle={"Receipts"} />
+            {/* Content  */}
+            {isLoading ? loadingSpinner : renderReceipts}
+            {errorMessage && <div className="p-4 text-xl font-bold text-red-500">{errorMessage}</div>}
             {/* Content End  */}
         </div>
     )

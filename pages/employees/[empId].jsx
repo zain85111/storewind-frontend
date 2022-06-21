@@ -54,35 +54,35 @@ const Employee = ({ query }) => {
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">
 
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Employee ID:</p>
                         <p className="">{currEmp._id}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Joining Date:</p>
                         <p className="">{new Date(currEmp.joining_date).toDateString()}</p>
                     </div> 
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Name:</p>
                         <p className="">{currEmp.emp_name}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Phone No.:</p>
                         <p className="">{currEmp.phone}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">CNIC:</p>
                         <p className="">{currEmp.emp_name}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Address:</p>
                         <p className="">{currEmp.address}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Salary:</p>
                         <p className="">{currEmp.salary}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Total Sales:</p>
                         <p className="">{currEmp.totalSales}</p>
                     </div>

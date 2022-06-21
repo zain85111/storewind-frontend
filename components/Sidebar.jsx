@@ -22,18 +22,15 @@ const Sidebar = ()=> {
                 </Link>
                 <Link href='/products'>
                     <button className='flex items-center justify-betwee space-x-2 pl-2 h-10 w-full hover:text-green-600 hover:border-green-600 hover:border-l-2 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
-                            <ClipboardListIcon className='h-5 w-5' />
-                            <p>Inventory</p>
-                        <div className='flex items-center space-x-2'>
-                        </div>
+                        <ClipboardListIcon className='h-5 w-5' />
+                        <p>Inventory</p>
+                        
                     </button>
                 </Link>
                 <Link href='/analytics'>
                     <button className='flex items-center justify-betwee space-x-2 pl-2 h-10 w-full hover:text-green-600 hover:border-green-600 hover:border-l-2 focus:text-green-600 focus:border-green-600 focus:border-l-2'>
-                            <ChartBarIcon className='h-5 w-5' />
-                            <p>Analytics</p>
-                        <div className='flex items-center space-x-2'>
-                        </div>
+                        <ChartBarIcon className='h-5 w-5' />
+                        <p>Analytics</p>
                     </button>
                 </Link>
                 <Link href='/receipts'>

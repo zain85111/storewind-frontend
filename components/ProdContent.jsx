@@ -19,6 +19,9 @@ import { Menu, Transition, Dialog, Listbox } from "@headlessui/react";
 import { Fragment, useState,useEffect} from "react";
 import Link from "next/link";
 import useToken from "../helper/useToken";
+import { useRouter } from "next/router";
+import LoadingSpinner from "./LoadingSpinner"
+
 
 
 function classNames(...classes) {
@@ -30,7 +33,12 @@ const Content = () => {
   // setProductData(data.products[0].categories[0].products);
   
   // console.log(productData, "Products");
-  const { token ,setToken} = useToken();
+  const { token, setToken } = useToken();
+  const router = useRouter()
+
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [result, setResult] = useState(null);
   
@@ -57,26 +65,33 @@ const Content = () => {
         setProductData(prod);
         console.log(prod);
       }
+      setIsLoading(false)
       
     } catch (err) {
       console.log(err)
+      setErrorMessage("Unable to fetch Products list");
+      setIsLoading(false);
     }
   };
 
-  // useEffect(() => {
-  //   if (token.currentUser.rolename != 'ADMIN') {
-  //     router.push('/')
-  //   }
-  // })
   useEffect(() => {
+    if (token.currentUser.rolename != 'ADMIN') {
+      router.push('/')
+    }
+  })
+
+  useEffect(() => {
+    setIsLoading(true)
     getData();
   }, []);
 
   useEffect(() => {
+    setIsLoading(true)
     getData();
-  },[])
+  }, [])
+  
+  const renderContent = (
 
-  return (
     <div className="p-4 space-y-2">
       <div className="flex justify-end items-center h-14 ">
         {productData ? (
@@ -156,12 +171,11 @@ const Content = () => {
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Stock</th>
-                {/* <th>Modified</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody className="">
-              {productData.map((item, i) => (
+              {productData.slice(0, 10).map((item, i) => (
                 <tr
                   className="h-10 bg-white hover:bg-gray-50 min-w-full text-xs"
                   key={i}
@@ -366,6 +380,18 @@ const Content = () => {
 
 
     </div>
+  )
+      const loadingSpinner = (
+        <div className="w-full h-screen flex justify-center items-center ">
+            <LoadingSpinner />
+        </div>
+    );
+
+  return (
+    <>
+      {isLoading ? loadingSpinner : renderContent}
+      {errorMessage && <div className="p-4 text-xl font-bold text-red-500">{errorMessage}</div>}
+    </>
   );
 };
 

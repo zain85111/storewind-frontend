@@ -17,6 +17,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Line, Chart, Bar } from 'react-chartjs-2';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 
 function classNames(...classes) {
@@ -104,6 +105,8 @@ const incomeExpanseDataOptions = {
 
 
 export const DashboardContent = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [topAnalytics, setTopAnalytics] = useState(null);
     const [chartData, setChartData] = useState(null);
@@ -164,6 +167,7 @@ export const DashboardContent = () => {
     },[incomeExpanseDataLabels, dataSales, dataRevenue]) 
 
     useEffect(() => {
+        setIsLoading(true)
         let d = new Date();
         let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
         let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
@@ -243,6 +247,7 @@ export const DashboardContent = () => {
             })
 
             setTopAnalytics(await response4.json());
+            setIsLoading(false)
         }
         getAnalytics();
 
@@ -260,42 +265,44 @@ export const DashboardContent = () => {
     }
     const durations = ['daily', 'weekly', 'monthly']
     const topProducts = null;
-    return (
+
+    const renderContent = (
+
         <div className="p-5 space-y-6 ">
-            <div className="grid grid-cols-2 gap-4   xl:space-x-4  xl:flex justify-between items-center ">
-                <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
-                    <div className="flex items-center space-x-10 px-8 ">
-                        <ChartBarIcon className="w-12 h-12 text-gray-500" />
+            <div className="gap-4 grid grid-cols-2  xl:space-x-4  xl:flex justify-between items-center ">
+                <div className="bg-white w-36 h-24 md:w-72 md:h-44 rounded-xl flex items-center  ">
+                    <div className="flex items-center space-x-4 px-4 md:space-x-10 md:px-8 ">
+                        <ChartBarIcon className="w-6 h-6 md:w-12 md:h-12 text-gray-500" />
                         <div className="space-y-1">
-                            <p className="text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalSales)}</p>
-                            <p className="text-gray-500 text-">Total Sales</p>
+                            <p className="text-xl md:text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalSales)}</p>
+                            <p className="text-gray-500 text-[10px] md:text-base">Total Sales</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
-                    <div className="flex items-center space-x-10 px-8 ">
-                        <CurrencyDollarIcon className="w-12 h-12 text-gray-500" />
+                <div className="bg-white w-36 h-24 md:w-72 md:h-44 rounded-xl flex items-center  ">
+                    <div className="flex items-center space-x-4 px-4 md:space-x-10 md:px-8 ">
+                        <CurrencyDollarIcon className="w-6 h-6 md:w-12 md:h-12 text-gray-500" />
                         <div className="space-y-1">
-                            <p className="text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.revenue)}</p>
-                            <p className="text-gray-500 text-">Total Revenue</p>
+                            <p className="text-xl md:text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.revenue)}</p>
+                            <p className="text-gray-500 text-[10px] md:text-base">Total Revenue</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
-                    <div className="flex items-center space-x-10 px-8 ">
-                        <TicketIcon className="w-12 h-12 text-gray-500" />
+                <div className="bg-white w-36 h-24 md:w-72 md:h-44 rounded-xl flex items-center  ">
+                    <div className="flex items-center space-x-4 px-4 md:space-x-10 md:px-8 ">
+                        <TicketIcon className="w-6 h-6 md:w-12 md:h-12 text-gray-500" />
                         <div className="space-y-1">
-                            <p className="text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalOrders)}</p>
-                            <p className="text-gray-500 text-">Total Orders</p>
+                            <p className="text-xl md:text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalOrders)}</p>
+                            <p className="text-gray-500 text-[10px] md:text-base">Total Orders</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white w-72 h-44 rounded-xl flex items-center  ">
-                    <div className="flex items-center space-x-10 px-8 ">
-                        <ClipboardListIcon className="w-12 h-12 text-gray-500" />
+                <div className="bg-white w-36 h-24 md:w-72 md:h-44 rounded-xl flex items-center  ">
+                    <div className="flex items-center space-x-4 px-4 md:space-x-10 md:px-8 ">
+                        <ClipboardListIcon className="w-6 h-6 md:w-12 md:h-12 text-gray-500" />
                         <div className="space-y-1">
-                            <p className="text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalProductsSold)}</p>
-                            <p className="text-gray-500 text-">Total Products Sold</p>
+                            <p className="text-xl md:text-4xl font-bold text-gray-900">{topAnalytics == null ? " " : intToString(topAnalytics.totalProductsSold)}</p>
+                            <p className="text-gray-500 text-[10px] md:text-base">Total Products Sold</p>
                         </div>
                     </div>
                 </div>
@@ -321,18 +328,19 @@ export const DashboardContent = () => {
             )}
 
             {/* Summary of Stats Section  */}
+
             <div className="flex flex-col justify-between space-y-4 lg:items-center lg:flex-row lg:space-x-4">
                 {/* Sales Stats */}
                 {topBrands ? (
                     <div className="space-y-4 lg:w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
                         <div className="p-4 ">
-                            <Tab.Group>
-                                <div className="flex justify-between items-center h-14 ">
+                            <Tab.Group as={"div"} className="flex flex-col gap-12 md:gap-4">
+                                <div className="flex flex-col space-y-3 md:flex-row justify-between md:items-center h-14 ">
                                     <div className="flex flex-col  items-start">
                                         <p className="font-semibold ">Top Brands</p>
                                         <p className="text-xs">Summary of top brand sales.</p>
                                     </div>
-                                    <Tab.List className="flex p-1 space-x-1 w-1/2 bg-gray-100 rounded-xl">
+                                    <Tab.List className="flex p-1 space-x-1 md:w-1/2 bg-gray-100 rounded-xl">
                                         {durations.map((duration, idx) => (
                                             <Tab
                                                 key={idx}
@@ -402,13 +410,13 @@ export const DashboardContent = () => {
                 {topProduct ? (
                     <div className="space-y-4 lg:w-1/2 hover:border-collapse  text-center items-center align-middle bg-white rounded-xl">
                         <div className="p-4 ">
-                            <Tab.Group>
-                                <div className="flex justify-between items-center h-14 ">
+                            <Tab.Group as={"div"} className="flex flex-col gap-12 md:gap-4">
+                                <div className="flex flex-col space-y-3 md:flex-row justify-between md:items-center h-14 ">
                                     <div className="flex flex-col  items-start">
                                         <p className="font-semibold ">Top Prodcuts</p>
                                         <p className="text-xs">Summary of top products sales.</p>
                                     </div>
-                                    <Tab.List className="flex p-1 space-x-1 w-1/2 bg-gray-100 rounded-xl">
+                                    <Tab.List className="flex p-1 space-x-1 md:w-1/2 bg-gray-100 rounded-xl">
                                         {durations.map((duration, idx) => (
                                             <Tab
                                                 key={idx}
@@ -478,5 +486,19 @@ export const DashboardContent = () => {
             </div>
 
         </div>
+    )
+
+    const loadingSpinner = (
+        <div className="w-full h-screen flex justify-center items-center ">
+            <LoadingSpinner />
+        </div>
+    );
+
+
+    return (
+        <>
+            {isLoading ? loadingSpinner : renderContent}
+            {errorMessage && <div className="p-4 text-xl font-bold text-red-500">{errorMessage}</div>}
+        </>
     )
 }
