@@ -11,13 +11,12 @@ const Signin = (props) => {
     const [err, setError] = useState('')
 
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-
+    
     const router = useRouter()
     const { token, setToken } = useToken()
     const signIn = async () => {
-        setIsLoading(true);
         if (email != '' && password != '') {
+            setIsLoading(true);
             try {
                 let send = { email, password , roleName:"2"};
                 console.log(send);
@@ -48,13 +47,13 @@ const Signin = (props) => {
                 if (response.currentUser != null) {
                     router.reload(window.location.pathname)        
                 }
+                setError("")
             } catch (err) {
                 setToken({ currentUser: null, role: null });
                 console.log(err);
                 setError("Sign in failed! Try again.")
                 setIsLoading(false)
             }
-            setError("")
         }
         else {
             setError("Email/Password cannot be empty.");

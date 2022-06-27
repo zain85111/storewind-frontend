@@ -9,19 +9,24 @@ function Home() {
   console.log(token)
   
   const getCurrEmp = async () => {
-    let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
-        method: 'POST',
-        headers: {
-            
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-        credentials: "include",
-        body: JSON.stringify({"_id": token.currentUser.iat })
-    });
-
-    let result = await response.json();
-    console.log(result)
+    try {
+      
+      let response = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
+          method: 'POST',
+          headers: {
+              
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+          },
+          credentials: "include",
+          body: JSON.stringify({"_id": token.currentUser.iat })
+      });
+  
+      let result = await response.json();
+      console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
   }
   
   if (token.currentUser.rolename != 'ADMIN') {
