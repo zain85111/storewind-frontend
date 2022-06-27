@@ -1,19 +1,10 @@
 import Head from "next/head"
 import Navbar from "../components/Navbar";
 import {
-  DotsHorizontalIcon,
-  FilterIcon,
-  ChevronDownIcon,
-  TrashIcon,
-  PencilAltIcon,
-  ViewListIcon,
-  DownloadIcon,
   CurrencyDollarIcon, ChartBarIcon,TicketIcon,ClipboardListIcon
 } from "@heroicons/react/outline";
 
-import { Menu, Transition,Tab} from "@headlessui/react";
-import { Fragment } from "react";
-import Link from "next/link";
+import { Tab} from "@headlessui/react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,7 +16,6 @@ import {
   Legend,
 } from 'chart.js';
 import { useEffect, useState } from "react";
-import { Line } from 'react-chartjs-2';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 
@@ -43,46 +33,6 @@ ChartJS.register(
   Legend,
 );
 
-
-const lineTrendDataLabels = ['', '', ''];
-const lineTrendDataOptions = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'bottom',
-            display:false,
-        },
-    },
-    scales: {
-        x: {
-            grid: {
-                display:false,
-            },
-            display:false,
-        },
-        y: {
-            grid: {
-                display:false,
-            },
-            display:false,
-        },
-    },
-
-    maintainAspectRatio: true, 
-  
-};
-const lineTrendData = {
-    labels: lineTrendDataLabels,
-    datasets: [{
-        label: {
-            display:false,
-        },
-        data: [95, 59, 80,],
-        fill: 'origin',
-        borderColor: 'rgb(725, 192, 192)',
-        tension: 0.1
-    }]
-};
 
 
 const Analytics = () => {
@@ -180,7 +130,6 @@ const Analytics = () => {
         return shortValue+suffixes[suffixNum];
     }
     const durations = ['Daily', 'Weekly', 'Monthly']
-    // const topProducts = [];
 
     const renderContent = (
 
@@ -222,7 +171,7 @@ const Analytics = () => {
                                 <Tab.Panel
                                 key={idx}
                                 className={classNames(
-                                    'rounded-xl grid grid-cols-2 gap-y-4 xl:space-x-4  xl:flex justify-between items-center ',
+                                    'rounded-xl gap-4 flex flex-wrap xl:flex-nowrap xl:space-x-4 justify-between items-center ',
                                     
                                 )}
                                 >
@@ -274,38 +223,33 @@ const Analytics = () => {
             {topProducts ? (
                 <div className="space-y-4">
                     <p className="font-semibold text-lg">Top Products</p>
-                    <table className="table-auto hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
-                        <thead className="">
-                            <tr className="h-16  text-sm">
-                                <th>Sr.</th>
-                                <th>Name</th>
-                                <th>Brand</th>
-                                <th>Sales</th>
-                                <th>Items Sold</th>
-                                {/* <th>Trend</th> */}
-                            </tr>
-                        </thead>
-                        <tbody className="">
-                        {topProducts.slice(0, 5).map((item, i) => (
-                            <tr
-                            className="h-14 hover:bg-gray-50 min-w-full text-xs"
-                            key={i}
-                            >
-                                <td>{i+1}</td>
-                            
-                                <td>{item.product}</td>
-                                <td>{item.brand}</td>
-                                <td>{item.sales}</td>
-                                <td>{item.count}</td>
-                                
-                                {/* <td className="w-20">
-                                    <Line width={200} height={70} options={lineTrendDataOptions} data={lineTrendData}  />
-                                </td> */}
-                                
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <div className="overflow-x-auto">
+                        <table className="table-auto hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
+                            <thead className="text-sm">
+                                <tr className="bg-white rounded-md">
+                                    <th scope="col" className="px-3 py-1">Sr.</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Brand</th>
+                                    <th scope="col" className="px-6 py-3">Sales</th>
+                                    <th scope="col" className="px-6 py-3">Items Sold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {topProducts.slice(0, 5).map((item, i) => (
+                                <tr
+                                    className="bg-white hover:bg-gray-50 text-xs"
+                                    key={i}
+                                >
+                                    <th scope="row" className="px-3 py-2">{i+1}</th>   
+                                    <td className="px-6 py-2">{item.product}</td>
+                                    <td className="px-6 py-2">{item.brand}</td>
+                                    <td className="px-6 py-2">{item.sales}</td>
+                                    <td className="px-6 py-2">{item.count}</td>                                
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <></>
@@ -315,34 +259,31 @@ const Analytics = () => {
             {topBrands ? (
                 <div className="space-y-4">
                     <p className="font-semibold text-lg">Top Brands</p>
-                    <table className="hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
-                        <thead className="">
-                            <tr className="h-16  text-sm">
-                                <th>Sr.</th>
-                                <th>Name</th>
-                                <th>Sales</th>
-                                <th>Items Sold</th>
-                                {/* <th>Trend</th> */}
-                            </tr>
-                        </thead>
-                        <tbody className="">
-                        {topBrands.slice(0, 5).map((item, i) => (
-                            <tr
-                            className="h-14 hover:bg-gray-50 min-w-full text-xs"
-                            key={i}
-                            >
-                                <td>{i+1}</td>
-
-                                <td>{item.brand}</td>
-                                <td>{item.sales}</td>
-                                <td>{item.count}</td>
-                            {/* <td>
-                                    <Line width={200} height={70} options={lineTrendDataOptions} data={item.trendData}  />
-                                </td> */}
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    <div className="overflow-x-auto">
+                        <table className="hover:border-collapse w-full text-center items-center align-middle bg-white rounded-lg">
+                            <thead className="text-sm">
+                                <tr className="bg-white rounded-md">
+                                    <th scope="col" className="px-3 py-1">Sr.</th>
+                                    <th scope="col" className="px-6 py-3">Name</th>
+                                    <th scope="col" className="px-6 py-3">Sales</th>
+                                    <th scope="col" className="px-6 py-3">Items Sold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {topBrands.slice(0, 5).map((item, i) => (
+                                <tr
+                                    className="bg-white hover:bg-gray-50 text-xs"
+                                    key={i}
+                                >
+                                    <th scope="row" className="px-3 py-2">{i+1}</th>
+                                    <td className="px-6 py-2">{item.brand}</td>
+                                    <td className="px-6 py-2">{item.sales}</td>
+                                    <td className="px-6 py-2">{item.count}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <></>

@@ -6,7 +6,6 @@ import useToken from "../helper/useToken";
 
 function Home() {
   const { token ,setToken} = useToken();
-  console.log(token)
   
   const getCurrEmp = async () => {
     try {
@@ -23,7 +22,6 @@ function Home() {
       });
   
       let result = await response.json();
-      console.log(result)
     } catch (error) {
       console.log(error)
     }

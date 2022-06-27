@@ -56,35 +56,35 @@ const Employee = ({ query }) => {
 
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Employee ID:</p>
-                        <p className="">{currEmp._id}</p>
+                        <p>{currEmp._id}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Joining Date:</p>
-                        <p className="">{new Date(currEmp.joining_date).toDateString()}</p>
+                        <p >{new Date(currEmp.joining_date).toDateString()}</p>
                     </div> 
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Name:</p>
-                        <p className="">{currEmp.emp_name}</p>
+                        <p>{currEmp.emp_name}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Phone No.:</p>
-                        <p className="">{currEmp.phone}</p>
+                        <p>{currEmp.phone}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">CNIC:</p>
-                        <p className="">{currEmp.emp_name}</p>
+                        <p>{currEmp.emp_name}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Address:</p>
-                        <p className="">{currEmp.address}</p>
+                        <p>{currEmp.address}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Salary:</p>
-                        <p className="">{currEmp.salary}</p>
+                        <p>{currEmp.salary}</p>
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Total Sales:</p>
-                        <p className="">{currEmp.totalSales}</p>
+                        <p>{currEmp.totalSales}</p>
                     </div>
                    
           

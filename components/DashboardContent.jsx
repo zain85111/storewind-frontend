@@ -1,10 +1,9 @@
 import {
-    CurrencyDollarIcon, ChartBarIcon, TicketIcon, ClipboardListIcon, ArrowUpIcon, ArrowDownIcon, DownloadIcon
+    CurrencyDollarIcon, ChartBarIcon, TicketIcon, ClipboardListIcon,
 } from "@heroicons/react/outline";
 
 import { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
-import Link from "next/link";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -16,7 +15,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Line, Chart, Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 
@@ -35,46 +34,6 @@ ChartJS.register(
     Legend,
 );
 
-
-const lineTrendDataLabels = ['', '', ''];
-const lineTrendDataOptions = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'bottom',
-            display: false,
-        },
-    },
-    scales: {
-        x: {
-            grid: {
-                display: false,
-            },
-            display: false,
-        },
-        y: {
-            grid: {
-                display: false,
-            },
-            display: false,
-        },
-    },
-
-    maintainAspectRatio: true,
-
-};
-const lineTrendData = {
-    labels: lineTrendDataLabels,
-    datasets: [{
-        label: {
-            display: false,
-        },
-        data: [95, 59, 80,],
-        fill: 'origin',
-        borderColor: 'rgb(725, 192, 192)',
-        tension: 0.1
-    }]
-};
 
 const incomeExpanseDataOptions = {
     responsive: true,
@@ -100,8 +59,6 @@ const incomeExpanseDataOptions = {
 
     }
 };
-
-
 
 
 export const DashboardContent = () => {
@@ -268,8 +225,8 @@ export const DashboardContent = () => {
 
     const renderContent = (
 
-        <div className="p-5 space-y-6 ">
-            <div className="gap-4 grid grid-cols-2  xl:space-x-4  xl:flex justify-between items-center ">
+        <div className="p-5 space-y-6">
+            <div className="gap-4 flex flex-wrap xl:flex-nowrap xl:space-x-4 justify-between items-center ">
                 <div className="bg-white w-36 h-24 md:w-72 md:h-44 rounded-xl flex items-center  ">
                     <div className="flex items-center space-x-4 px-4 md:space-x-10 md:px-8 ">
                         <ChartBarIcon className="w-6 h-6 md:w-12 md:h-12 text-gray-500" />
@@ -367,30 +324,30 @@ export const DashboardContent = () => {
                                         <Tab.Panel
                                             key={idx}
                                             className={classNames(
-                                                '',
+                                                'overflow-x-auto',
 
                                             )}
                                         >
-                                            <table className="hover:border-collapse w-full   ">
-                                                <thead >
-                                                    <tr className="h-16 text-sm">
-                                                        <th>Sr.</th>
-                                                        <th>Name</th>
-                                                        <th>Item Sold</th>
-                                                        <th>Sales</th>
+                                            <table className="hover:border-collapse w-full text-center">
+                                                <thead className="text-sm">
+                                                    <tr className="rounded-md">
+                                                        <th scope="col" className="px-3 py-1">Sr.</th>
+                                                        <th scope="col" className="px-6 py-3">Name</th>
+                                                        <th scope="col" className="px-6 py-3">Items Sold</th>
+                                                        <th scope="col" className="px-6 py-3">Sales</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody className="">
+                                                <tbody>
                                                     {topBrands.slice(0, 5).map((item, i) => (
                                                         <tr
-                                                            className="h-14 hover:bg-gray-100  text-xs "
+                                                            className="hover:bg-gray-100 text-xs "
                                                             key={item.brand}
                                                         >
 
-                                                            <td >{i + 1}</td>
-                                                            <td >{item.brand}</td>
-                                                            <td>{item.count}</td>
-                                                            <td>{item.sales}</td>
+                                                            <th scope="row" className="px-3 py-2">{i + 1}</th>
+                                                            <td className="px-6 py-2">{item.brand}</td>
+                                                            <td className="px-6 py-2">{item.count}</td>
+                                                            <td className="px-6 py-2">{item.sales}</td>
 
                                                         </tr>
                                                     ))}
@@ -442,32 +399,31 @@ export const DashboardContent = () => {
                                         <Tab.Panel
                                             key={idx}
                                             className={classNames(
-                                                '',
+                                                'overflow-x-auto',
 
                                             )}
                                         >
-                                            <table className="hover:border-collapse w-full   ">
-                                                <thead >
-                                                    <tr className="h-16 text-sm">
-                                                        <th>Sr.</th>
-
-                                                        <th>Name</th>
-                                                        <th>Brand</th>
-                                                        <th>Items Sold</th>
-                                                        <th>Sales</th>
+                                            <table className="hover:border-collapse w-full text-center">
+                                                <thead className="text-sm">
+                                                    <tr className="rounded-md">
+                                                        <th scope="col" className="px-3 py-1">Sr.</th>
+                                                        <th scope="col" className="px-6 py-3">Name</th>
+                                                        <th scope="col" className="px-6 py-3">Brand</th>
+                                                        <th scope="col" className="px-6 py-3">Items Sold</th>
+                                                        <th scope="col" className="px-6 py-3">Sales</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody className="">
+                                                <tbody>
                                                     {topProduct.slice(0, 5).map((item, i) => (
                                                         <tr
-                                                            className="h-14 hover:bg-gray-100  text-xs "
+                                                            className="hover:bg-gray-50 text-xs"
                                                             key={item.name}
                                                         >
-                                                            <td>{i + 1}</td>
-                                                            <td>{item.product}</td>
-                                                            <td>{item.brand}</td>
-                                                            <td>{item.count}</td>
-                                                            <td>{item.sales}</td>
+                                                            <th scope="row" className="px-3 py-2">{i + 1}</th>
+                                                            <td className="px-6 py-2">{item.product}</td>
+                                                            <td className="px-6 py-2">{item.brand}</td>
+                                                            <td className="px-6 py-2">{item.count}</td>
+                                                            <td className="px-6 py-2">{item.sales}</td>
 
                                                         </tr>
                                                     ))}

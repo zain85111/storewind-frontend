@@ -5,7 +5,6 @@ import useToken from "../helper/useToken";
 const Layout = ({ children }) => {
 
     const { token } = useToken();
-    console.log(token)
 
     if (token && token.currentUser!=null) {
         

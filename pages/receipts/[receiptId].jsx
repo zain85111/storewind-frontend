@@ -58,31 +58,6 @@ const Receipt = ({ query }) => {
         return result;
     }
 
-    // const getReceipt = async () => {
-        
-    //     console.log(query.receiptId); 
-    //     try {
-            
-    //         const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/receipts/get_receipt", {
-    //             method: "POST",
-    //             headers: {
-    //                 'Accept': 'application/json, text/plain, */*',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             credentials: "include",
-    //             body: JSON.stringify({ id: query.receiptId })
-    //         });
-
-    //         const result = await data.json();
-    //         console.log(result);
-    //         setReceipt(result)
-
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-
-    // };
-
 
     const pproducts = [
         {
@@ -124,28 +99,27 @@ const Receipt = ({ query }) => {
         <div className="p-4 m-2" key={receipt._id}>
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Receipt ID:</p>
                         <p className="">{receipt._id}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Employee ID</p>
                         <p className="">{receipt.emp_id}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Receipt Date</p>
                         <p className="">{new Date(receipt.receipt_date).toDateString()}</p>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Amount:</p>
                         <p className="">{receipt.amount}</p>
-                        {/* <p className="">{amount.toFixed(2)} PKR</p> */}
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">No. of Items:</p>
                         <p className="">{noOfItem}</p>
                     </div>
-                    <div className="flex flex-col justify-between ">
+                    <div className="flex flex-col justify-between">
                         <p className="font-bold">Products</p>
                             {
                                 products ? (
@@ -154,7 +128,7 @@ const Receipt = ({ query }) => {
                                 {
                                     products == null?"":
                                     products.map((p,i) => (         
-                                        <Disclosure key={i}>
+                                        <Disclosure key={p._id}>
                                         {({ open }) => (
                                             <>
                                             <Disclosure.Button className="flex w-full justify-between rounded-lg bg-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-500 hover:bg-white focus:outline-none focus-visible:ring focus-visible:ring-green-600 focus-visible:ring-opacity-75">
@@ -200,7 +174,7 @@ const Receipt = ({ query }) => {
                             }    
                     </div>                   
                     
-                    <div className="flex justify-between">
+                    <div className="flex flex-col gap-2 md:flex-row justify-between">
                         <p className="font-bold">Payment Method:</p>
                         <p className="">{receipt.payment_method} </p>
                     </div>
@@ -210,22 +184,14 @@ const Receipt = ({ query }) => {
 
             {/* Buttons */}
             <div className="pt-4 space-x-4 flex justify-end items-center">
-            {/* <Link href={"/receipts/edit/?id=" + receipt._id}>
-                <button
-                type="button"
-                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-[#44814E] border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
-                >
-                Edit
-                </button>
-            </Link> */}
-            <Link href={"/receipts/delete/?id=" + receipt._id}>
-                <button
-                type="button"
-                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
-                >
-                Delete
-                </button>
-            </Link>
+                <Link href={"/receipts/delete/?id=" + receipt._id}>
+                    <button
+                    type="button"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    >
+                    Delete
+                    </button>
+                </Link>
             </div>
         </div>
 }
