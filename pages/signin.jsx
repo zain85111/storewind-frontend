@@ -41,9 +41,8 @@ const Signin = (props) => {
                 console.log(response, "Response 2");
                 
                 setToken({ token: response });
-                setIsLoading(false)
                 console.log({ token: response })
-    
+                
                 if (response.currentUser != null) {
                     router.reload(window.location.pathname)        
                 }
@@ -52,8 +51,8 @@ const Signin = (props) => {
                 setToken({ currentUser: null, role: null });
                 console.log(err);
                 setError("Sign in failed! Try again.")
-                setIsLoading(false)
             }
+            setIsLoading(false)
         }
         else {
             setError("Email/Password cannot be empty.");
@@ -89,16 +88,8 @@ const Signin = (props) => {
                             className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-green-200"
                             required
                         />
-                        {/* <a href="#" className="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a> */}
                     </div>
-                    {/* <div className="flex items-center space-x-2">
-                        <input
-                            type="checkbox"
-                            id="remember"
-                            className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-green-200"
-                        />
-                        <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
-                    </div> */}
+                   
                     <div>
                         <button type='submit' onClick={() => { signIn() }} className="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-600 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-green-200 focus:ring-4" disabled={isLoading}>Sign in
                         </button>
