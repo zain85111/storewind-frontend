@@ -3,14 +3,18 @@ import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
-import axios from "axios";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Item = () => {
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
+
   const deleteProduct = async () => {
-    // const data = api.delete("/" + router.query.id);
-    // console.log(data);
+
+    setIsLoading(true)
+
     console.log(JSON.stringify({ id: router.query.id }));
     await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/product/delete", {
       method: "post",
@@ -19,16 +23,14 @@ const Item = () => {
     }).then(() => {
       setTimeout(() => {
         router.push("/products");
+        setIsLoading(false)
       }, 1000);
     });
   };
 
-  return (
-    <div>
-      <Head>
-        <title>Storewind | Delete Product</title>
-      </Head>
-      <Navbar pageTitle={"Delete Product"} />
+
+  const renderContent = (
+
       <div className="p-4 m-2  items-center">
         <div className=" flex flex-col justify-evenly items-center h-72">
           <ExclamationCircleIcon className="h-32 w-32 text-red-500" />
@@ -52,6 +54,22 @@ const Item = () => {
           </div>
         </div>
       </div>
+  )
+
+  const loadingSpinner = (
+    <div className="w-full h-screen flex justify-center items-center ">
+        <LoadingSpinner />
+    </div>
+  );
+  
+
+  return (
+    <div>
+      <Head>
+        <title>Storewind | Delete Product</title>
+      </Head>
+      <Navbar pageTitle={"Delete Product"} />
+      {isLoading ? loadingSpinner : renderContent}
     </div>
   );
 };

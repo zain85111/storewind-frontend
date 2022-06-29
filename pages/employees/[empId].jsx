@@ -3,15 +3,17 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import useToken from "../../helper/useToken";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 
 const Employee = ({ query }) => {
     const router = useRouter();
-    const { token, setToken } = useToken();
     const [currEmp, setCurrEmp] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
+        setIsLoading(true)
         getEmployees().then((emps) => {
             console.log(emps, "employees, Details Page");
             console.log(query.id, "Page name Id");
@@ -21,35 +23,38 @@ const Employee = ({ query }) => {
                     setCurrEmp(e);
                 }
             })
-            console.log(currEmp,"Current Emp, details page")
+            console.log(currEmp, "Current Emp, details page")
+            setIsLoading(false)
 
         });
     }, []);
 
     const getEmployees = async () => {
-        console.log({ emp_id: router.query.empId})
-        const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            credentials: "include",
-            body: JSON.stringify({ emp_id: router.query.empId}),
-        });
-        let res = await data.json()
-        console.log(res);
-        return res; 
+        console.log({ emp_id: router.query.empId })
+        try {
+            
+            const data = await fetch("https://storewind.australiasoutheast.cloudapp.azure.com/api/employees/get_employee", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify({ emp_id: router.query.empId}),
+            });
+            let res = await data.json()
+            console.log(res);
+            return res; 
+        } catch (error) {
+            console.log(error)
+            setErrorMessage("Unable to fetch Employee Detials");
+        }
+        
     };
  
 
-    return (
-        
-        <div>
-        <Head>
-            <title>Storewind | Employee Details</title>
-        </Head>
-        <Navbar pageTitle={"Employee Details"} />
+    const renderContent = (
+
         <div className="p-4 m-2" key={currEmp._id}>
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">
@@ -111,6 +116,25 @@ const Employee = ({ query }) => {
             </Link>
             </div>
         </div>
+    )
+
+    const loadingSpinner = (
+        <div className="w-full h-screen flex justify-center items-center ">
+            <LoadingSpinner />
+        </div>
+    );
+
+    return (
+        
+        <div>
+            <Head>
+                <title>Storewind | Employee Details</title>
+            </Head>
+            <Navbar pageTitle={"Employee Details"} />
+            {/* Content  */}
+            {isLoading ? loadingSpinner : renderContent}
+            {errorMessage && <div className="p-4 text-xl font-bold text-red-500">{errorMessage}</div>}
+            {/* Content End  */}
         </div>
     );
 };

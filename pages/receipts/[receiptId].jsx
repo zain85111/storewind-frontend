@@ -6,17 +6,21 @@ import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/solid'
 import useToken from "../../helper/useToken";
 import { useRouter } from "next/router";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Receipt = ({ query }) => {
     const { token, setToken } = useToken();
     const router = useRouter();
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [receipt, setReceipt] = useState({});
     const [amounts, setAmounts ]= useState(0);
     const [noOfItem, setNoOfItems ]= useState(0);
     const [products, setProducts] = useState(null);
     useEffect(() => {
+        setIsLoading(true);
         getReceipts().then((recs) => {
             console.log(router.query.receiptId)
             console.log(recs, "receipts, Details Page");
@@ -39,7 +43,8 @@ const Receipt = ({ query }) => {
             })
 
    
-            console.log(receipt.products,"Current receipt, details page")
+            console.log(receipt.products, "Current receipt, details page")
+            setIsLoading(false)
 
         });
     }, []);
@@ -86,16 +91,9 @@ const Receipt = ({ query }) => {
         },
     ]
 
-    
+    const renderContent = (
 
-    return (
-        
-        <div>
-        <Head>
-            <title>Storewind | Receipt Details</title>
-        </Head>
-        <Navbar pageTitle={"Receipt Details"} />
-        {receipt == null?"":
+        receipt == null? "" :
         <div className="p-4 m-2" key={receipt._id}>
             <div className="py-4 flex justify-between space-x-10 ">
                 <div className="w-full text space-y-10">
@@ -194,7 +192,26 @@ const Receipt = ({ query }) => {
                 </Link>
             </div>
         </div>
-}
+        
+    )
+
+    const loadingSpinner = (
+        <div className="w-full h-screen flex justify-center items-center ">
+            <LoadingSpinner />
+        </div>
+    );
+    
+
+    return (
+        <div>
+            <Head>
+                <title>Storewind | Receipt Details</title>
+            </Head>
+            <Navbar pageTitle={"Receipt Details"} />
+            {/* Content  */}
+            {isLoading ? loadingSpinner : renderContent}
+            {errorMessage && <div className="p-4 text-xl font-bold text-red-500">{errorMessage}</div>}
+            {/* Content End  */}
         </div>
     );
 };

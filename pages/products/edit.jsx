@@ -1,16 +1,10 @@
 import Head from "next/head";
-import { Transition, Listbox } from "@headlessui/react";
-import {
-  CheckIcon,
-  SelectorIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/solid";
 import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import useToken from "../../helper/useToken";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 
 const styles = {
@@ -31,9 +25,11 @@ const styles = {
 
 const Edit = ({ item }) => {
   const router = useRouter();
-  const {token, setToken} = useToken();
+  const { token, setToken } = useToken();
 
-  //   const [item, setItem] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+
 
   const [selectedCat, setSelectedCat] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -51,6 +47,7 @@ const Edit = ({ item }) => {
   const [description, setDescription] = useState("")
   const [sold, setSold] = useState(0);
   useEffect(() => {
+    setIsLoading(true)
     getData().then((d) => {
       console.log(d);
       //   setItem(d);
@@ -66,6 +63,8 @@ const Edit = ({ item }) => {
       setLocation(d.Location);
       setCost(d.Cost);
       setDescription(d.Description);
+
+      setIsLoading(false)
     });
   }, []);
 
@@ -83,6 +82,7 @@ const Edit = ({ item }) => {
   };
 
   const addProduct = async (e) => {
+    setIsLoading(true);
     let date = new Date();
 
     const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
@@ -117,6 +117,7 @@ const Edit = ({ item }) => {
     if (response.ok) {
       setTimeout(() => {
         router.push("/products");
+        setIsLoading(true)
       }, 1000);
     }
   };
@@ -142,12 +143,9 @@ const Edit = ({ item }) => {
     console.log(selectedCat);
   };
 
-  return (
-    <div>
-      <Head>
-        <title>Storewind | Edit Product</title>
-      </Head>
-      <Navbar pageTitle={"Edit Product"} />
+
+  const renderContent = (
+
       <div className="p-4 m-2">
         <div className="py-4 space-x-10 bg-white">
           <div>
@@ -505,6 +503,21 @@ const Edit = ({ item }) => {
           </div>
         </div>
       </div>
+  )
+
+  const loadingSpinner = (
+    <div className="w-full h-screen flex justify-center items-center ">
+        <LoadingSpinner />
+    </div>
+  );
+
+  return (
+    <div>
+      <Head>
+        <title>Storewind | Edit Product</title>
+      </Head>
+      <Navbar pageTitle={"Edit Product"} />
+      {isLoading ? loadingSpinner : renderContent}
     </div>
   );
 };

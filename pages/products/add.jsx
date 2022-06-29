@@ -12,6 +12,7 @@ import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useToken from "../../helper/useToken";
 import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const styles = {
   tagsInput: {
@@ -33,6 +34,9 @@ const styles = {
 const Item = () => {
   const router = useRouter();
   const { token, setToken } = useToken();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   
   const [catBtn, setCatBtn] = useState(false);
@@ -80,6 +84,7 @@ const Item = () => {
   const [prodDesc, setProdDesc] = useState("");
 
   const addProduct = async (e) => {
+    setIsLoading(true);
     let date = new Date();
 
     const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
@@ -115,6 +120,7 @@ const Item = () => {
     if (response.ok) {
       setTimeout(() => {
         router.push("/products");
+        setIsLoading(false)
       }, 1000);
     }
     
@@ -174,7 +180,9 @@ const Item = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true)
     getCategories()
+    setIsLoading(false);
   }, [])
   
 
@@ -214,14 +222,7 @@ const Item = () => {
   },[])
   
   
-
-
-  return (
-    <div>
-      <Head>
-        <title>Storewind | Add Product</title>
-      </Head>
-      <Navbar pageTitle={"Add Product"} />
+  const renderContent = (
       <div className="p-4 m-2">
         <div className="py-4 space-x-10 bg-white">
           <div>
@@ -659,6 +660,22 @@ const Item = () => {
           </div>
         </div>
       </div>
+  )
+
+  const loadingSpinner = (
+    <div className="w-full h-screen flex justify-center items-center ">
+        <LoadingSpinner />
+    </div>
+  );
+
+
+  return (
+    <div>
+      <Head>
+        <title>Storewind | Add Product</title>
+      </Head>
+      <Navbar pageTitle={"Add Product"} />
+      {isLoading ? loadingSpinner : renderContent}
     </div>
   );
 };
